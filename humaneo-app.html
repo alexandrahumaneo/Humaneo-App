@@ -115,7 +115,7 @@
 </head>
 <body>
 
-<div class="topbanner">🔒 Läuft komplett lokal auf diesem Gerät · Bibliothek = Beispielinhalte</div>
+<div class="topbanner" id="topbanner" onclick="dismissTopbanner()">🔒 Läuft komplett lokal auf diesem Gerät · Bibliothek = Beispielinhalte <span style="font-weight:700;">✕</span></div>
 
 <div class="phoneframe">
 
@@ -142,15 +142,16 @@
     <div style="padding:18px 20px 6px;display:flex;justify-content:space-between;align-items:center;">
       <div class="brand">HUMANEO<small>PHYSIOTHERAPIE &amp; TRAINING</small></div>
       <div style="display:flex;gap:6px;">
-        <button class="btn btn-ghost" style="padding:6px 10px;font-size:13px;min-height:auto;" onclick="toggleInfoModal()">ℹ️</button>
-        <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="lockApp()">🔒 Sperren</button>
+        <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="toggleInfoModal()">Info</button>
       </div>
     </div>
 
     <div id="tab-home" style="padding:6px 20px 0;">
       <div class="weekstrip" id="weekStrip"></div>
       <b style="font-size:13.5px;" id="dayFocusTitle">Heute</b>
-      <div id="dayFocusList" style="margin-top:8px;margin-bottom:20px;"></div>
+      <div id="dayFocusList" style="margin-top:8px;margin-bottom:10px;"></div>
+      <div id="workoutBtnWrap" style="margin-bottom:14px;"></div>
+      <div id="scoliosisCard"></div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px;">
         <b style="font-size:14px;">Alle meine Übungen</b>
@@ -159,55 +160,86 @@
       <p style="font-size:11px;color:var(--ink-soft);margin:4px 0 8px;">Die Wochentage sind das Minimum – öfter machen ist immer erlaubt.</p>
       <div id="homeRecorded" style="margin-top:4px;"></div>
       <div id="homeLibrary" style="margin-top:8px;"></div>
+      <div id="scoliosisAddWrap" style="margin:18px 0 8px;text-align:center;"></div>
+      <div style="margin:4px 0 8px;text-align:center;"><button class="btn btn-ghost" style="font-size:12px;" onclick="openReminderModal()">Erinnerung im Handy-Kalender einrichten</button></div>
     </div>
 
     <div id="tab-record" style="display:none;padding:6px 20px 0;">
-      <div class="notice notice-warn" style="margin-bottom:12px;">📹 Nur den nötigen Körperbereich zeigen – Gesicht möglichst vermeiden.</div>
-      <div class="camerabox">
-        <video id="camPreview" autoplay playsinline muted style="display:none;"></video>
-        <div id="camFallback" style="display:none;padding:0 16px;text-align:center;font-size:12px;">Kamera hier nicht verfügbar (Vorschau-Beschränkung). Funktioniert im normalen Browser bzw. als Home-Bildschirm-App.</div>
-        <div class="recbadge" id="recBadge" style="display:none;">AUFNAHME</div>
-      </div>
-      <div class="shutter" id="shutterBtn" onclick="toggleRecord()"></div>
-      <p style="text-align:center;font-size:11.5px;color:var(--ink-soft);margin-bottom:12px;">Antippen zum Starten/Stoppen</p>
-      <label style="font-size:12px;color:var(--ink-soft);">Kurzer Titel</label>
-      <input id="recTitle" type="text" placeholder="z. B. Kniebeuge" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
-      <div style="display:flex;gap:10px;">
-        <div style="flex:1;">
-          <label style="font-size:12px;color:var(--ink-soft);">Sätze</label>
-          <input id="recSets" type="number" min="1" value="3" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+
+      <div id="recordCapture">
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <button type="button" class="btn" id="modeVideoBtn" style="flex:1;background:var(--sage);color:#fff;" onclick="setCaptureMode('video')">Video</button>
+          <button type="button" class="btn btn-secondary" id="modeFotoBtn" style="flex:1;" onclick="setCaptureMode('foto')">Foto</button>
         </div>
-        <div style="flex:1.3;">
-          <label style="font-size:12px;color:var(--ink-soft);">Menge</label>
-          <input id="recReps" type="number" min="1" value="10" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+        <div class="camerabox">
+          <video id="camPreview" autoplay playsinline muted style="display:none;"></video>
+          <div id="camFallback" style="display:none;padding:0 16px;text-align:center;font-size:12px;">Kamera hier nicht verfügbar (Vorschau-Beschränkung). Funktioniert im normalen Browser bzw. als Home-Bildschirm-App.</div>
+          <div class="recbadge" id="recBadge" style="display:none;">AUFNAHME</div>
         </div>
-        <div style="flex:1.1;">
-          <label style="font-size:12px;color:var(--ink-soft);">Einheit</label>
-          <select id="recRepsUnit" style="width:100%;padding:11px 8px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:6px 0 10px;">
-            <option value="Wiederholungen">Wdh.</option>
-            <option value="Sekunden">Sek.</option>
-          </select>
+        <div class="shutter" id="shutterBtn" onclick="handleShutter()"></div>
+        <p style="text-align:center;font-size:11.5px;color:var(--ink-soft);margin-bottom:12px;" id="captureHint">Antippen zum Starten/Stoppen der Videoaufnahme</p>
+      </div>
+
+      <div id="recordReview" style="display:none;">
+        <b style="font-size:14px;display:block;margin-bottom:8px;">Aufnahme prüfen</b>
+        <div id="reviewPreviewWrap" style="margin-bottom:12px;"></div>
+        <button type="button" class="btn btn-ghost btn-block" style="margin-bottom:16px;" onclick="discardRecording()">🔁 Verwerfen &amp; neu aufnehmen</button>
+
+        <label style="font-size:12px;color:var(--ink-soft);">Kurzer Titel</label>
+        <input id="recTitle" type="text" placeholder="z. B. Kniebeuge" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;">
+            <label style="font-size:12px;color:var(--ink-soft);">Sätze</label>
+            <input id="recSets" type="number" min="1" value="3" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+          </div>
+          <div style="flex:1.3;">
+            <label style="font-size:12px;color:var(--ink-soft);">Menge</label>
+            <input id="recReps" type="number" min="1" value="10" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+          </div>
+          <div style="flex:1.1;">
+            <label style="font-size:12px;color:var(--ink-soft);">Einheit</label>
+            <select id="recRepsUnit" style="width:100%;padding:11px 8px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:6px 0 10px;">
+              <option value="Wiederholungen">Wdh.</option>
+              <option value="Sekunden">Sek.</option>
+            </select>
+          </div>
         </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;margin:2px 0 6px;">
+          <input type="checkbox" id="recWeightToggle" onchange="document.getElementById('recWeightWrap').style.display=this.checked?'flex':'none'"> Mit Gewicht
+        </label>
+        <div id="recWeightWrap" style="display:none;gap:8px;align-items:center;margin-bottom:10px;">
+          <input id="recWeightValue" type="number" min="0" step="0.5" value="2" style="width:90px;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;">
+          <span style="font-size:12.5px;color:var(--ink-soft);">kg</span>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;margin:2px 0 10px;">
+          <input type="checkbox" id="recBandToggle"> Mit Widerstandsband
+        </label>
+        <label style="font-size:12px;color:var(--ink-soft);">Ablauf im Trainingsmodus</label>
+        <select id="recTrainMode" onchange="toggleTrainFields('recTrainMode','recRestWrap','recTimedWrap')" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+          <option value="sets">Sätze mit Pause</option>
+          <option value="timed">Feste Zeit pro Übung</option>
+        </select>
+        <div id="recRestWrap">
+          <label style="font-size:12px;color:var(--ink-soft);">Pause zwischen den Sätzen (Sekunden)</label>
+          <input id="recRestSec" type="number" min="5" value="30" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+        </div>
+        <div id="recTimedWrap" style="display:none;">
+          <label style="font-size:12px;color:var(--ink-soft);">Dauer der Übung (Minuten)</label>
+          <input id="recTimedMin" type="number" min="0.5" step="0.5" value="2" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+        </div>
+        <label style="font-size:12px;color:var(--ink-soft);">Hinweise (optional)</label>
+        <textarea id="recNotes" rows="2" placeholder="z. B. Rumpf aufrecht, langsam ausführen" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;resize:vertical;"></textarea>
+        <label style="font-size:12px;color:var(--ink-soft);">YouTube-Link als Zusatzvideo (optional)</label>
+        <input id="recYoutube" type="url" placeholder="https://youtube.com/..." style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">
+          <label style="font-size:12px;color:var(--ink-soft);">An welchen Tagen? (im Patienten-Kalender)</label>
+          <button type="button" class="btn btn-ghost" style="padding:4px 10px;font-size:11px;min-height:auto;" onclick="setAllDays('rec')">Jeden Tag</button>
+        </div>
+        <div class="daychips" id="recDaychips"></div>
+
+        <button type="button" class="btn btn-primary btn-block" style="margin-top:16px;" onclick="confirmSaveRecording()">💾 Übung speichern</button>
       </div>
-      <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;margin:2px 0 6px;">
-        <input type="checkbox" id="recWeightToggle" onchange="document.getElementById('recWeightWrap').style.display=this.checked?'flex':'none'"> Mit Gewicht
-      </label>
-      <div id="recWeightWrap" style="display:none;gap:8px;align-items:center;margin-bottom:10px;">
-        <input id="recWeightValue" type="number" min="0" step="0.5" value="2" style="width:90px;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;">
-        <span style="font-size:12.5px;color:var(--ink-soft);">kg</span>
-      </div>
-      <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;margin:2px 0 10px;">
-        <input type="checkbox" id="recBandToggle"> Mit Widerstandsband
-      </label>
-      <label style="font-size:12px;color:var(--ink-soft);">Hinweise (optional)</label>
-      <textarea id="recNotes" rows="2" placeholder="z. B. Rumpf aufrecht, langsam ausführen" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;resize:vertical;"></textarea>
-      <label style="font-size:12px;color:var(--ink-soft);">YouTube-Link als Zusatzvideo (optional)</label>
-      <input id="recYoutube" type="url" placeholder="https://youtube.com/..." style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13.5px;margin:6px 0 10px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">
-        <label style="font-size:12px;color:var(--ink-soft);">An welchen Tagen? (im Patienten-Kalender)</label>
-        <button type="button" class="btn btn-ghost" style="padding:4px 10px;font-size:11px;min-height:auto;" onclick="setAllDays('rec')">Jeden Tag</button>
-      </div>
-      <div class="daychips" id="recDaychips"></div>
+
     </div>
 
     <div id="tab-library" style="display:none;padding:6px 20px 0;">
@@ -245,6 +277,47 @@
 
 </div>
 
+<div id="reminderModal" style="display:none;position:fixed;inset:0;background:rgba(43,42,38,.45);z-index:55;align-items:flex-end;justify-content:center;" onclick="if(event.target===this) closeReminderModal()">
+  <div style="background:var(--white);border-radius:22px 22px 0 0;max-width:480px;width:100%;padding:22px 22px 30px;max-height:82vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <b style="font-size:16px;">Trainings-Erinnerung</b>
+      <button class="btn btn-ghost" style="padding:6px 10px;font-size:12px;min-height:auto;" onclick="closeReminderModal()">✕</button>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin:0 0 14px;">Erstellt einen wiederkehrenden Termin in deinem Handy-Kalender, der dich an deinen Trainingstagen erinnert – auch wenn die App geschlossen ist.</p>
+    <label style="font-size:12px;color:var(--ink-soft);">Uhrzeit</label>
+    <input id="remTime" type="time" value="18:00" style="width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:14px;margin:6px 0 14px;">
+    <label style="font-size:12px;color:var(--ink-soft);">An welchen Tagen?</label>
+    <div class="daychips" id="remDaychips"></div>
+    <button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="createReminderIcs()">Kalender-Datei erstellen</button>
+    <p style="font-size:11px;color:var(--ink-soft);line-height:1.6;margin:12px 0 0;">Danach die heruntergeladene Datei antippen und im Kalender öffnen bzw. speichern. Der Termin heißt nur „HUMANEO Training“ und enthält keine Gesundheitsdaten. Bitte nur einmal einrichten, sonst erscheinen doppelte Termine.</p>
+  </div>
+</div>
+
+<input id="scoliosisFile" type="file" accept="image/*" style="display:none;" onchange="handleScoliosisFile(event)">
+<div id="scoliosisViewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:70;align-items:center;justify-content:center;padding:16px;" onclick="closeScoliosisViewer()">
+  <img id="scoliosisViewerImg" alt="Korrekturhaltung" style="max-width:100%;max-height:100%;border-radius:12px;">
+</div>
+
+<div id="workoutOverlay" style="display:none;position:fixed;inset:0;background:var(--cream-2);z-index:60;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:16px 20px 30px;min-height:100%;display:flex;flex-direction:column;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <b id="wkProgress" style="font-size:13px;color:var(--ink-soft);"></b>
+      <div id="wkScoliosis" style="flex:1;text-align:center;"></div>
+      <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closeWorkout()">Beenden</button>
+    </div>
+    <div id="wkMedia" style="margin-bottom:14px;"></div>
+    <div id="wkTitle" style="font-size:20px;font-weight:700;margin-bottom:4px;"></div>
+    <div id="wkMeta" style="font-size:13px;color:var(--ink-soft);margin-bottom:6px;"></div>
+    <div id="wkComment" style="font-size:13px;color:var(--sage);font-style:italic;margin-bottom:14px;"></div>
+    <div id="wkCard" style="background:var(--white);border:1px solid var(--line);border-radius:22px;padding:18px;text-align:center;margin-top:auto;transition:background .2s;">
+      <div id="wkLabel" style="font-size:13px;color:var(--ink-soft);"></div>
+      <div id="wkTimer" style="font-size:44px;font-weight:700;margin:6px 0 14px;"></div>
+      <div id="wkActions"></div>
+      <button class="btn btn-ghost" style="margin-top:10px;font-size:11px;min-height:auto;padding:6px 12px;" onclick="beep(880,600)">Ton testen</button>
+    </div>
+  </div>
+</div>
+
 <div id="infoModal" style="display:none;position:fixed;inset:0;background:rgba(43,42,38,.45);z-index:50;align-items:flex-end;justify-content:center;" onclick="if(event.target===this) toggleInfoModal()">
   <div style="background:var(--white);border-radius:22px 22px 0 0;max-width:480px;width:100%;padding:22px 22px 30px;max-height:82vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -277,8 +350,50 @@
     </div>
 
     <p style="font-size:11px;color:var(--ink-soft);margin-top:18px;">Für Terminabsagen, -verschiebungen oder Fragen erreichst du uns hier telefonisch oder per WhatsApp – bitte keine Gesundheitsdaten per WhatsApp senden.</p>
+
+    <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px;">
+      <b style="font-size:13px;display:block;margin-bottom:8px;">Wie funktioniert diese App?</b>
+      <ul style="font-size:12.5px;color:var(--ink-soft);margin:0;padding-left:18px;line-height:1.6;">
+        <li>Läuft komplett lokal auf diesem Handy – deine Fotos/Videos werden nirgends hochgeladen.</li>
+        <li>"Bibliothek" enthält allgemeine Beispiel-Übungen ohne Bezug zu einer bestimmten Person.</li>
+        <li>Der Wochenkalender zeigt, welche Übung an welchem Tag mindestens dran ist – öfter üben ist immer erlaubt.</li>
+        <li>Ein Häkchen setzen geht nur am jeweiligen Tag selbst und wird am nächsten Tag automatisch zurückgesetzt.</li>
+        <li>Ein YouTube-Link bei einer Übung öffnet ein Zusatzvideo außerhalb dieser App.</li>
+        <li>Über „Erinnerung im Handy-Kalender einrichten“ bekommst du an deinen Trainingstagen eine Erinnerung von deiner Kalender-App.</li>
+      </ul>
+    </div>
+
+    <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px;">
+      <b style="font-size:13px;display:block;margin-bottom:8px;">Datenschutzhinweis</b>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Verantwortlicher:</b> Alexandra Amersbach, Humaneo, Daimlerstraße 13, 61352 Bad Homburg, mail@humaneo-praxis.de
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Welche Daten:</b> Titel, Sätze/Wiederholungen, Kommentare sowie ggf. selbst aufgenommene Fotos/Videos deiner Übungen und ein optional hinzugefügtes Korrekturbild – ausschließlich das, was du selbst in dieser App einträgst.
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Wo gespeichert:</b> Nur lokal im Speicher dieses Browsers auf diesem Gerät. Es gibt keinen Server, keine Cloud-Übertragung, keinen Zugriff durch die Praxis oder Dritte auf diese Inhalte.
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Zweck &amp; Rechtsgrundlage:</b> Unterstützung beim häuslichen Training im Rahmen der physiotherapeutischen Behandlung (Art. 6 Abs. 1 lit. b bzw. a DSGVO).
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Externe Links:</b> Tippst du auf einen WhatsApp- oder YouTube-Button, verlässt du diese App – dort gelten die eigenen Datenschutzbestimmungen von WhatsApp (Meta) bzw. YouTube (Google). Es werden dabei keine Übungs- oder Gesundheitsdaten automatisch übermittelt.
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0 0 8px;">
+        <b>Speicherdauer:</b> Bis du Inhalte selbst löschst oder die Website-Daten dieses Browsers gelöscht werden. Ein Fernzugriff oder eine Fernlöschung durch die Praxis ist technisch nicht möglich.
+      </p>
+      <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin:0;">
+        <b>Keine Cookies, kein Tracking, keine Analyse-Tools.</b> Fragen oder Wunsch nach Auskunft/Löschung: siehe Kontakt oben.
+      </p>
+    </div>
+
+    <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px;">
+      <a href="https://humaneo-praxis.de/impressum.html" target="_blank" rel="noopener" style="font-size:12.5px;color:var(--sage);text-decoration:none;">Impressum (auf humaneo-praxis.de)</a>
+    </div>
   </div>
 </div>
+
 
 <script>
   const LIBRARY = [
@@ -542,6 +657,309 @@
     renderHome();
     showTab('home');
   }
+  /* ---------- Kalender-Erinnerung (.ics) ---------- */
+  async function openReminderModal(){
+    const days = new Set();
+    (await getClips()).forEach(c=>(c.days && c.days.length ? c.days : WEEKDAYS).forEach(d=>days.add(d)));
+    loadLibraryAdded().forEach(a=>(a.days && a.days.length ? a.days : WEEKDAYS).forEach(d=>days.add(d)));
+    const sel = days.size ? WEEKDAYS.filter(d=>days.has(d)) : WEEKDAYS.slice();
+    document.getElementById('remDaychips').innerHTML = dayChipsHtml('rem', sel);
+    document.getElementById('reminderModal').style.display = 'flex';
+  }
+  function closeReminderModal(){ document.getElementById('reminderModal').style.display = 'none'; }
+  function createReminderIcs(){
+    const days = getSelectedDays('rem');
+    if(!days.length){ alert('Bitte mindestens einen Tag auswählen.'); return; }
+    const time = document.getElementById('remTime').value || '18:00';
+    const parts = time.split(':').map(Number);
+    const hh = parts[0], mm = parts[1] || 0;
+    const map = {MO:'MO',DI:'TU',MI:'WE',DO:'TH',FR:'FR',SA:'SA',SO:'SU'};
+    const now = new Date();
+    let start = null;
+    for(let i=0; i<8 && !start; i++){
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate()+i, hh, mm, 0);
+      if(days.includes(weekdayCodeOf(d)) && d > now) start = d;
+    }
+    if(!start) return;
+    const fmt = d => d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate())+'T'+pad2(d.getHours())+pad2(d.getMinutes())+'00';
+    const end = new Date(start.getTime()+15*60000);
+    const stamp = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+    const lines = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//HUMANEO//Training//DE','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+      'BEGIN:VEVENT','UID:humaneo-training-'+Date.now()+'@humaneo-praxis.de','DTSTAMP:'+stamp,
+      'DTSTART:'+fmt(start),'DTEND:'+fmt(end),
+      'RRULE:FREQ=WEEKLY;BYDAY='+days.map(d=>map[d]).join(','),
+      'SUMMARY:HUMANEO Training','DESCRIPTION:Zeit für dein heutiges Training in der HUMANEO-App.',
+      'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:HUMANEO Training','END:VALARM',
+      'END:VEVENT','END:VCALENDAR'
+    ];
+    const blob = new Blob([lines.join('\r\n')+'\r\n'], {type:'text/calendar'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'humaneo-training.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+    closeReminderModal();
+  }
+
+  /* ---------- Korrekturbild (Skoliose) ---------- */
+  const SCOL_KEY = 'humaneo_scoliosis_img';
+  function getScoliosisImg(){ try{ return localStorage.getItem(SCOL_KEY) || ''; }catch(e){ return ''; } }
+  function pickScoliosisImage(){ document.getElementById('scoliosisFile').click(); }
+  function handleScoliosisFile(evt){
+    const file = evt.target.files && evt.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const max = 1200;
+        const scale = Math.min(1, max/Math.max(img.width, img.height));
+        const w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        try{ localStorage.setItem(SCOL_KEY, c.toDataURL('image/jpeg', 0.85)); }
+        catch(e){ alert('Das Bild konnte nicht gespeichert werden.'); }
+        renderScoliosis();
+      };
+      img.onerror = ()=> alert('Das Bild konnte nicht gelesen werden.');
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+    evt.target.value = '';
+  }
+  function removeScoliosisImage(){
+    if(!confirm('Korrekturbild wirklich entfernen?')) return;
+    try{ localStorage.removeItem(SCOL_KEY); }catch(e){}
+    renderScoliosis();
+  }
+  function renderScoliosis(){
+    const card = document.getElementById('scoliosisCard');
+    const addWrap = document.getElementById('scoliosisAddWrap');
+    if(!card || !addWrap) return;
+    const img = getScoliosisImg();
+    if(img){
+      card.innerHTML = '<div class="mybox" style="margin-bottom:14px;">'+
+        '<img src="'+img+'" alt="Korrekturhaltung" onclick="openScoliosisViewer()" style="width:64px;height:64px;object-fit:cover;border-radius:12px;cursor:pointer;">'+
+        '<div style="flex:1;"><b style="font-size:13.5px;">Korrekturhaltung</b><br><small style="color:var(--ink-soft);">Antippen zum Vergrößern</small></div>'+
+        '<div style="display:flex;flex-direction:column;gap:4px;">'+
+        '<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="pickScoliosisImage()">Ändern</button>'+
+        '<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="removeScoliosisImage()">Entfernen</button></div></div>';
+      addWrap.innerHTML = '';
+    } else {
+      card.innerHTML = '';
+      addWrap.innerHTML = '<button class="btn btn-ghost" style="font-size:12px;" onclick="pickScoliosisImage()">Skoliose-Korrekturbild hinzufügen</button>';
+    }
+  }
+  function openScoliosisViewer(){
+    const img = getScoliosisImg(); if(!img) return;
+    document.getElementById('scoliosisViewerImg').src = img;
+    document.getElementById('scoliosisViewer').style.display = 'flex';
+  }
+  function closeScoliosisViewer(){ document.getElementById('scoliosisViewer').style.display = 'none'; }
+  function updateWorkoutScoliosis(){
+    const el = document.getElementById('wkScoliosis');
+    if(el) el.innerHTML = '';
+  }
+  function workoutScoliosisOverlay(){
+    const img = getScoliosisImg();
+    if(!img) return '';
+    return '<div onclick="openScoliosisViewer()" style="position:absolute;top:10px;right:10px;cursor:pointer;text-align:center;">'+
+      '<img src="'+img+'" alt="Korrekturhaltung" style="height:120px;max-width:44vw;border-radius:12px;border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.35);display:block;background:#fff;">'+
+      '<div style="font-size:10px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7);margin-top:2px;">Korrekturhaltung</div></div>';
+  }
+
+  /* ---------- Trainingsmodus ---------- */
+  let currentWorkoutItems = [];
+  let wk = {items:[], idx:0, setIdx:0, timer:null, wake:null, audio:null, skipFn:null};
+
+  function toggleTrainFields(selId, restId, timedId){
+    const mode = document.getElementById(selId).value;
+    document.getElementById(restId).style.display = mode==='sets' ? 'block' : 'none';
+    document.getElementById(timedId).style.display = mode==='timed' ? 'block' : 'none';
+  }
+  function readTrain(prefix, id){
+    const s = id ? '-'+id : '';
+    return {
+      trainMode: document.getElementById(prefix+'TrainMode'+s).value,
+      timedMinutes: parseFloat(document.getElementById(prefix+'TimedMin'+s).value) || 2,
+      restSeconds: parseInt(document.getElementById(prefix+'RestSec'+s).value,10) || 30
+    };
+  }
+  function fmtTime(s){ return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+  function webBeep(kind){
+    try{
+      const ctx = wk.audio; if(!ctx) return;
+      if(ctx.state==='suspended') ctx.resume();
+      const freq = kind==='long' ? 880 : 660, ms = kind==='long' ? 600 : 120;
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type='sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.6, ctx.currentTime+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+ms/1000);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime+ms/1000+0.05);
+    }catch(e){}
+  }
+  function makeBeepWavUrl(freq, ms){
+    const rate = 22050, n = Math.floor(rate*ms/1000);
+    const buf = new ArrayBuffer(44+n*2), v = new DataView(buf);
+    const w = (o,s)=>{ for(let k=0;k<s.length;k++) v.setUint8(o+k, s.charCodeAt(k)); };
+    w(0,'RIFF'); v.setUint32(4,36+n*2,true); w(8,'WAVE'); w(12,'fmt ');
+    v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+    v.setUint32(24,rate,true); v.setUint32(28,rate*2,true); v.setUint16(32,2,true); v.setUint16(34,16,true);
+    w(36,'data'); v.setUint32(40,n*2,true);
+    for(let k=0;k<n;k++){
+      const env = Math.min(1, k/(rate*0.01), (n-k)/(rate*0.03));
+      v.setInt16(44+k*2, Math.sin(2*Math.PI*freq*(k/rate))*0.85*env*32767, true);
+    }
+    return URL.createObjectURL(new Blob([buf], {type:'audio/wav'}));
+  }
+  function initSounds(){
+    try{
+      if(!wk.urls) wk.urls = { short: makeBeepWavUrl(660,140), long: makeBeepWavUrl(880,650) };
+      if(!wk.snd){ wk.snd = new Audio(); wk.snd.preload = 'auto'; }
+      wk.snd.src = wk.urls.short;
+      const p = wk.snd.play(); if(p && p.catch) p.catch(()=>{});
+    }catch(e){}
+  }
+  function playSound(kind){
+    let ok = false;
+    try{
+      if(wk.snd && wk.urls){
+        wk.snd.src = wk.urls[kind];
+        const p = wk.snd.play();
+        if(p && p.catch) p.catch(()=>webBeep(kind));
+        ok = true;
+      }
+    }catch(e){}
+    if(!ok) webBeep(kind);
+    try{ if(navigator.vibrate) navigator.vibrate(kind==='long' ? [250,80,250] : 80); }catch(e){}
+  }
+  function beep(freq, ms){ playSound(ms<=200 ? 'short' : 'long'); }
+  function flashCard(){
+    const c = document.getElementById('wkCard'); if(!c) return;
+    c.style.background = 'var(--sage-tint)';
+    setTimeout(()=>{ c.style.background = 'var(--white)'; }, 700);
+  }
+  function startWorkout(){
+    if(!currentWorkoutItems.length) return;
+    wk.items = currentWorkoutItems.slice();
+    wk.idx = 0;
+    initSounds();
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC){ wk.audio = wk.audio || new AC(); if(wk.audio.state==='suspended') wk.audio.resume(); }
+    }catch(e){}
+    try{ if(navigator.wakeLock){ navigator.wakeLock.request('screen').then(l=>{ wk.wake=l; }).catch(()=>{}); } }catch(e){}
+    document.getElementById('workoutOverlay').style.display = 'block';
+    showWorkoutExercise();
+  }
+  function closeWorkout(){
+    clearInterval(wk.timer); wk.timer=null; wk.skipFn=null;
+    try{ if(wk.wake){ wk.wake.release(); wk.wake=null; } }catch(e){}
+    document.getElementById('workoutOverlay').style.display = 'none';
+    document.getElementById('wkMedia').innerHTML = '';
+  }
+  function showWorkoutExercise(){
+    clearInterval(wk.timer); wk.timer=null;
+    const it = wk.items[wk.idx];
+    wk.setIdx = 0;
+    document.getElementById('wkProgress').textContent = 'Übung '+(wk.idx+1)+' von '+wk.items.length;
+    updateWorkoutScoliosis();
+    let media = '';
+    if(it.mediaType==='video') media = '<video src="'+it.mediaUrl+'" autoplay loop muted playsinline style="width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:16px;background:#000;display:block;"></video>';
+    else if(it.mediaUrl) media = '<img src="'+it.mediaUrl+'" style="width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:16px;display:block;background:var(--taupe-tint);">';
+    else media = '<div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:72px;background:var(--taupe-tint);border-radius:16px;">'+(it.icon||'')+'</div>';
+    document.getElementById('wkMedia').innerHTML = '<div style="position:relative;width:min(100%,46vh);margin:0 auto;">'+media+workoutScoliosisOverlay()+'</div>';
+    document.getElementById('wkTitle').textContent = it.title;
+    document.getElementById('wkMeta').textContent = it.meta || '';
+    document.getElementById('wkComment').textContent = it.comment ? '💬 '+it.comment : '';
+    renderWorkoutStep();
+  }
+  function renderWorkoutStep(){
+    const it = wk.items[wk.idx];
+    const timerEl = document.getElementById('wkTimer');
+    const labelEl = document.getElementById('wkLabel');
+    const actions = document.getElementById('wkActions');
+    if(it.trainMode==='timed'){
+      labelEl.textContent = 'Feste Zeit';
+      timerEl.textContent = fmtTime(Math.round((it.timedMinutes||2)*60));
+      actions.innerHTML = '<button class="btn btn-primary btn-block" onclick="startTimedExercise()">Start</button>';
+      return;
+    }
+    const sets = it.sets || 1;
+    labelEl.textContent = 'Satz '+(wk.setIdx+1)+' von '+sets;
+    if(it.repsUnit==='Sekunden'){
+      timerEl.textContent = fmtTime(it.reps||30);
+      actions.innerHTML = '<button class="btn btn-primary btn-block" onclick="startSecondsSet()">Start</button>';
+    } else {
+      timerEl.textContent = (it.reps||'')+' Wdh.';
+      actions.innerHTML = '<button class="btn btn-primary btn-block" onclick="finishSet()">Satz fertig</button>';
+    }
+  }
+  function runCountdown(seconds, label, onDone, skipText){
+    clearInterval(wk.timer);
+    const end = Date.now() + seconds*1000;
+    let lastShown = -1;
+    document.getElementById('wkLabel').textContent = label;
+    const tick = ()=>{
+      const left = Math.max(0, Math.ceil((end-Date.now())/1000));
+      if(left!==lastShown){
+        lastShown = left;
+        document.getElementById('wkTimer').textContent = fmtTime(left);
+        if(left>0 && left<=3) beep(660,120);
+      }
+      if(left<=0){ clearInterval(wk.timer); wk.timer=null; wk.skipFn=null; beep(880,600); flashCard(); onDone(); }
+    };
+    wk.skipFn = onDone;
+    tick();
+    if(lastShown>0) wk.timer = setInterval(tick, 250);
+    document.getElementById('wkActions').innerHTML = '<button class="btn btn-secondary btn-block" onclick="skipCountdown()">'+(skipText||'Überspringen')+'</button>';
+  }
+  function skipCountdown(){
+    clearInterval(wk.timer); wk.timer=null;
+    const f = wk.skipFn; wk.skipFn = null;
+    if(f) f();
+  }
+  function startTimedExercise(){
+    const it = wk.items[wk.idx];
+    runCountdown(Math.round((it.timedMinutes||2)*60), 'Läuft', exerciseDone, 'Überspringen');
+  }
+  function startSecondsSet(){
+    const it = wk.items[wk.idx];
+    runCountdown(it.reps||30, 'Satz '+(wk.setIdx+1)+' von '+(it.sets||1), finishSet, 'Überspringen');
+  }
+  function finishSet(){
+    const it = wk.items[wk.idx];
+    wk.setIdx++;
+    if(wk.setIdx >= (it.sets||1)){ exerciseDone(); return; }
+    runCountdown(it.restSeconds||30, 'Pause', renderWorkoutStep, 'Pause überspringen');
+  }
+  function exerciseDone(){
+    if(wk.idx+1 < wk.items.length){ wk.idx++; showWorkoutExercise(); }
+    else finishWorkout();
+  }
+  function finishWorkout(){
+    clearInterval(wk.timer); wk.timer=null; wk.skipFn=null;
+    document.getElementById('wkProgress').textContent = 'Fertig';
+    document.getElementById('wkScoliosis').innerHTML = '';
+    document.getElementById('wkMedia').innerHTML = '';
+    document.getElementById('wkTitle').textContent = 'Geschafft!';
+    document.getElementById('wkMeta').textContent = 'Alle Übungen für heute sind durch.';
+    document.getElementById('wkComment').textContent = '';
+    document.getElementById('wkLabel').textContent = '';
+    document.getElementById('wkTimer').textContent = '';
+    document.getElementById('wkActions').innerHTML = '<button class="btn btn-primary btn-block" onclick="markWorkoutDone()">Alle als erledigt abhaken</button><button class="btn btn-secondary btn-block" style="margin-top:8px;" onclick="closeWorkout()">Schließen</button>';
+    beep(880,300); setTimeout(()=>beep(1175,500),350);
+  }
+  function markWorkoutDone(){
+    const c = loadCompletions(); const t = todayStr();
+    if(!c[t]) c[t] = {};
+    wk.items.forEach(it=>{ c[t][it.key] = true; });
+    saveCompletions(c);
+    closeWorkout(); renderHome();
+  }
+
   function toggleInfoModal(){
     const m = document.getElementById('infoModal');
     m.style.display = (m.style.display==='none' || !m.style.display) ? 'flex' : 'none';
@@ -560,6 +978,8 @@
   }
 
   async function init(){
+    const tb = document.getElementById('topbanner');
+    if(localStorage.getItem('humaneo_intro_seen')){ tb.style.display='none'; }
     const hasPin = !!localStorage.getItem('humaneo_pin_hash');
     showScreen('pin');
     if(!hasPin){
@@ -577,6 +997,10 @@
     }
   }
   document.addEventListener('DOMContentLoaded', init);
+  function dismissTopbanner(){
+    document.getElementById('topbanner').style.display='none';
+    try{ localStorage.setItem('humaneo_intro_seen','1'); }catch(e){}
+  }
 
   /* ---------- IndexedDB: eigene Videos ---------- */
   function openDB(){
@@ -590,11 +1014,11 @@
       req.onerror = ()=>rej(req.error);
     });
   }
-  async function saveClip(title, sets, reps, repsUnit, weight, band, notes, youtube, days, blob){
+  async function saveClip(title, sets, reps, repsUnit, weight, band, notes, youtube, days, blob, kind, train){
     const db = await openDB();
     return new Promise((res,rej)=>{
       const tx = db.transaction('clips','readwrite');
-      tx.objectStore('clips').add({title, sets, reps, repsUnit, weight, band, notes, youtube, days, blob, createdAt:Date.now()});
+      tx.objectStore('clips').add({title, sets, reps, repsUnit, weight, band, notes, youtube, days, blob, kind: kind||'video', trainMode:(train&&train.trainMode)||'sets', timedMinutes:(train&&train.timedMinutes)||2, restSeconds:(train&&train.restSeconds)||30, createdAt:Date.now()});
       tx.oncomplete = res; tx.onerror = ()=>rej(tx.error);
     });
   }
@@ -612,8 +1036,8 @@
     req.onsuccess = async ()=>{
       const rec = req.result;
       if(!rec || !rec.blob) return;
-      const mime = rec.blob.type || 'video/webm';
-      const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+      const mime = rec.blob.type || (rec.kind==='foto' ? 'image/jpeg' : 'video/webm');
+      const ext = mime.includes('jpeg') ? 'jpg' : mime.includes('mp4') ? 'mp4' : mime.includes('png') ? 'png' : 'webm';
       const safeName = (rec.title||'uebung').replace(/[^\wäöüÄÖÜß -]/g,'').trim().replace(/\s+/g,'_') || 'uebung';
       const filename = safeName+'.'+ext;
       const file = new File([rec.blob], filename, {type: mime});
@@ -700,6 +1124,7 @@
 
     const allRows = [];
     const dayRows = [];
+    const wkItems = [];
 
     clips.slice().reverse().forEach(c=>{
       const due = dueOn(c.days, code);
@@ -707,13 +1132,19 @@
       const key = 'clip-'+c.id;
       const done = isDone(selectedDate, key);
       let url=''; try{ url = URL.createObjectURL(c.blob); }catch(e){}
+      const isPhoto = c.kind === 'foto';
       const dose = (c.sets && c.reps) ? (c.sets+' × '+c.reps+' '+(c.repsUnit==='Sekunden'?'Sek.':'Wdh.')) : '';
       const w = [c.weight?('mit '+c.weight+' kg'):'', c.band?'mit Widerstandsband':''].filter(Boolean).join(', ');
       const meta = [dose, w, c.notes].filter(Boolean).map(escapeHtml).join(' · ');
       const commentLine = c.comment ? '<br><span style="color:var(--sage);font-style:italic;">💬 '+escapeHtml(c.comment)+'</span>' : '';
+      const thumb = url
+        ? (isPhoto
+            ? '<img src="'+url+'" style="width:52px;height:52px;border-radius:12px;object-fit:cover;">'
+            : '<video src="'+url+'" controls style="width:52px;height:52px;border-radius:12px;object-fit:cover;background:#000;"></video>')
+        : '<div class="exthumb">'+(isPhoto?'📷':'📹')+'</div>';
       const html = '<div class="mybox-wrap"><div class="mybox">'+
         '<div class="checkbtn'+(done?' done':'')+(enabled?'':' disabled')+'" onclick="toggleDone(\''+selectedDate+'\',\''+key+'\')" title="'+(due?'':'an diesem Tag nicht geplant')+'">✓</div>'+
-        (url?'<video src="'+url+'" controls style="width:52px;height:52px;border-radius:12px;object-fit:cover;background:#000;"></video>':'<div class="exthumb">📹</div>')+
+        thumb+
         '<div style="flex:1;"><b style="font-size:13.5px;">'+escapeHtml(c.title)+'</b><br><span class="daybadges">'+dayBadgeText(c.days)+'</span>'+youtubeChip(c.youtube)+(meta?'<br><small style="color:var(--ink-soft);">'+meta+'</small>':'')+commentLine+
         '<br><button type="button" class="btn btn-ghost" style="padding:3px 8px;font-size:10.5px;min-height:auto;margin-top:5px;" onclick="toggleComment(\'clip\','+c.id+')">'+(c.comment?'💬 Kommentar bearbeiten':'+ Kommentar')+'</button></div>'+
         '<div style="display:flex;flex-direction:column;gap:4px;">'+
@@ -722,7 +1153,7 @@
         '<div class="commentbox" id="comment-clip-'+c.id+'" style="display:none;"><textarea id="commentInput-clip-'+c.id+'" rows="2" placeholder="Kommentar für den Patienten...">'+escapeHtml(c.comment||'')+'</textarea>'+
         '<button class="btn btn-primary btn-block" style="margin-top:6px;" onclick="saveComment(\'clip\','+c.id+')">Speichern</button></div></div>';
       allRows.push(html);
-      if(due) dayRows.push(html);
+      if(due){ dayRows.push(html); wkItems.push({key, title:c.title, mediaUrl:url||null, mediaType:url?(isPhoto?'photo':'video'):null, icon:'', meta:[dose,w,c.notes].filter(Boolean).join(' · '), comment:c.comment||'', sets:c.sets, reps:c.reps, repsUnit:c.repsUnit, trainMode:c.trainMode||'sets', timedMinutes:c.timedMinutes||2, restSeconds:c.restSeconds||30}); }
     });
 
     libAdded.forEach(a=>{
@@ -744,9 +1175,12 @@
         '<div class="commentbox" id="comment-lib-'+a.id+'" style="display:none;"><textarea id="commentInput-lib-'+a.id+'" rows="2" placeholder="Kommentar für den Patienten...">'+escapeHtml(a.comment||'')+'</textarea>'+
         '<button class="btn btn-primary btn-block" style="margin-top:6px;" onclick="saveComment(\'lib\',\''+a.id+'\')">Speichern</button></div></div>';
       allRows.push(html);
-      if(due) dayRows.push(html);
+      if(due){ dayRows.push(html); wkItems.push({key, title:item.title, mediaUrl:item.image||null, mediaType:item.image?'photo':null, icon:item.icon, meta:[dose,w].filter(Boolean).join(' · '), comment:a.comment||'', sets:a.sets, reps:a.reps, repsUnit:a.repsUnit, trainMode:a.trainMode||'sets', timedMinutes:a.timedMinutes||2, restSeconds:a.restSeconds||30}); }
     });
 
+    renderScoliosis();
+    currentWorkoutItems = wkItems;
+    document.getElementById('workoutBtnWrap').innerHTML = (isToday && wkItems.length) ? '<button class="btn btn-primary btn-block" onclick="startWorkout()">Übungen jetzt machen</button>' : '';
     document.getElementById('dayFocusList').innerHTML = dayRows.length ? dayRows.join('') :
       '<div class="empty">Für diesen Tag ist nichts Pflicht.</div>';
     document.getElementById('homeRecorded').innerHTML = allRows.length ? allRows.join('') :
@@ -783,6 +1217,12 @@
             '<input id="libWeightValue-'+x.id+'" type="number" min="0" step="0.5" value="2" style="width:80px;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;"><span style="font-size:12px;color:var(--ink-soft);">kg</span></div>'+
           '<label style="display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:10px;">'+
             '<input type="checkbox" id="libBandToggle-'+x.id+'"'+(x.defaultBand?' checked':'')+'> Mit Widerstandsband</label>'+
+          '<label style="font-size:11px;color:var(--ink-soft);">Ablauf im Trainingsmodus</label>'+
+          '<select id="libTrainMode-'+x.id+'" onchange="toggleTrainFields(\'libTrainMode-'+x.id+'\',\'libRestWrap-'+x.id+'\',\'libTimedWrap-'+x.id+'\')" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:5px 0 10px;"><option value="sets">Sätze mit Pause</option><option value="timed">Feste Zeit pro Übung</option></select>'+
+          '<div id="libRestWrap-'+x.id+'"><label style="font-size:11px;color:var(--ink-soft);">Pause zwischen den Sätzen (Sekunden)</label>'+
+          '<input id="libRestSec-'+x.id+'" type="number" min="5" value="30" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:5px 0 10px;"></div>'+
+          '<div id="libTimedWrap-'+x.id+'" style="display:none;"><label style="font-size:11px;color:var(--ink-soft);">Dauer der Übung (Minuten)</label>'+
+          '<input id="libTimedMin-'+x.id+'" type="number" min="0.5" step="0.5" value="2" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:5px 0 10px;"></div>'+
           '<label style="font-size:11px;color:var(--ink-soft);">YouTube-Link (optional)</label>'+
           '<input id="libYoutube-'+x.id+'" type="url" placeholder="https://youtube.com/..." value="'+(x.youtube?x.youtube.replace(/"/g,'&quot;'):'')+'" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:13px;margin:5px 0 10px;">'+
           '<label style="font-size:11px;color:var(--ink-soft);">Kommentar vom Therapeuten (wird bei der Übung angezeigt)</label>'+
@@ -811,12 +1251,17 @@
     const youtube = document.getElementById('libYoutube-'+id).value.trim() || null;
     const comment = document.getElementById('libComment-'+id).value.trim() || null;
     const list = loadLibraryAdded();
-    if(!list.find(x=>x.id===id)){ list.push({id, days, sets, reps, repsUnit, weight, band, youtube, comment}); saveLibraryAdded(list); }
+    if(!list.find(x=>x.id===id)){ list.push(Object.assign({id, days, sets, reps, repsUnit, weight, band, youtube, comment}, readTrain('lib', id))); saveLibraryAdded(list); }
     renderLibrary(); renderHome();
   }
 
   /* ---------- Kamera / Aufnahme ---------- */
   let mediaStream=null, mediaRecorder=null, chunks=[];
+  let captureMode = 'video'; // 'video' | 'foto'
+  let pendingBlob = null; // Blob der aktuellen Aufnahme, wartet auf Speichern/Verwerfen
+  let pendingKind = null; // 'video' | 'foto'
+  let pendingReviewUrl = null;
+
   async function startCamera(){
     try{
       mediaStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}, audio:true});
@@ -832,40 +1277,58 @@
     if(mediaRecorder && mediaRecorder.state!=='inactive'){ try{ mediaRecorder.stop(); }catch(e){} }
     if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); mediaStream=null; }
   }
-  function toggleRecord(){
+
+  function setCaptureMode(mode){
+    captureMode = mode;
+    document.getElementById('modeVideoBtn').style.background = mode==='video' ? 'var(--sage)' : 'var(--white)';
+    document.getElementById('modeVideoBtn').style.color = mode==='video' ? '#fff' : 'var(--ink)';
+    document.getElementById('modeVideoBtn').classList.toggle('btn-secondary', mode!=='video');
+    document.getElementById('modeFotoBtn').style.background = mode==='foto' ? 'var(--sage)' : 'var(--white)';
+    document.getElementById('modeFotoBtn').style.color = mode==='foto' ? '#fff' : 'var(--ink)';
+    document.getElementById('modeFotoBtn').classList.toggle('btn-secondary', mode!=='foto');
+    document.getElementById('captureHint').textContent = mode==='video'
+      ? 'Antippen zum Starten/Stoppen der Videoaufnahme'
+      : 'Antippen zum Fotografieren';
+  }
+
+  function handleShutter(){
     if(!mediaStream) return;
+    if(captureMode==='foto'){ capturePhoto(); return; }
+    toggleVideoRecord();
+  }
+
+  function capturePhoto(){
+    const video = document.getElementById('camPreview');
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth || 720;
+    canvas.height = video.videoHeight || 960;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(blob=>{
+      if(!blob){ alert('Foto konnte nicht aufgenommen werden.'); return; }
+      openReview(blob, 'foto');
+    }, 'image/jpeg', 0.88);
+  }
+
+  function toggleVideoRecord(){
     if(!mediaRecorder || mediaRecorder.state==='inactive'){
       chunks=[];
-      try{ mediaRecorder = new MediaRecorder(mediaStream); }
-      catch(e){ alert('Videoaufnahme wird von diesem Browser nicht unterstützt.'); return; }
+      let options = {};
+      const preferred = ['video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/webm','video/mp4'];
+      const supported = preferred.find(t => window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t));
+      if(supported) options.mimeType = supported;
+      try{ mediaRecorder = new MediaRecorder(mediaStream, options); }
+      catch(e){
+        try{ mediaRecorder = new MediaRecorder(mediaStream); }
+        catch(e2){ alert('Videoaufnahme wird von diesem Browser nicht unterstützt.'); return; }
+      }
       mediaRecorder.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
-      mediaRecorder.onstop = async ()=>{
-        const blob = new Blob(chunks, {type:'video/webm'});
-        const titleInput = document.getElementById('recTitle');
-        const setsInput = document.getElementById('recSets');
-        const repsInput = document.getElementById('recReps');
-        const repsUnitInput = document.getElementById('recRepsUnit');
-        const weightToggle = document.getElementById('recWeightToggle');
-        const weightInput = document.getElementById('recWeightValue');
-        const bandToggle = document.getElementById('recBandToggle');
-        const notesInput = document.getElementById('recNotes');
-        const ytInput = document.getElementById('recYoutube');
-        let days = getSelectedDays('rec');
-        if(days.length===0) days = WEEKDAYS.slice();
-        const sets = parseInt(setsInput.value,10) || null;
-        const reps = parseInt(repsInput.value,10) || null;
-        const repsUnit = repsUnitInput.value;
-        const weight = weightToggle.checked ? (parseFloat(weightInput.value) || null) : null;
-        const band = bandToggle.checked;
-        const title = (titleInput.value.trim()) || ('Übung '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}));
-        await saveClip(title, sets, reps, repsUnit, weight, band, notesInput.value.trim(), ytInput.value.trim()||null, days, blob);
-        titleInput.value=''; notesInput.value=''; setsInput.value='3'; repsInput.value='10'; repsUnitInput.value='Wiederholungen'; ytInput.value='';
-        weightToggle.checked=false; weightInput.value='2'; document.getElementById('recWeightWrap').style.display='none';
-        bandToggle.checked=false;
+      mediaRecorder.onstop = ()=>{
         document.getElementById('recBadge').style.display='none';
         document.getElementById('shutterBtn').classList.remove('recording');
-        await renderHome();
-        showTab('home');
+        if(!chunks.length){ alert('Es wurde kein Video aufgenommen – bitte nochmal versuchen.'); return; }
+        const blob = new Blob(chunks, {type: mediaRecorder.mimeType || 'video/webm'});
+        if(!blob.size){ alert('Die Aufnahme ist leer – bitte nochmal versuchen.'); return; }
+        openReview(blob, 'video');
       };
       mediaRecorder.start();
       document.getElementById('recBadge').style.display='flex';
@@ -875,10 +1338,72 @@
     }
   }
 
+  function openReview(blob, kind){
+    pendingBlob = blob; pendingKind = kind;
+    if(pendingReviewUrl){ URL.revokeObjectURL(pendingReviewUrl); }
+    pendingReviewUrl = URL.createObjectURL(blob);
+    const wrap = document.getElementById('reviewPreviewWrap');
+    wrap.innerHTML = kind==='video'
+      ? '<video src="'+pendingReviewUrl+'" controls playsinline style="width:100%;border-radius:16px;background:#000;max-height:320px;"></video>'
+      : '<img src="'+pendingReviewUrl+'" style="width:100%;border-radius:16px;display:block;">';
+    document.getElementById('recordCapture').style.display = 'none';
+    document.getElementById('recordReview').style.display = 'block';
+    stopCamera();
+  }
+
+  function discardRecording(){
+    pendingBlob = null; pendingKind = null;
+    if(pendingReviewUrl){ URL.revokeObjectURL(pendingReviewUrl); pendingReviewUrl = null; }
+    document.getElementById('reviewPreviewWrap').innerHTML = '';
+    document.getElementById('recordReview').style.display = 'none';
+    document.getElementById('recordCapture').style.display = 'block';
+    startCamera();
+  }
+
+  async function confirmSaveRecording(){
+    if(!pendingBlob) return;
+    const titleInput = document.getElementById('recTitle');
+    const setsInput = document.getElementById('recSets');
+    const repsInput = document.getElementById('recReps');
+    const repsUnitInput = document.getElementById('recRepsUnit');
+    const weightToggle = document.getElementById('recWeightToggle');
+    const weightInput = document.getElementById('recWeightValue');
+    const bandToggle = document.getElementById('recBandToggle');
+    const notesInput = document.getElementById('recNotes');
+    const ytInput = document.getElementById('recYoutube');
+    let days = getSelectedDays('rec');
+    if(days.length===0) days = WEEKDAYS.slice();
+    const sets = parseInt(setsInput.value,10) || null;
+    const reps = parseInt(repsInput.value,10) || null;
+    const repsUnit = repsUnitInput.value;
+    const weight = weightToggle.checked ? (parseFloat(weightInput.value) || null) : null;
+    const band = bandToggle.checked;
+    const title = (titleInput.value.trim()) || ('Übung '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}));
+    await saveClip(title, sets, reps, repsUnit, weight, band, notesInput.value.trim(), ytInput.value.trim()||null, days, pendingBlob, pendingKind, readTrain('rec'));
+    document.getElementById('recTrainMode').value='sets'; document.getElementById('recRestSec').value='30'; document.getElementById('recTimedMin').value='2'; toggleTrainFields('recTrainMode','recRestWrap','recTimedWrap');
+
+    titleInput.value=''; notesInput.value=''; setsInput.value='3'; repsInput.value='10'; repsUnitInput.value='Wiederholungen'; ytInput.value='';
+    weightToggle.checked=false; weightInput.value='2'; document.getElementById('recWeightWrap').style.display='none';
+    bandToggle.checked=false;
+    pendingBlob = null; pendingKind = null;
+    if(pendingReviewUrl){ URL.revokeObjectURL(pendingReviewUrl); pendingReviewUrl = null; }
+    document.getElementById('reviewPreviewWrap').innerHTML = '';
+    document.getElementById('recordReview').style.display = 'none';
+    document.getElementById('recordCapture').style.display = 'block';
+    await renderHome();
+    showTab('home');
+  }
+
   function showTab(name){
     ['home','record','library'].forEach(t=> document.getElementById('tab-'+t).style.display = t===name?'block':'none');
     document.querySelectorAll('.bottomtab div').forEach(d=> d.classList.toggle('on', d.dataset.tab===name));
-    if(name==='record'){ startCamera(); document.getElementById('recDaychips').innerHTML = dayChipsHtml('rec', []); }
+    if(name==='record'){
+      document.getElementById('recordReview').style.display = 'none';
+      document.getElementById('recordCapture').style.display = 'block';
+      setCaptureMode(captureMode);
+      startCamera();
+      document.getElementById('recDaychips').innerHTML = dayChipsHtml('rec', []);
+    }
     else stopCamera();
     if(name==='library') renderLibrary();
     if(name==='home') renderHome();
