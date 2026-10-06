@@ -1,0 +1,267 @@
+[
+  {
+    "id": 1,
+    "date": "2026-10-08",
+    "title": "Willkommen bei Wissen to go",
+    "text": "Hier findet ihr ab und zu kurze Beiträge von uns rund um Übungen, Training und Physiotherapie. Mehr ausführliche Artikel gibt es außerdem auf unserem Blog (Link oben).",
+    "series": "Training & Schmerz"
+  },
+  {
+    "id": 2,
+    "date": "2026-10-08",
+    "title": "Erhöhe deine Aktivität langsam",
+    "quote": "Geduld ist der Schlüssel. Fortschritt kommt in kleinen Schritten.",
+    "text": "Dein Körper braucht Bewegung, um wieder belastbarer zu werden. Der richtige Reiz zur richtigen Zeit unterstützt die Anpassung von Muskeln, Sehnen, Bändern und Knochen. Besonders Bindegewebe passt seine Struktur über längere Zeit an Belastung an.\n\nMerke:\n🟢 Bewegung dosieren\n🟢 Belastung schrittweise steigern\n🟢 Reaktion des Körpers beobachten\n🔴 Nicht von „weniger Schmerzen\" automatisch auf „vollständig geheilt\" schließen\n\nEntlasten → Bewegen → Belasten → Steigern\n\nDie Phasen überlappen sich – der Übergang ist fließend. Deshalb entscheidet nicht nur die Zeit, sondern auch, wie dein Körper auf Belastung reagiert.\n\nDie Zeitangaben sind Orientierungswerte und ersetzen keine individuelle Belastungsfreigabe nach Verletzungen oder Operationen.",
+    "images": [
+      "post-images/wundheilung-phasen.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Was solltest du bei der Belastungssteigerung beachten?",
+        "options": [
+          "So schnell wie möglich steigern",
+          "Schrittweise steigern und die Reaktion des Körpers beobachten",
+          "Erst belasten, wenn der Schmerz komplett weg ist"
+        ],
+        "correct": 1,
+        "explanation": "Dosiert und schrittweise steigern – und dabei beobachten, wie dein Körper reagiert."
+      },
+      {
+        "q": "Weniger Schmerzen bedeuten automatisch …",
+        "options": [
+          "… dass das Gewebe vollständig geheilt ist",
+          "… dass du sofort wieder voll belasten kannst",
+          "… nichts Sicheres über den Heilungsstand – das Gewebe braucht oft länger"
+        ],
+        "correct": 2,
+        "explanation": "Schmerz ist kein verlässliches Maß für den Heilungsstand. Das Gewebe braucht häufig länger als das Schmerzempfinden."
+      },
+      {
+        "q": "Was entscheidet über den Übergang zwischen den Heilungsphasen?",
+        "options": [
+          "Nur die vergangene Zeit",
+          "Zeit und die Reaktion deines Körpers auf Belastung",
+          "Nur das Gefühl"
+        ],
+        "correct": 1,
+        "explanation": "Die Phasen überlappen sich. Zeit ist ein Orientierungswert – entscheidend ist auch, wie dein Körper auf Belastung reagiert."
+      }
+    ],
+    "series": "Training & Schmerz"
+  },
+  {
+    "id": 3,
+    "date": "2026-10-09",
+    "title": "Warum Turnover-Zeiten wichtig sind",
+    "quote": "Gewebe heilt nicht nur – es baut sich um. Und das braucht Zeit.",
+    "text": "Turnover bedeutet: Gewebe wird ständig abgebaut und neu aufgebaut. Wie schnell das geht, ist bei Haut, Muskeln, Sehnen, Bändern, Knorpel und Knochen sehr unterschiedlich.\n\nWarum ist das für dich wichtig?\n\n1. Realistische Erwartungen\nSchmerzen lassen oft früher nach, als das Gewebe wieder voll belastbar ist. Sehnen und Bänder brauchen deutlich länger als Muskeln.\n\n2. Geduld ohne Stillstand\nWährend das Gewebe sich umbaut, braucht es Reize. Zu viel Schonung bremst die Anpassung, zu viel Belastung überfordert sie.\n\n3. Bewegung als Signal\nDosierte, regelmäßige Belastung zeigt dem Gewebe, wohin es sich entwickeln soll – es wird organisiert und belastbarer aufgebaut.\n\n4. Rückschläge besser einordnen\nWenn sich etwas langsamer entwickelt als erhofft, ist das oft normal und kein Zeichen, dass etwas falsch läuft.\n\nMerke:\n🟢 Gewebe baut sich über Wochen bis Monate um\n🟢 Regelmäßige, dosierte Reize unterstützen den Aufbau\n🟢 Unterschiedliche Gewebe brauchen unterschiedlich lange\n🔴 Nicht nach dem Schmerz allein entscheiden, wann du voll belastest\n\nDie Zeitangaben im Bild sind Orientierungswerte. Sie ersetzen keine individuelle Belastungsfreigabe nach Verletzungen oder Operationen.",
+    "images": [
+      "post-images/gewebeheilung-turnover.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Was bedeutet „Turnover“ bei Gewebe?",
+        "options": [
+          "Gewebe wird ständig abgebaut und neu aufgebaut",
+          "Gewebe verändert sich nie",
+          "Gewebe heilt nur einmal und ist dann fertig"
+        ],
+        "correct": 0,
+        "explanation": "Gewebe befindet sich in einem ständigen Auf- und Umbau. Wie schnell, hängt vom Gewebe ab."
+      },
+      {
+        "q": "Welche Gewebe brauchen im Vergleich meist länger?",
+        "options": [
+          "Muskeln",
+          "Sehnen und Bänder",
+          "Alle gleich lang"
+        ],
+        "correct": 1,
+        "explanation": "Sehnen und Bänder sind weniger gut durchblutet und brauchen deutlich länger als Muskeln."
+      },
+      {
+        "q": "Warum ist dosierte Bewegung während der Heilung sinnvoll?",
+        "options": [
+          "Sie gibt dem Gewebe Reize für einen belastbaren Aufbau",
+          "Sie ist egal, nur Ruhe hilft",
+          "Sie beschleunigt die Heilung auf wenige Tage"
+        ],
+        "correct": 0,
+        "explanation": "Regelmäßige, dosierte Reize unterstützen die Anpassung. Zu viel Schonung bremst, zu viel Belastung überfordert."
+      }
+    ],
+    "series": "Training & Schmerz"
+  },
+  {
+    "id": 4,
+    "date": "2026-10-10",
+    "title": "Mentaltraining Schmerz – Teil 1: Wie Schmerz entsteht",
+    "quote": "Schmerz wird im Gehirn gelernt – und kann umprogrammiert werden.",
+    "text": "Schmerz entsteht im Gehirn\n\nKörpersensoren senden Informationen an das Gehirn. Erst dort werden diese bewertet – beeinflusst durch Erfahrungen, Erwartungen, Stress, Gefühle und die aktuelle Situation. Schmerz ist dabei ein Schutzsignal, nicht automatisch ein Maß für Gewebeschaden.\n\nSchmerzgedächtnis verändern\n\nWiederkehrende Schmerzen können das Nervensystem empfindlicher machen. Gleichzeitig ist das Gehirn lernfähig: Neue, positive und sichere Bewegungserfahrungen können helfen, die Bewertung von Bewegung zu verändern.\n\n→ Bewegen statt vermeiden.\n→ Im sicheren Bereich trainieren.\n→ Positive Erfahrungen wiederholen.\n\nErwartung beeinflusst Schmerz\n\nAngst und die Erwartung „Das wird wehtun\" können die Aufmerksamkeit auf Schmerz verstärken.\n\nDeshalb: realistische Erwartungen → erreichbare Ziele → Fortschritte wahrnehmen\n\nRückschläge gehören dazu. Sie bedeuten nicht automatisch, dass erneut etwas geschädigt wurde.\n\nIm nächsten Beitrag geht es darum, wie du dein Nervensystem beruhigst und Aktivität richtig dosierst.",
+    "images": [
+      "post-images/mentaltraining-schmerz-1.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Ist Schmerz automatisch ein Maß für Gewebeschaden?",
+        "options": [
+          "Ja, immer",
+          "Nein – er ist ein Schutzsignal, das vom Gehirn bewertet wird",
+          "Nur bei Muskeln"
+        ],
+        "correct": 1,
+        "explanation": "Das Gehirn bewertet Signale auch anhand von Erfahrungen, Erwartungen, Stress und Situation."
+      },
+      {
+        "q": "Was hilft, die Bewertung von Bewegung zu verändern?",
+        "options": [
+          "Bewegung vermeiden",
+          "Neue, sichere und positive Bewegungserfahrungen",
+          "Nur Ruhe und Schonung"
+        ],
+        "correct": 1,
+        "explanation": "Das Gehirn ist lernfähig. Positive Bewegungserfahrungen im sicheren Bereich helfen."
+      },
+      {
+        "q": "Was kann die Aufmerksamkeit auf Schmerz verstärken?",
+        "options": [
+          "Ruhiges, langsames Atmen",
+          "Angst und die Erwartung „Das wird wehtun“",
+          "Positive Erfahrungen mit Bewegung"
+        ],
+        "correct": 1,
+        "explanation": "Angst und negative Erwartungen lenken die Aufmerksamkeit auf den Schmerz. Realistische Erwartungen und erreichbare Ziele helfen dagegen."
+      }
+    ],
+    "series": "Training & Schmerz"
+  },
+  {
+    "id": 5,
+    "date": "2026-10-11",
+    "series": "Training & Schmerz",
+    "title": "Mentaltraining Schmerz – Teil 2: Beruhigen & dosieren",
+    "quote": "Bewegung ist der Schlüssel – dosiert, regelmäßig und im sicheren Bereich.",
+    "text": "Aktivität richtig dosieren\n\nZu wenig Aktivität → Unsicherheit & Vermeidung → Belastbarkeit kann abnehmen\n\nPassende Aktivität → regelmäßig & dosiert → schafft positive Bewegungserfahrungen → Belastbarkeit wächst schrittweise\n\nZu viel Aktivität → Überforderung → Beschwerden können vorübergehend zunehmen → Belastung anpassen statt komplett stoppen\n\nNervensystem beruhigen\n\nEin ruhigerer körperlicher Zustand kann die Schmerzverarbeitung günstig beeinflussen.\n\nKurz & praktisch: langsames Atmen · Wärme · Körperkontakt · Entspannung · Meditation · angenehme Reize · Schlaf · Pausen\n\nDein Leuchtturm 🗼\nGRUNDLAGE: Nervensystem beruhigen\n↓ AKTIVITÄT: regelmäßig bewegen\n↓ PLANUNG: Woche – Monat – langfristig\n↓ SELBSTFÜRSORGE: Schlaf · Ernährung · Pausen\n↓ ZIEL: Motivation & Selbstwirksamkeit\n\nMerke: Nicht Schmerzfreiheit trainieren – sondern Vertrauen in Bewegung und Belastbarkeit aufbauen.",
+    "images": [
+      "post-images/mentaltraining-schmerz-2.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Welche Aktivität ist für deine Entwicklung am besten?",
+        "options": [
+          "Möglichst viel und möglichst schnell",
+          "Regelmäßige, dosierte Bewegung im sicheren, schmerzarmen Bereich",
+          "Möglichst wenig Bewegung"
+        ],
+        "correct": 1,
+        "explanation": "Passende, regelmäßige Aktivität schafft positive Bewegungserfahrungen und lässt die Belastbarkeit schrittweise wachsen."
+      },
+      {
+        "q": "Was kann helfen, das Nervensystem zu beruhigen?",
+        "options": [
+          "Langsames Atmen, Wärme, Entspannung und genug Schlaf",
+          "Dauerhafte Anspannung",
+          "Schmerzsignale ignorieren und härter trainieren"
+        ],
+        "correct": 0,
+        "explanation": "Ein ruhigerer körperlicher Zustand kann die Schmerzverarbeitung günstig beeinflussen."
+      },
+      {
+        "q": "Was tust du, wenn Beschwerden nach zu viel Aktivität zunehmen?",
+        "options": [
+          "Alles komplett stoppen",
+          "Die Belastung anpassen statt komplett zu stoppen",
+          "Noch mehr machen"
+        ],
+        "correct": 1,
+        "explanation": "Belastung anpassen statt komplett stoppen. Rückschläge gehören dazu und bedeuten nicht automatisch neuen Schaden."
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "date": "2026-10-12",
+    "series": "Training & Schmerz",
+    "title": "Gute Gewohnheiten – Heilung im Alltag unterstützen",
+    "quote": "Du kannst Heilung nicht erzwingen. Aber du kannst deinem Körper gute Bedingungen dafür schaffen.",
+    "text": "Ausreichend trinken\nOrientierung: etwa 1,5 Liter täglich – bei Sport oder Hitze mehr.\nAm besten: Wasser oder ungesüßter Tee.\n\nAusgewogen essen\nGemüse & Obst · Vollkorn · ausreichend Eiweiß · gesunde Fette.\nDein Körper braucht Energie und Baustoffe für Regeneration und Gewebe.\n\nRegeneration einplanen\nSchlaf, Pausen und Entspannung gehören zur Rehabilitation dazu.\nErholung ist Teil des Trainings.\n\nRegelmäßig bewegen\nLieber häufiger kleine, passende Einheiten als selten zu viel.\nBelastung Schritt für Schritt steigern.\n\nPositive Signale wahrnehmen\nFrag nicht nur: „Wo tut es weh?“\nSondern auch: Was geht heute besser?\nMehr Beweglichkeit? Mehr Kraft? Länger gehen? Mehr Sicherheit?\n\nÜbernimm Verantwortung\nWas tut mir gut? → wiederholen\nWas klappt besser? → ausbauen\nWas war zu viel? → anpassen statt aufgeben\n\nWissen to go:\nDu musst nicht alles perfekt machen. Viele kleine, regelmäßig wiederholte Gewohnheiten können deinen Heilungsprozess unterstützen.",
+    "images": [
+      "post-images/gute-gewohnheiten.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Wie viel solltest du als Orientierung täglich trinken?",
+        "options": [
+          "Etwa 1,5 Liter – bei Sport oder Hitze mehr",
+          "Nur bei Durst",
+          "Mindestens 5 Liter"
+        ],
+        "correct": 0,
+        "explanation": "Als Orientierung gelten etwa 1,5 Liter täglich, bei Hitze oder Sport entsprechend mehr. Am besten Wasser oder ungesüßter Tee."
+      },
+      {
+        "q": "Welche Rolle spielt Erholung im Training?",
+        "options": [
+          "Sie ist Zeitverschwendung",
+          "Sie ist Teil des Trainings und der Rehabilitation",
+          "Sie ist nur nach Verletzungen wichtig"
+        ],
+        "correct": 1,
+        "explanation": "Schlaf, Pausen und Entspannung unterstützen die Regeneration und gehören zur Rehabilitation dazu."
+      },
+      {
+        "q": "Was ist für den Heilungsprozess hilfreicher?",
+        "options": [
+          "Selten, dafür sehr viel trainieren",
+          "Häufiger kleine, passende Einheiten",
+          "Gar nicht trainieren, bis alles weg ist"
+        ],
+        "correct": 1,
+        "explanation": "Regelmäßige, dosierte Einheiten sind besser als selten zu viel. Die Belastung wird Schritt für Schritt gesteigert."
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "date": "2026-10-13",
+    "series": "Training & Schmerz",
+    "title": "Positive Signale wahrnehmen",
+    "quote": "Schmerz fällt schnell auf. Fortschritt ist oft leiser.",
+    "text": "Deshalb lohnt es sich, bewusst darauf zu achten, was schon besser funktioniert.\n\nFrag dich regelmäßig:\nMehr Beweglichkeit? Mehr Kraft? Länger aktiv? Besserer Schlaf? Weniger Angst vor einer Bewegung?\n\nPositive Bewegungserfahrungen geben deinem Gehirn neue Informationen über Sicherheit und Belastbarkeit.\n\nVerantwortung übernehmen\n\nDu kannst Heilung nicht erzwingen – aber du kannst sie aktiv unterstützen:\n\nWas tut mir gut? → wiederholen\nWas klappt besser? → ausbauen\nWas war zu viel? → anpassen, nicht aufgeben\nWas habe ich geschafft? → wahrnehmen & belohnen\n\nWissen to go:\nNicht nur den Schmerz beobachten. Achte auch auf das, was wieder möglich wird. So wächst Schritt für Schritt das Vertrauen in deinen Körper.",
+    "images": [
+      "post-images/positive-signale.jpg"
+    ],
+    "quiz": [
+      {
+        "q": "Welche Frage hilft dir, Fortschritt zu bemerken?",
+        "options": [
+          "Wo tut es weh?",
+          "Was geht heute schon besser?",
+          "Wie lange dauert es noch?"
+        ],
+        "correct": 1,
+        "explanation": "Nicht nur nach dem Schmerz fragen, sondern auch danach, was schon besser funktioniert."
+      },
+      {
+        "q": "Was bewirken positive Bewegungserfahrungen im Gehirn?",
+        "options": [
+          "Sie geben neue Informationen über Sicherheit und Belastbarkeit",
+          "Sie haben keinen Einfluss",
+          "Sie verstärken die Angst"
+        ],
+        "correct": 0,
+        "explanation": "Positive Erfahrungen werden gespeichert und können die Schmerzverarbeitung günstig beeinflussen."
+      },
+      {
+        "q": "Was tust du, wenn eine Belastung zu viel war?",
+        "options": [
+          "Aufgeben",
+          "Anpassen, nicht aufgeben",
+          "Genauso weitermachen"
+        ],
+        "correct": 1,
+        "explanation": "Anpassen statt aufgeben: Was zu viel war, wird dosiert angepasst. Rückschläge gehören dazu."
+      }
+    ]
+  }
+]
