@@ -81,6 +81,7 @@
   .daybtn .box{width:100%; max-width:30px; aspect-ratio:1/1; border-radius:6px; border:2px solid var(--green);
     display:flex; align-items:center; justify-content:center; font-size:.78rem; color:#fff;}
   .daybtn .box.done{background:var(--green);}
+  .daybtn .box.done2{background:var(--green-dark, #3F5A36); font-size:.7rem; letter-spacing:-.5px;}
 
   .skip-btn{font-size:.68rem; color:var(--text-soft); background:none; border:1px solid var(--border);
     border-radius:6px; padding:4px 8px; cursor:pointer; white-space:nowrap;}
@@ -419,6 +420,13 @@
   .lib-card .ph{width:56px; height:56px; border-radius:8px; background:#FBF3E4; flex-shrink:0;}
   .lib-card .c{flex:1; min-width:0;} .lib-card h3{margin:0; font-size:.92rem;} .lib-card .m{font-size:.76rem; color:var(--orange-dark); font-style:italic;}
   .lib-card a{font-size:.8rem; font-weight:700; color:var(--orange-dark);}
+  .lib-pool-h{margin:18px 0 4px; font-size:1.05rem; color:var(--orange-dark);}
+  .lib-card.pool{flex-wrap:wrap;}
+  .lib-card.pool details{margin-top:4px; font-size:.82rem; line-height:1.45;}
+  .lib-card.pool summary{cursor:pointer; font-weight:700; color:var(--orange-dark); font-size:.8rem;}
+  .pool-ctl{display:flex; gap:8px; align-items:center; width:100%; margin-top:6px;}
+  .pool-ctl select{flex:1; min-width:0; padding:8px; border:1px solid #E0CFAE; border-radius:8px; font:inherit; font-size:.85rem; background:#fff; color:#3a2a1a;}
+  .pool-ctl button{flex:0 0 auto; padding:9px 14px; font-size:.85rem; width:auto;}
   .lib-wk{font-weight:800; color:var(--orange-dark); margin:14px 0 6px; font-size:.95rem;}
   .lib-form{background:#FBF3E4; border:1px solid #E8D9BE; border-radius:12px; padding:12px; margin:10px 0;}
   .lib-form input[type=text],.lib-form input[type=url],.lib-form select{width:100%; box-sizing:border-box; padding:9px; margin:5px 0; border:1px solid #E0CFAE; border-radius:8px; font:inherit; background:#fff;}
@@ -806,6 +814,39 @@ const DAYS = ['Mo','Di','Mi','Do','Fr','Sa','So'];
 // ---------- Eigene Übungen der Therapeutin/des Therapeuten (pro Woche) ----------
 function customExercises(wi){ return (state['custom_'+wi] || []).slice(); }
 function saveCustomExercises(wi, list){ state['custom_'+wi] = list; save(); }
+// ---------- Übungsbibliothek (Pool aus allen Übungen der App + Bonusübungen) ----------
+const exBase = n => String(n).replace(/\s*\(.*?\)\s*/g,'').trim();
+let _exPool = null;
+function exPool(){
+  if(_exPool) return _exPool;
+  const seen = {}, out = [];
+  WEEKS.forEach((w,wi) => w.exercises.forEach((e,ei) => {
+    const b = exBase(e[0]); if(seen[b]) return; seen[b] = 1;
+    const ph = TIMER_PHOTOS[wi] && TIMER_PHOTOS[wi][ei];
+    out.push({id:'w'+(wi+1)+'e'+ei, name:b, meta:e[1], text:(EX_DESC[wi]||[])[ei]||'', photo: ph ? 'data:image/jpeg;base64,'+ph : null, group:'Übungen aus Woche '+(wi+1)});
+  }));
+  BONUS.forEach((b,i) => out.push({id:'b'+i, name:b.name, meta:b.meta, text:b.text, photo:'data:image/jpeg;base64,'+BONUS_PHOTOS[b.photo], group:'Bonusübungen'}));
+  return _exPool = out;
+}
+function poolById(id){ return exPool().find(p => p.id === id) || null; }
+function cePool(ce){ return ce && ce.src ? poolById(ce.src) : null; }
+function cePhoto(ce){ if(ce.photo) return ce.photo; const p = cePool(ce); return p ? p.photo : null; }
+function ceMeta(ce){ const p = cePool(ce); return p ? p.meta : 'Eigene Übung von deiner Praxis'; }
+function poolAdd(id){
+  if(isKidMode()){ pumpkinToast('Im Kindermodus ist das Hinzufügen gesperrt.'); return; }
+  const p = poolById(id); if(!p) return;
+  const sel = document.getElementById('pw_'+id); const wi = sel ? parseInt(sel.value,10) : currentWeek;
+  if(WEEKS[wi].exercises.some(e => exBase(e[0]) === p.name) || customExercises(wi).some(c => c.src === id)){
+    pumpkinToast('„'+p.name+'“ gibt es in Woche '+(wi+1)+' schon.'); return;
+  }
+  const list = customExercises(wi);
+  list.push({id:'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), name:p.name, photo:null, video:null, src:id});
+  saveCustomExercises(wi, list);
+  const y = window.scrollY;
+  renderAll();
+  window.scrollTo(0, y);
+  pumpkinToast('„'+p.name+'“ ist jetzt in Woche '+(wi+1)+'.');
+}
 function addCustomExercise(wi, name, photoDataUrl, video){
   const id = 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
   const list = customExercises(wi);
@@ -817,7 +858,7 @@ function addCustomExercise(wi, name, photoDataUrl, video){
 async function deleteCustomExercise(wi, id){
   if(!(await dlg({text:'Diese Übung wirklich entfernen? Bereits abgehakte Tage gehen dabei verloren.', cancel:true, ok:'Entfernen'}))) return;
   saveCustomExercises(wi, customExercises(wi).filter(e => e.id !== id));
-  for(let d=0; d<7; d++) delete state[dayKey(wi,id,d)];
+  for(let d=0; d<7; d++){ delete state[dayKey(wi,id,d)]; delete state[dayKey2(wi,id,d)]; }
   delete state[skipKey(wi,id)];
   save();
   renderAll();
@@ -921,6 +962,10 @@ function exerciseDoneCount(w,i){
   return c;
 }
 function exerciseDone(w,i){ return exerciseDoneCount(w,i) > 0; }
+// Zweiter Durchlauf am selben Tag (z. B. mit dem Video): ein Extra-Kürbis on top
+function dayKey2(w,i,d){ return 'x2_' + dayKey(w,i,d); }
+function extraRuns(w,i,d){ const v = state[dayKey2(w,i,d)]; return v === true ? 1 : Math.min(2, Math.max(0, +v || 0)); }
+function exerciseExtraCount(w,i){ let c = 0; for(let d=0; d<7; d++){ c += extraRuns(w,i,d); } return c; }
 
 function totalDone(){
   let done = 0, total = 0;
@@ -999,7 +1044,10 @@ function buildHotspotOverlay(imgKey){
 
 // Trainingsvideos pro Woche (Index 0 = Woche 1). Weitere Wochen einfach hier ergänzen.
 const WEEK_VIDEOS = {
-  0: { url: 'https://youtube.com/shorts/6BwaxkAfabM', label: 'Trainingsvideo Woche 1 ansehen', sub: 'Pia zeigt dir alle Übungen – mitten im Wald' }
+  0: { url: 'https://youtube.com/shorts/6BwaxkAfabM', label: 'Trainingsvideo Woche 1 ansehen', sub: 'Pia zeigt dir alle Übungen – mitten im Wald' },
+  1: { url: 'https://youtu.be/aCP4T2bco18', label: 'Trainingsvideo Woche 2 ansehen', sub: 'Pia zeigt dir alle Übungen' },
+  2: { url: 'https://youtu.be/PYMQco5dnz8', label: 'Trainingsvideo Woche 3 ansehen', sub: 'Pia zeigt dir alle Übungen' },
+  3: { url: 'https://youtu.be/SfbGOFJn3Jo', label: 'Trainingsvideo Woche 4 ansehen', sub: 'Pia zeigt dir alle Übungen' }
 };
 
 
@@ -1045,7 +1093,8 @@ function renderWeek(){
   function buildDaysRow(key){
     return `<div class="daysrow">${DAYS.map((d,di)=>{
       const on = !!state[dayKey(currentWeek, key, di)];
-      return `<div class="daybtn" data-day="${di}"><span class="lbl">${d}</span><span class="box${on?' done':''}">${on?'✓':''}</span></div>`;
+      const ex2 = on ? extraRuns(currentWeek, key, di) : 0, on2 = ex2 > 0;
+      return `<div class="daybtn" data-day="${di}"><span class="lbl">${d}</span><span class="box${on?' done':''}${on2?' done2':''}">${on2?((ex2+1)+'×'):(on?'✓':'')}</span></div>`;
     }).join('')}</div>`;
   }
   function wireDaysRow(card, key){
@@ -1053,12 +1102,13 @@ function renderWeek(){
       btn.onclick = () => {
         const d = +btn.dataset.day;
         const k = dayKey(currentWeek, key, d);
+        if(state[k]){ exSecondDialog(key, d); return; }
         const before = levelIndex();
-        state[k] = !state[k];
+        state[k] = true;
         save();
         renderAll();
-        if(state[k] && levelIndex() > before) pumpkinToast('Neue Stufe erreicht! ');
-        else if(state[k]) pumpkinToast('Kürbis gesammelt! ');
+        if(levelIndex() > before) pumpkinToast('Neue Stufe erreicht! ');
+        else pumpkinToast('Kürbis gesammelt! ');
       };
     });
   }
@@ -1092,10 +1142,10 @@ function renderWeek(){
     card.className = 'custom-card' + (doneCount > 0 ? ' done' : '') + (skipped ? ' skipped' : '');
     card.innerHTML = `
       <div class="toprow">
-        ${ce.photo ? `<img class="custom-thumb" src="${ce.photo}" alt="${ce.name}">` : ''}
+        ${cePhoto(ce) ? `<img class="custom-thumb" src="${cePhoto(ce)}" alt="${ce.name}">` : ''}
         <div class="content">
           <h3>${ce.name}</h3>
-          <div class="meta">Eigene Übung von deiner Praxis</div>
+          <div class="meta">${ceMeta(ce)}</div>${cePool(ce) && cePool(ce).text ? `<details class="ce-how"><summary>So geht’s</summary><p style="margin:4px 0; font-size:.85rem;">${cePool(ce).text}</p></details>` : ''}
         </div>
         <div class="exdone-badge">${doneCount}/7 Tage</div>
       </div>
@@ -1211,7 +1261,7 @@ function renderWeek(){
       <div class="toprow">
         <div class="content">
           <h3>${ce.name}</h3>
-          <div class="meta">Eigene Übung von deiner Praxis</div>
+          <div class="meta">${ceMeta(ce)}</div>${cePool(ce) && cePool(ce).text ? `<details class="ce-how"><summary>So geht’s</summary><p style="margin:4px 0; font-size:.85rem;">${cePool(ce).text}</p></details>` : ''}
         </div>
         <div class="exdone-badge">${doneCount}/7 Tage</div>
       </div>
@@ -1607,12 +1657,12 @@ function pumpkinStats(){
     w.exercises.forEach((_,ei)=>{
       if(isSkipped(wi,ei)) return;
       max += 7;
-      got += exerciseDoneCount(wi,ei);
+      got += exerciseDoneCount(wi,ei) + exerciseExtraCount(wi,ei);
     });
     customExercises(wi).forEach(ce=>{
       if(isSkipped(wi,ce.id)) return;
       max += 7;
-      got += exerciseDoneCount(wi,ce.id);
+      got += exerciseDoneCount(wi,ce.id) + exerciseExtraCount(wi,ce.id);
     });
   });
   for(let wi=0; wi<WEEKS.length; wi++){
@@ -1795,15 +1845,15 @@ function sessionList(){
 function exerciseMeta(weekIdx, key){
   if(typeof key === 'string'){
     const ce = customExercises(weekIdx).find(c => c.id === key);
-    return ce ? [ce.name, 'Eigene Übung von deiner Praxis'] : ['Übung', ''];
+    return ce ? [ce.name, ceMeta(ce)] : ['Übung', ''];
   }
   return WEEKS[weekIdx].exercises[key];
 }
 function sessionVisualHtml(weekIdx, key){
   if(typeof key === 'string'){
     const ce = customExercises(weekIdx).find(c => c.id === key);
-    if(ce && ce.photo){
-      return `<div class="sess-crop" style="aspect-ratio:1/1;"><img alt="" src="${ce.photo}" style="width:100%; height:100%; left:0; top:0; object-fit:cover;"></div>`;
+    if(ce && cePhoto(ce)){
+      return `<div class="sess-crop" style="aspect-ratio:1/1;"><img alt="" src="${cePhoto(ce)}" style="width:100%; height:100%; left:0; top:0; object-fit:cover;"></div>`;
     }
     return `<div class="sess-crop" style="aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:3rem;"></div>`;
   }
@@ -1833,8 +1883,8 @@ let openStory = null;
 function roundBonusCount(wi){ let c = 0; for(let d=0; d<7; d++){ if(state['r2_w'+wi+'_'+d]) c++; } return c; }
 function weekPumpkins(wi){
   let n = 0;
-  WEEKS[wi].exercises.forEach((_,ei)=>{ if(!isSkipped(wi,ei)) n += exerciseDoneCount(wi,ei); });
-  customExercises(wi).forEach(ce=>{ if(!isSkipped(wi,ce.id)) n += exerciseDoneCount(wi,ce.id); });
+  WEEKS[wi].exercises.forEach((_,ei)=>{ if(!isSkipped(wi,ei)) n += exerciseDoneCount(wi,ei) + exerciseExtraCount(wi,ei); });
+  customExercises(wi).forEach(ce=>{ if(!isSkipped(wi,ce.id)) n += exerciseDoneCount(wi,ce.id) + exerciseExtraCount(wi,ce.id); });
   n += roundBonusCount(wi);
   if(state['quiz_w'+wi]) n += 1;
   if(state['badge_'+(2*wi)]) n += 1;
@@ -1884,7 +1934,7 @@ function renderLib(){
   for(let w=0; w<4; w++){
     const list = customExercises(w); if(!list.length) continue; any = true;
     h += `<div class="lib-wk">Woche ${w+1}</div>`;
-    h += list.map(ce => `<div class="lib-card">${ce.photo ? `<img src="${ce.photo}" alt="${ce.name}">` : '<div class="ph"></div>'}<div class="c"><h3>${ce.name}</h3><div class="m">Eigene Übung von deiner Praxis</div>${ce.video ? `<a href="${ce.video}" target="_blank" rel="noopener">Video ansehen</a>` : ''}</div>${kid ? '' : `<button class="skip-btn" onclick="libDelete(${w},'${ce.id}')">entfernen</button>`}</div>`).join('');
+    h += list.map(ce => `<div class="lib-card">${cePhoto(ce) ? `<img src="${cePhoto(ce)}" alt="${ce.name}">` : '<div class="ph"></div>'}<div class="c"><h3>${ce.name}</h3><div class="m">${ceMeta(ce)}</div>${ce.video ? `<a href="${ce.video}" target="_blank" rel="noopener">Video ansehen</a>` : ''}</div>${kid ? '' : `<button class="skip-btn" onclick="libDelete(${w},'${ce.id}')">entfernen</button>`}</div>`).join('');
   }
   if(!any) h += '<div class="howto-note">Noch keine eigenen Übungen. Die Praxis kann hier Übungen mit Foto und Video-Link hinzufügen.</div>';
   if(kid){
@@ -1902,6 +1952,15 @@ function renderLib(){
   } else {
     h += '<div class="add-ex-btn-wrap"><button class="skip-btn add-ex-btn" onclick="libFormOpen=true; renderLib();">+ Übung hinzufügen</button></div>';
   }
+  // ---- Übungsbibliothek: alle Übungen der App zum Hinzufügen ----
+  h += '<h3 class="lib-pool-h">Übungsbibliothek</h3>';
+  h += '<p class="add-form-hint" style="font-size:.84rem;">Hier findest du alle Übungen der App, auch die Bonusübungen. ' + (kid ? 'Im Kindermodus sind sie nur zum Ansehen.' : 'Wähle eine Woche und tippe auf „Hinzufügen“. Die Übung erscheint dann in dieser Woche zum Abhaken und im Timer. Ist eine Übung für dein Kind zu schwer, kannst du sie in der Woche „für dieses Kind streichen“.') + '</p>';
+  let grp = '';
+  exPool().forEach(pe => {
+    if(pe.group !== grp){ grp = pe.group; h += `<div class="lib-wk">${grp}</div>`; }
+    h += `<div class="lib-card pool">${pe.photo ? `<img src="${pe.photo}" alt="${pe.name}">` : '<div class="ph"></div>'}<div class="c"><h3>${pe.name}</h3><div class="m">${pe.meta}</div>${pe.text ? `<details><summary>So geht’s</summary><p style="margin:4px 0;">${pe.text}</p></details>` : ''}</div>
+      ${kid ? '' : `<div class="pool-ctl"><select id="pw_${pe.id}" aria-label="Woche für ${pe.name}">${[0,1,2,3].map(w => `<option value="${w}" ${w===currentWeek?'selected':''}>Woche ${w+1}</option>`).join('')}</select><button class="cta-btn link-btn" onclick="poolAdd('${pe.id}')">Hinzufügen</button></div>`}</div>`;
+  });
   host.innerHTML = h;
 }
 function libDelete(w,id){ deleteCustomExercise(w,id); }
@@ -2273,6 +2332,39 @@ function renderTimer(){
   document.getElementById('pauseBtn').textContent = s.running ? '⏸ Pause' : 'Weiter';
 }
 
+// ---------- Zweiter Durchlauf einer Übung am selben Tag ----------
+const DAYS_LONG = ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+function exName(w, key){
+  if(typeof key === 'string'){ const ce = customExercises(w).find(c => c.id === key); return ce ? ce.name : 'Übung'; }
+  return WEEKS[w].exercises[key][0];
+}
+function closeIntroPopup(){ document.getElementById('introPopup').style.display = 'none'; }
+function exSecondDialog(key, d){
+  const w = currentWeek, k2 = dayKey2(w, key, d), n2 = extraRuns(w, key, d);
+  const card = document.getElementById('introCard');
+  const txt = n2 === 0 ? 'Hast du die Übung an diesem Tag noch ein zweites Mal gemacht, zum Beispiel mit dem Video? Dann sammelst du einen Extra-Kürbis.'
+    : n2 === 1 ? 'Der zweite Durchlauf ist eingetragen. Hast du die Übung sogar ein drittes Mal gemacht? Dann gibt es noch einen Extra-Kürbis.'
+    : 'Drei Durchläufe sind eingetragen, das ist das Maximum pro Übung und Tag. Super gemacht!';
+  card.innerHTML = `<h3>${exName(w,key)}</h3>
+    <p style="margin:0 0 6px;"><b>${DAYS_LONG[d]}</b> ist schon abgehakt.</p>
+    <p style="margin:0 0 10px;">${txt}</p>
+    ${n2 < 2 ? `<button class="cta-btn" id="x2yes" style="width:100%; margin-bottom:8px;">Ja, ${n2===0?'zweiten':'dritten'} Durchlauf eintragen (+1 Kürbis)</button>` : ''}
+    ${n2 > 0 ? `<button class="cta-btn secondary" id="x2no" style="width:100%; margin-bottom:8px;">${n2===1?'Zweiten':'Dritten'} Durchlauf entfernen</button>` : ''}
+    <button class="cta-btn secondary" id="xuncheck" style="width:100%; margin-bottom:8px;">Haken entfernen</button>
+    <button class="cta-btn secondary" id="xclose" style="width:100%;">Schließen</button>`;
+  const y = card.querySelector('#x2yes');
+  if(y) y.onclick = () => {
+    const before = levelIndex();
+    state[k2] = n2 + 1; save(); closeIntroPopup(); renderAll();
+    pumpkinToast(levelIndex() > before ? 'Neue Stufe erreicht! ' : 'Extra-Kürbis gesammelt! ');
+  };
+  const n = card.querySelector('#x2no');
+  if(n) n.onclick = () => { if(n2 <= 1) delete state[k2]; else state[k2] = n2 - 1; save(); closeIntroPopup(); renderAll(); };
+  card.querySelector('#xuncheck').onclick = () => { state[dayKey(w,key,d)] = false; delete state[k2]; save(); closeIntroPopup(); renderAll(); };
+  card.querySelector('#xclose').onclick = closeIntroPopup;
+  document.getElementById('introPopup').style.display = 'flex';
+}
+
 // Nach einer geschafften Runde: heutigen Wochentag für alle Übungen der Runde abhaken
 function tickToday(){
   const s = sess; if(!s || s.ticked) return;
@@ -2381,35 +2473,41 @@ function dataUrlToFile(dataUrl, filename){
   return new File([bytes], filename, { type: mime });
 }
 
-async function shareApp(){
-  const linkUrl = window.location.href;
-  const shareText = 'Die Kürbisfee: ein 4-Wochen-Bewegungsabenteuer für Kinder von Humaneo – Praxis für Kinderphysiotherapie.\n' + linkUrl;
-
+function shareLink(){ try { return location.origin + location.pathname; } catch(e){ return location.href; } }
+const SHARE_TEXT = 'Die Kürbisfee: ein 4-Wochen-Bewegungsabenteuer für Kinder von Humaneo – Praxis für Kinderphysiotherapie.';
+function shareApp(){
+  const link = shareLink();
+  const canNative = !!navigator.share;
+  document.getElementById('introCard').innerHTML = `<h3>App teilen</h3>
+    <p style="margin:0 0 8px;">Mit diesem Link öffnet sich die App direkt, zum Beispiel in WhatsApp einfügen oder weitergeben.</p>
+    <input type="text" id="shareLinkField" readonly value="${link}" onclick="this.select()" aria-label="Link zur App" style="width:100%; box-sizing:border-box; padding:10px; border:1.5px solid var(--border); border-radius:10px; font-size:.85rem; background:var(--card-bg); color:var(--text); margin-bottom:8px;">
+    <button class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" onclick="copyShareLink()">Link kopieren</button>
+    ${canNative ? '<button class="cta-btn link-btn" style="width:100%; margin-bottom:8px; background:var(--green);" onclick="shareLinkNative()">Link teilen</button>' : ''}
+    <button class="cta-btn secondary" style="width:100%; margin-bottom:8px;" onclick="sharePoster()">Plakat als Bild teilen</button>
+    <button class="cta-btn secondary" style="width:100%;" onclick="document.getElementById('introPopup').style.display='none'">Schließen</button>`;
+  document.getElementById('introPopup').style.display = 'flex';
+}
+async function copyShareLink(){
+  const link = shareLink(); const f = document.getElementById('shareLinkField');
+  let ok = false;
+  try { await navigator.clipboard.writeText(link); ok = true; } catch(e){}
+  if(!ok && f){ try { f.focus(); f.select(); f.setSelectionRange(0, 999); ok = document.execCommand('copy'); } catch(e){} }
+  if(ok){ pumpkinToast('Link kopiert'); } else if(f){ f.focus(); f.select(); pumpkinToast('Link markiert: bitte lange drücken und kopieren'); }
+}
+async function shareLinkNative(){
+  try { await navigator.share({ title: 'Die Kürbisfee – Übungsbegleiter', text: SHARE_TEXT, url: shareLink() }); }
+  catch(e){ if(!(e && e.name === 'AbortError')) copyShareLink(); }
+}
+async function sharePoster(){
+  const link = shareLink();
   try {
     const file = dataUrlToFile(SHARE_POSTER_DATA, 'Kuerbisfee.jpg');
     if(navigator.canShare && navigator.canShare({ files: [file] })){
-      await navigator.share({ files: [file], title: 'Die Kürbisfee – Übungsbegleiter', text: shareText });
+      await navigator.share({ files: [file], title: 'Die Kürbisfee – Übungsbegleiter', text: SHARE_TEXT + '\n' + link });
       return;
     }
   } catch(e){ if(e && e.name === 'AbortError') return; }
-
-  try {
-    if(navigator.share){
-      await navigator.share({
-        title: 'Die Kürbisfee – Übungsbegleiter',
-        text: 'Die Kürbisfee: ein 4-Wochen-Bewegungsabenteuer für Kinder von Humaneo – Praxis für Kinderphysiotherapie.',
-        url: linkUrl
-      });
-      return;
-    }
-  } catch(e){ if(e && e.name === 'AbortError') return; }
-
-  try {
-    await navigator.clipboard.writeText(linkUrl);
-    dlgAlert('Link kopiert! Du kannst ihn jetzt z. B. in WhatsApp einfügen:\n' + linkUrl);
-  } catch(e){
-    dlg({text:'Link zum Kopieren:', input:'text', value:linkUrl, ok:'Schließen'});
-  }
+  dlgAlert('Das Teilen von Bildern wird auf diesem Gerät nicht unterstützt. Bitte nutze „Link kopieren“.');
 }
 
 // ---------- Popup: neues Feature "Eigene Übungen hinzufügen" (einmalig je Gerät) ----------
@@ -2436,7 +2534,7 @@ const TOUR_STEPS = [
     <p style="font-size:.78rem; color:var(--text-soft);">Die Namen bleiben nur auf diesem Gerät gespeichert.</p>`,
   () => `<h3>Menüleiste &amp; Übungen</h3>
     <p>Unten wechselt ihr zwischen vier Bereichen: <b>Meine Erfolge</b>, <b>Übungen</b>, <b>Bibliothek</b> und <b>Übersicht</b>. Oben rechts öffnet „Eltern &amp; Therapeuten“ das Menü mit Kindermodus, Kontakt und Teilen. Die kleinen Bilder oben links zeigen die Jahreszeiten: Herbst läuft, die anderen folgen.</p>
-    <div class="t-row"><img src="${ti('abhaken')}" alt="" ><span><b>Übungen der Woche</b> – hier hakt das Kind jeden Tag ab, was es geschafft hat. Jedes Häkchen = 1 Kürbis.</span></div>
+    <div class="t-row"><img src="${ti('abhaken')}" alt="" ><span><b>Übungen der Woche</b> – hier hakt das Kind jeden Tag ab, was es geschafft hat. Jedes Häkchen = 1 Kürbis. Noch einmal auf ein Häkchen tippen: zweiter oder dritter Durchlauf am selben Tag = je 1 Extra-Kürbis.</span></div>
     <div class="t-row"><img src="${ti('timer')}" alt="" ><span><b>Übungstimer</b> – führt durch alle Übungen: je 2 Minuten, bei jedem Wechsel piept es.</span></div>
     <div class="t-row"><img src="${ti('video')}" alt="" ><span><b>Übungsvideo</b> – Alexandra und Pia zeigen die Übungen zum Mitmachen.</span></div>
     <div class="t-row"><img src="${ti('meineueb')}" alt="" ><span><b>Meine Übungen</b> – die Übungen und Videos, die die Praxis für das Kind hinzugefügt hat.</span></div>
