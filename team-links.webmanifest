@@ -1,0 +1,25 @@
+{
+  "name": "Humaneo Links",
+  "short_name": "Humaneo Links",
+  "id": "team-links.html",
+  "start_url": "team-links.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "team-links-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "team-links-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
