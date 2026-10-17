@@ -58,6 +58,15 @@ details[open] summary{margin-bottom:8px}
 .btn svg{width:18px;height:18px;flex:none}
 .btn.wa{grid-column:1/-1;background:var(--lime);border-color:var(--lime);color:var(--onlime)}
 .btn.wa small{font-weight:500}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:999px;padding:4px;gap:4px}
+.seg button{appearance:none;border:0;background:none;font:inherit;font-size:14px;font-weight:700;color:var(--muted);padding:10px;border-radius:999px;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(38,42,36,.14)}
+.note{background:var(--soft);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--muted);margin:0}
+.irow{border:1.5px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+.irow.soon{border-style:dashed}
+.irow .head p b{color:var(--ink);font-weight:600}
+.ico.gold{background:#efe0b8;color:#6b5220}
+.ico.grey{background:var(--soft);color:var(--muted)}
 .foot{font-size:12px;color:var(--muted);text-align:center}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:13.5px;font-weight:600;z-index:5;max-width:calc(100% - 32px)}
 </style>
@@ -69,6 +78,12 @@ details[open] summary{margin-bottom:8px}
     <div class="sub">Links für Patient:innen · nur für das Team</div>
   </header>
 
+  <div class="seg" role="tablist" aria-label="Bereich">
+    <button type="button" role="tab" id="tab-pat" aria-selected="true">Für Patient:innen</button>
+    <button type="button" role="tab" id="tab-int" aria-selected="false">Intern</button>
+  </div>
+
+  <div id="view-pat" style="display:grid;gap:18px">
   <section class="to" aria-label="Empfänger">
     <div class="eyebrow">An wen? (optional)</div>
     <div class="grid">
@@ -80,6 +95,12 @@ details[open] summary{margin-bottom:8px}
   </section>
 
   <div id="cards" style="display:grid;gap:12px"></div>
+  </div>
+
+  <div id="view-int" style="display:grid;gap:12px" hidden>
+    <p class="note">Nur für das Team. Diese Links bitte nicht an Patient:innen schicken.</p>
+    <div id="intern" style="display:grid;gap:12px"></div>
+  </div>
 
   <p class="foot">Humaneo · Private Praxis für Physiotherapie und Kinderphysiotherapie · Bad Homburg</p>
 </div>
@@ -181,7 +202,37 @@ function refresh(){document.querySelectorAll(".card").forEach(c=>c._upd&&c._upd(
 $("#name").addEventListener("input",refresh);
 $("#phone").addEventListener("input",refresh);
 $("#clear").addEventListener("click",()=>{$("#name").value="";$("#phone").value="";refresh();$("#name").focus()});
-render();
+/* Interner Bereich */
+const IICON={
+  xmas:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l4 6h-2l4 6h-3l4 6H5l4-6H6l4-6H8z"/><path d="M12 20v2"/></svg>',
+  team:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.3 0 4 1.5 4.5 4"/></svg>'
+};
+const INTERN=[
+  {icon:"xmas",cls:"gold",title:"Weihnachtsfeier 2026 · Einladungen",url:"https://claude.ai/artifact/77aRvbanTALogAnWf46AeM",
+   sub:"Persönliche Einladungslinks verschicken. Die <b>Auswertung der Antworten</b> sieht im Moment nur Alexandra in ihrem Claude-Konto."},
+  {icon:"team",cls:"grey",title:"Mitarbeiter-Onboarding",url:"",sub:"In Vorbereitung. Der Link kommt hierher, sobald es fertig ist."}
+];
+function renderIntern(){
+  const box=$("#intern");box.innerHTML="";
+  INTERN.forEach(it=>{
+    const c=document.createElement("article");c.className="irow"+(it.url?"":" soon");
+    c.innerHTML=`<div class="head"><span class="ico ${it.cls}">${IICON[it.icon]}</span><div><h3></h3><p>${it.sub}</p></div></div>`+
+      (it.url?`<div class="btns"><a class="btn" target="_blank" rel="noopener">${SVG.open}Öffnen</a><button class="btn" type="button">${SVG.copy}Link kopieren</button></div>`:"");
+    c.querySelector("h3").textContent=it.title;
+    if(it.url){c.querySelector("a").href=it.url;c.querySelector("button").addEventListener("click",()=>copy(it.url))}
+    box.appendChild(c);
+  });
+}
+function tab(which){
+  const pat=which==="pat";
+  $("#view-pat").hidden=!pat;$("#view-int").hidden=pat;
+  $("#tab-pat").setAttribute("aria-selected",String(pat));$("#tab-int").setAttribute("aria-selected",String(!pat));
+  try{localStorage.setItem("hl-tab",which)}catch(e){}
+}
+$("#tab-pat").addEventListener("click",()=>tab("pat"));
+$("#tab-int").addEventListener("click",()=>tab("int"));
+render();renderIntern();
+try{if(location.hash==="#intern"||localStorage.getItem("hl-tab")==="int")tab("int")}catch(e){}
 </script>
 </body>
 </html>
