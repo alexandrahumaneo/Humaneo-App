@@ -759,7 +759,7 @@
     <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 6px;">Drucken und weitergeben</div>
     <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openPrintStart()">Mein Plan drucken (4 Wochen und Trainingsblätter)</button>
     <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openPlanShare(null)">Gesamten Plan per QR-Code weitergeben</button>
-    <button class="btn btn-ghost btn-block" style="margin-bottom:12px;" onclick="openPlanRecv()">Plan empfangen (QR-Code scannen)</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:12px;" onclick="openPlanRecv()">Plan empfangen (QR-Code oder Code einfügen)</button>
     <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 6px;">Weiteres eintragen</div>
     <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openGoalOverlay()">Monatsziel &amp; Belohnung</button>
     <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openMonthOverview()">Monatsübersicht</button>
@@ -785,12 +785,13 @@
       <b style="font-size:17px;">Plan empfangen</b>
       <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closePlanRecv()">Schließen</button>
     </div>
-    <div id="planRecvBrowserNote" style="display:none;background:#fff;border:1.5px solid var(--lime);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;"><b>Erst auf den Startbildschirm legen.</b> Du bist gerade im Browser. Lege die App zuerst auf den Startbildschirm (Chrome-Menü: App installieren oder Zum Startbildschirm hinzufügen), öffne sie von dort und lies den Plan dann in der App ein. Sonst ist der Plan nur im Browser gespeichert und fehlt später in der App.</div>
+    <div id="planRecvBrowserNote" style="display:none;background:#fff;border:1.5px solid var(--lime);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;"><b>Du bist gerade im Browser, nicht in der App.</b> Damit der Plan dauerhaft in deiner App liegt, gehe so vor:<ol style="margin:8px 0 8px;padding-left:20px;"><li>Kopiere den Plan mit dem Knopf unten.</li><li>Öffne die HUMANEO-App über das Symbol auf deinem Startbildschirm. Ist sie dort noch nicht, lege sie zuerst dorthin (Chrome-Menü: App installieren) und öffne sie von dort.</li><li>Tippe dort auf Menü, Mein Bewegungsplan, Plan empfangen und füge den Plan ein.</li></ol><button type="button" id="planRecvCopyBtn" class="btn btn-primary btn-block" style="display:none;margin-top:6px;" onclick="planRecvCopy()">Plan kopieren</button><div id="planRecvCopyMsg" role="status" style="font-size:12.5px;color:var(--ink-soft);min-height:16px;margin-top:6px;"></div></div>
     <p style="font-size:13.5px;line-height:1.6;margin:0 0 14px;">Scanne den QR-Code, den deine Therapeutin oder dein Therapeut dir zeigt. Alternativ kannst du den Link oder Code einfügen.</p>
     <button type="button" id="planRecvScanBtn" class="btn btn-primary btn-block" style="margin-bottom:12px;" onclick="planStartScan()">QR-Code scannen</button>
     <video id="planRecvVideo" playsinline muted style="display:none;width:100%;border-radius:16px;margin-bottom:12px;background:#000;"></video>
     <label style="font-size:12px;color:var(--ink-soft);">Link oder Code einfügen</label>
-    <textarea id="planRecvInput" rows="3" style="width:100%;box-sizing:border-box;margin:4px 0 12px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:13px;background:var(--white);color:var(--ink);"></textarea>
+    <textarea id="planRecvInput" rows="3" oninput="planAutoCheck()" style="width:100%;box-sizing:border-box;margin:4px 0 12px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:13px;background:var(--white);color:var(--ink);"></textarea>
+    <button type="button" class="btn btn-ghost btn-block" style="margin-bottom:12px;" onclick="planPasteClip()">Aus der Zwischenablage einfügen</button>
     <button type="button" class="btn btn-ghost btn-block" onclick="planPaste()">Prüfen</button>
     <div id="planRecvMsg" role="status" style="font-size:13px;line-height:1.5;color:var(--ink-soft);margin:12px 0 0;min-height:18px;"></div>
     <div id="planRecvPreview"></div>
@@ -987,7 +988,7 @@
 
     <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px;">
       <button type="button" class="btn btn-secondary btn-block" onclick="toggleInfoModal();openLegal()">Impressum, Datenschutz &amp; Rechte</button>
-      <p style="font-size:12px;line-height:1.55;color:var(--ink-soft);margin:14px 0 0;border-top:1px solid var(--line);padding-top:12px;"><b>Tipp zum Start:</b> Lege die App zuerst auf den Startbildschirm und gib Namen und Praxiscode erst dort ein. Das Symbol nicht löschen, sonst sind die Daten weg.</p><p style="font-size:11.5px;color:var(--ink-soft);margin:12px 0 0;text-align:center;">© 2026 Alexandra Amersbach · Alle Rechte vorbehalten<br>Konzept, Design &amp; Creative Direction<br>App-Version: 28.10.2026 c · Trainingseinheiten, Reihenfolge, neues Menü</p>
+      <p style="font-size:12px;line-height:1.55;color:var(--ink-soft);margin:14px 0 0;border-top:1px solid var(--line);padding-top:12px;"><b>Tipp zum Start:</b> Lege die App zuerst auf den Startbildschirm und gib Namen und Praxiscode erst dort ein. Das Symbol nicht löschen, sonst sind die Daten weg.</p><p style="font-size:11.5px;color:var(--ink-soft);margin:12px 0 0;text-align:center;">© 2026 Alexandra Amersbach · Alle Rechte vorbehalten<br>Konzept, Design &amp; Creative Direction<br>App-Version: 01.11.2026 a · Plan empfangen einfacher, Nachricht mit Anleitung</p>
     </div>
   </div>
 </div>
@@ -4987,7 +4988,8 @@ async function planPack(obj){
   return '0'+planB64(bytes);
 }
 async function planUnpack(code){
-  code=String(code||'').trim(); const k=code.indexOf('plan='); if(k>=0) code=code.slice(k+5); code=code.replace(/[^A-Za-z0-9_\-]/g,'');
+  code=String(code||'').trim(); let mm=code.match(/plan=([A-Za-z0-9_\-]+)/);
+  if(mm) code=mm[1]; else { const runs=code.match(/[A-Za-z0-9_\-]{12,}/g)||[]; code=runs.sort((a,b)=>b.length-a.length)[0]||code.replace(/[^A-Za-z0-9_\-]/g,''); }
   if(code.length<3) throw new Error('leer');
   let u=planUnB64(code.slice(1));
   if(code[0]==='1'){ const st=new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw')); u=new Uint8Array(await new Response(st).arrayBuffer()); }
@@ -5036,7 +5038,7 @@ async function openPlanShare(sessionId){
   if(title) h+='<div style="font-size:19px;font-weight:800;margin:0 0 10px;">'+escapeHtml(title)+'</div>';
   if(!q||q.version>25){ h+='<div style="background:var(--lime-soft,#f3f8e4);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;"><b>Der Plan ist für einen QR-Code zu groß.</b> Gib ihn über „Link kopieren“ weiter oder teile ihn in zwei kleineren Einheiten.</div>'; }
   else { h+='<div style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;margin-bottom:12px;">'+QRGEN.svg(q,Math.min(300,window.innerWidth-80))+'<div style="font-size:12px;color:var(--ink-soft);margin-top:8px;">Patient: In der App „Plan empfangen“ wählen und diesen Code scannen.</div></div>'; }
-  h+='<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><button type="button" class="btn btn-primary" style="flex:1;min-width:140px;" onclick="planCopy(\'link\')">Link kopieren</button><button type="button" class="btn btn-ghost" style="flex:1;min-width:140px;" onclick="planCopy(\'code\')">Nur Code kopieren</button></div><div id="planCopyMsg" role="status" style="font-size:12.5px;color:var(--ink-soft);min-height:18px;margin:-6px 0 8px;"></div>';
+  h+='<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><button type="button" class="btn btn-primary" style="flex:1;min-width:140px;" onclick="planCopy(\'link\')">Link kopieren</button><button type="button" class="btn btn-ghost" style="flex:1;min-width:140px;" onclick="planCopy(\'code\')">Nur Code kopieren</button></div><button type="button" class="btn btn-primary btn-block" style="margin-bottom:10px;" onclick="planCopy(\'msg\')">Nachricht mit Anleitung kopieren</button><p style="font-size:12.5px;line-height:1.55;color:var(--ink-soft);margin:0 0 12px;">Diese Nachricht kannst du dem Patienten schicken. Sie enthält die Schritte und den Code.</p><div id="planCopyMsg" role="status" style="font-size:12.5px;color:var(--ink-soft);min-height:18px;margin:-6px 0 8px;"></div>';
   h+='<b style="font-size:13px;">Das ist im Plan ('+n+')</b><ol style="margin:6px 0 12px;padding-left:20px;font-size:13px;line-height:1.6;">'+names.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ol>'+(data.P.length?'<p style="font-size:13px;margin:0 0 12px;">Dazu '+data.P.length+' Cardio- oder Warm-up-Einträge.</p>':'');
   if(!sid&&data.S.length) h+='<p style="font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 8px;">Enthaltene Trainingseinheiten: '+data.S.map(s=>escapeHtml(s.name)).join(', ')+'.</p>';
   h+='<p style="font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 6px;"><b>Was nicht mitgeht:</b> Eigene Fotos und Videos passen nicht in einen QR-Code. Von eigenen Aufnahmen kommen Titel, Wiederholungen und Hinweise an, aber ohne Bild oder Video.'+(data.media?' Im aktuellen Plan betrifft das '+data.media+' Aufnahme'+(data.media>1?'n':'')+'.':'')+' Ein YouTube-Link bei einer Übung geht mit.</p>';
@@ -5044,19 +5046,30 @@ async function openPlanShare(sessionId){
   box.innerHTML=h;
 }
 function closePlanShare(){ document.getElementById('planShareOverlay').style.display='none'; }
+function planMsgText(code){ return 'Dein Trainingsplan von HUMANEO\n\nSo kommt der Plan in deine App:\n1. Öffne die HUMANEO-App über das Symbol auf deinem Startbildschirm. Ist sie dort noch nicht, lege sie zuerst dorthin (Chrome-Menü: App installieren) und öffne sie von dort.\n2. Tippe auf Menü, dann Mein Bewegungsplan, dann Plan empfangen.\n3. Füge den Code unten in das Feld ein. Er wird automatisch geprüft. Dann tippe auf Plan übernehmen.\n\nBitte tippe den Code nicht an, sondern kopiere ihn. Dafür den Code lange gedrückt halten, alles markieren und kopieren.\n\nCode:\n'+code; }
 async function planCopy(what){
-  const t=planLast?(what==='link'?planLast.link:planLast.code):''; const m=document.getElementById('planCopyMsg');
-  try{ await navigator.clipboard.writeText(t); m.textContent=what==='link'?'Link kopiert.':'Code kopiert.'; }
+  const t=planLast?(what==='link'?planLast.link:what==='msg'?planMsgText(planLast.code):planLast.code):''; const m=document.getElementById('planCopyMsg');
+  try{ await navigator.clipboard.writeText(t); m.textContent=what==='link'?'Link kopiert.':what==='msg'?'Nachricht kopiert. Du kannst sie jetzt einfügen und verschicken.':'Code kopiert.'; }
   catch(e){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); m.textContent='Kopiert.'; }catch(x){ m.textContent='Kopieren nicht möglich.'; } ta.remove(); }
 }
 /* Empfangen */
 let planPending=null, planScanStream=null, planScanOn=false;
 function planIsStandalone(){ try{ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true; }catch(e){ return false; } }
+let planPendingLink='';
+function planRecvCopy(){ const m=document.getElementById('planRecvCopyMsg'); const t=planPendingLink; if(!t){ m.textContent='Kein Plan zum Kopieren.'; return; }
+  const ok=()=>{ m.textContent='Kopiert. Öffne jetzt die App vom Startbildschirm und füge den Plan dort ein.'; };
+  const fb=()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); ok(); }catch(x){ m.textContent='Kopieren nicht möglich.'; } ta.remove(); };
+  try{ navigator.clipboard.writeText(t).then(ok,fb); }catch(e){ fb(); } }
+let planAutoT=null;
+function planAutoCheck(){ clearTimeout(planAutoT); planAutoT=setTimeout(()=>{ const t=document.getElementById('planRecvInput').value; if(t.trim().length>20) planPreview(t); },500); }
+async function planPasteClip(){ const msg=document.getElementById('planRecvMsg'); try{ const t=await navigator.clipboard.readText(); if(!t||!t.trim()){ msg.textContent='Die Zwischenablage ist leer. Bitte zuerst den Plan kopieren.'; return; } document.getElementById('planRecvInput').value=t; await planPreview(t); }catch(e){ msg.textContent='Das Einfügen per Knopf ist hier nicht erlaubt. Tippe lange in das Feld darüber und wähle Einfügen.'; } }
 function openPlanRecv(keep){
   document.getElementById('planRecvOverlay').style.display='block'; if(keep!==true) planPending=null;
   document.getElementById('planRecvMsg').textContent=''; document.getElementById('planRecvPreview').innerHTML='';
   document.getElementById('planRecvScanBtn').style.display=('BarcodeDetector' in window && navigator.mediaDevices)?'':'none';
   document.getElementById('planRecvBrowserNote').style.display=planIsStandalone()?'none':'';
+  document.getElementById('planRecvCopyBtn').style.display=(!planIsStandalone()&&planPendingLink)?'':'none'; document.getElementById('planRecvCopyMsg').textContent='';
+  document.getElementById('planRecvInput').value='';
 }
 function closePlanRecv(){ planStopScan(); document.getElementById('planRecvOverlay').style.display='none'; }
 function planStopScan(){ planScanOn=false; if(planScanStream){ planScanStream.getTracks().forEach(t=>t.stop()); planScanStream=null; } const v=document.getElementById('planRecvVideo'); if(v){ v.style.display='none'; v.srcObject=null; } }
@@ -5078,7 +5091,7 @@ async function planPreview(text){
 function planShowPending(pv){
   const o=planPending, titles=o.L.map(a=>{ const c=(o.C||[]).find(x=>x.id===a.id); const it=c||LIBRARY.find(x=>x.id===a.id); return it?it.title:'Übung'; });
   const sn=(o.S||[]).map(s=>s.name);
-  pv.innerHTML='<div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0 10px;"><b style="font-size:14px;">'+(sn.length===1?escapeHtml(sn[0]):'Plan von deiner Praxis')+'</b><ol style="margin:8px 0 0;padding-left:20px;font-size:13px;line-height:1.6;">'+titles.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ol>'+((o.P||[]).length?'<p style="font-size:13px;margin:8px 0 0;">Dazu '+o.P.length+' Cardio- oder Warm-up-Einträge.</p>':'')+(sn.length>1?'<p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;">Trainingseinheiten: '+sn.map(escapeHtml).join(', ')+'.</p>':'')+'</div><button type="button" class="btn btn-primary btn-block" onclick="planApply()">Plan übernehmen</button>';
+  pv.innerHTML='<div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0 10px;"><b style="font-size:14px;">'+(sn.length===1?escapeHtml(sn[0]):'Plan von deiner Praxis')+'</b><ol style="margin:8px 0 0;padding-left:20px;font-size:13px;line-height:1.6;">'+titles.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ol>'+((o.P||[]).length?'<p style="font-size:13px;margin:8px 0 0;">Dazu '+o.P.length+' Cardio- oder Warm-up-Einträge.</p>':'')+(sn.length>1?'<p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;">Trainingseinheiten: '+sn.map(escapeHtml).join(', ')+'.</p>':'')+'</div>'+(planIsStandalone()?'<button type="button" class="btn btn-primary btn-block" onclick="planApply()">Plan übernehmen</button>':'<button type="button" class="btn btn-ghost btn-block" onclick="planApply()">Trotzdem nur im Browser übernehmen</button><p style="font-size:12px;color:var(--ink-soft);line-height:1.5;margin:8px 0 0;">Empfohlen ist der Weg über die App vom Startbildschirm, siehe oben.</p>');
 }
 function planApply(){
   const o=planPending; if(!o) return;
@@ -5095,7 +5108,7 @@ function planApply(){
 /* Start: Plan-Link in der Adresse */
 async function planBoot(){
   const h=location.hash||''; if(h.indexOf('#plan=')!==0) return;
-  try{ const o=await planUnpack(h); planPending=o; try{ localStorage.setItem('humaneo_access', ACCESS_HASH); }catch(e){} }catch(e){ planPending=null; }
+  try{ const o=await planUnpack(h); planPending=o; planPendingLink=location.href; try{ localStorage.setItem('humaneo_access', ACCESS_HASH); }catch(e){} }catch(e){ planPending=null; }
   try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
 }
 function planAfterBoot(){
