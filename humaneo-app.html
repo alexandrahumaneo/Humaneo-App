@@ -105,8 +105,22 @@
   #wkSoundNote{display:block;}
   @media (max-height:780px){ #wkSoundNote{display:none;} }
   @media (max-height:700px){ #workoutOverlay #wkTipText{font-size:13px !important;line-height:1.35 !important;} #wkTip{padding:8px 12px !important;} #wkAdjHint{display:none;} }
+  .btn.mvb{width:34px;height:30px;min-height:30px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:0;flex:none;}
+  .btn.mvb svg{flex:none;display:block;}
+  .btn.mvb:disabled{opacity:.3;cursor:default;}
+  .sesshead{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage);font-weight:700;margin:14px 2px 6px;}
   .wkround{width:46px;height:46px;min-height:46px;padding:0;border-radius:50%;font-size:24px;line-height:1;flex:none;}
-  #workoutOverlay.film #wkInner{padding-top:calc(env(safe-area-inset-top,0px) + 31vh) !important;}
+  #workoutOverlay #wkMedia img.wkscol{width:auto !important;height:52px !important;aspect-ratio:auto !important;object-fit:cover !important;}
+  .scolx{position:absolute;top:-8px;right:-8px;width:26px;height:26px;min-height:0;padding:0;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+  #workoutOverlay.film #wkInner{padding-top:calc(env(safe-area-inset-top,0px) + 27vh) !important;}
+  #workoutOverlay.film #wkCard{padding:8px 12px !important;margin-top:2px !important;border-radius:18px !important;}
+  #workoutOverlay.film #wkTimer{font-size:28px !important;min-width:90px !important;}
+  #workoutOverlay.film .wkround{width:36px;height:36px;min-height:36px;font-size:20px;}
+  #workoutOverlay.film #wkAdjRow{margin:2px 0 2px !important;gap:10px !important;}
+  #workoutOverlay.film #wkAdjHint,#workoutOverlay.film #wkSoundNote,#workoutOverlay.film #wkHelpNote{display:none !important;}
+  #workoutOverlay.film #wkLabel{font-size:12px;}
+  #workoutOverlay.film #wkTitle{font-size:19px !important;}
+  #workoutOverlay.film #wkMedia img.wkscol{height:40px !important;}
   .topbanner{
     background:var(--sage-tint);color:var(--notice-ink);font-size:11.5px;font-weight:600;
     text-align:center;padding:7px 14px;margin:14px auto 0;max-width:380px;
@@ -228,6 +242,7 @@
     <div style="max-width:420px;width:100%;margin:0 auto;padding:26px 22px 30px;text-align:center;flex:1;box-sizing:border-box;">
       <b style="font-size:20px;">Praxiscode eingeben</b>
       <p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin:8px 0 18px;">Diese App ist exklusiv für die Praxis Humaneo. Den Praxiscode erhältst du von deiner Therapeutin oder deinem Therapeuten. Du gibst ihn nur einmal ein.</p>
+      <div id="gateInstall" style="display:none;text-align:left;background:#fff;border:1.5px solid var(--lime);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin:0 0 16px;"><b>Wichtig, bitte zuerst:</b> Lege die App auf den Startbildschirm (Chrome-Menü: App installieren oder Zum Startbildschirm hinzufügen) und öffne sie von dort. Gib Code und Namen erst dort ein. Sonst gehen deine Eingaben verloren, weil Browser und Startbildschirm-Symbol getrennt speichern.</div>
       <input id="gateInput" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="Praxiscode" style="width:100%;padding:15px 14px;border:1px solid var(--line);border-radius:var(--radius-s);font-family:inherit;font-size:20px;letter-spacing:.3em;text-align:center;background:var(--white);color:var(--ink);" onkeydown="if(event.key==='Enter') submitGate()">
       <div id="gateError" style="min-height:20px;font-size:12.5px;color:var(--danger);margin:8px 0 6px;"></div>
       <button type="button" class="btn btn-primary btn-block" onclick="submitGate()">Freischalten</button>
@@ -735,16 +750,82 @@
       <b style="font-size:17px;">Mein Bewegungsplan</b>
       <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closeAllExercisesOverlay()">Schließen</button>
     </div>
-    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 2px 6px;">Weiteres eintragen</div>
-    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openGoalOverlay()">Monatsziel &amp; Belohnung</button>
-    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openRegSportOverlayWrap()">Regelmäßigen Sport eintragen</button>
-    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openActivityOverlay()">Cardio-Training planen &amp; eintragen</button>
-    <button class="btn btn-ghost btn-block" style="margin-bottom:16px;" onclick="openWarmupOverlay()">Warm-up planen &amp; eintragen</button>
-    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 2px 6px;">Meine Übungen</div>
-    <p style="font-size:11px;color:var(--ink-soft);margin:4px 0 14px;">Die Wochentage sind das Minimum – öfter machen ist immer erlaubt.</p>
-    <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="printMyPlan()">Übungsliste und 4-Wochen-Übersicht drucken</button>
+    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 2px 6px;">Meine Trainingseinheiten</div>
+    <div id="sessionList" style="margin-bottom:6px;"></div>
+    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 6px;">Meine Übungen</div>
+    <p style="font-size:11px;color:var(--ink-soft);margin:4px 0 14px;">Die Wochentage sind das Minimum – öfter machen ist immer erlaubt. Die Reihenfolge änderst du im Kalender unter „Dein Training“ mit den Pfeilen.</p>
     <div id="homeRecorded" style="margin-top:4px;"></div>
     <div id="homeLibrary" style="margin-top:8px;"></div>
+    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 6px;">Drucken und weitergeben</div>
+    <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openPrintStart()">Mein Plan drucken (4 Wochen und Trainingsblätter)</button>
+    <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openPlanShare(null)">Gesamten Plan per QR-Code weitergeben</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:12px;" onclick="openPlanRecv()">Plan empfangen (QR-Code scannen)</button>
+    <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 6px;">Weiteres eintragen</div>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openGoalOverlay()">Monatsziel &amp; Belohnung</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openMonthOverview()">Monatsübersicht</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openRegSportOverlayWrap()">Regelmäßigen Sport eintragen</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openActivityOverlay()">Cardio-Training planen &amp; eintragen</button>
+    <button class="btn btn-ghost btn-block" style="margin-bottom:8px;" onclick="openWarmupOverlay()">Warm-up planen &amp; eintragen</button>
+  </div>
+</div>
+
+<div id="planShareOverlay" style="display:none;position:fixed;inset:0;background:var(--cream-2);z-index:61;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:16px 20px 30px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;">
+      <b style="font-size:17px;">Plan weitergeben</b>
+      <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closePlanShare()">Schließen</button>
+    </div>
+    <div id="planShareBody"></div>
+  </div>
+</div>
+
+<div id="planRecvOverlay" style="display:none;position:fixed;inset:0;background:var(--cream-2);z-index:80;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:16px 20px 30px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;">
+      <b style="font-size:17px;">Plan empfangen</b>
+      <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closePlanRecv()">Schließen</button>
+    </div>
+    <div id="planRecvBrowserNote" style="display:none;background:#fff;border:1.5px solid var(--lime);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;"><b>Erst auf den Startbildschirm legen.</b> Du bist gerade im Browser. Lege die App zuerst auf den Startbildschirm (Chrome-Menü: App installieren oder Zum Startbildschirm hinzufügen), öffne sie von dort und lies den Plan dann in der App ein. Sonst ist der Plan nur im Browser gespeichert und fehlt später in der App.</div>
+    <p style="font-size:13.5px;line-height:1.6;margin:0 0 14px;">Scanne den QR-Code, den deine Therapeutin oder dein Therapeut dir zeigt. Alternativ kannst du den Link oder Code einfügen.</p>
+    <button type="button" id="planRecvScanBtn" class="btn btn-primary btn-block" style="margin-bottom:12px;" onclick="planStartScan()">QR-Code scannen</button>
+    <video id="planRecvVideo" playsinline muted style="display:none;width:100%;border-radius:16px;margin-bottom:12px;background:#000;"></video>
+    <label style="font-size:12px;color:var(--ink-soft);">Link oder Code einfügen</label>
+    <textarea id="planRecvInput" rows="3" style="width:100%;box-sizing:border-box;margin:4px 0 12px;padding:10px 11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:13px;background:var(--white);color:var(--ink);"></textarea>
+    <button type="button" class="btn btn-ghost btn-block" onclick="planPaste()">Prüfen</button>
+    <div id="planRecvMsg" role="status" style="font-size:13px;line-height:1.5;color:var(--ink-soft);margin:12px 0 0;min-height:18px;"></div>
+    <div id="planRecvPreview"></div>
+  </div>
+</div>
+
+<div id="sessSaveModal" style="display:none;position:fixed;inset:0;background:rgba(43,42,38,.45);z-index:90;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this) closeSessSave()">
+  <div style="background:var(--white);border-radius:22px;max-width:380px;width:100%;padding:22px;box-sizing:border-box;">
+    <b style="font-size:17px;display:block;margin-bottom:6px;">Als Trainingseinheit speichern</b>
+    <p id="sessSaveInfo" style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin:0 0 14px;"></p>
+    <label style="font-size:12px;color:var(--ink-soft);">Name der Einheit</label>
+    <input id="sessSaveName" type="text" maxlength="40" placeholder="z. B. Beine 1" style="width:100%;box-sizing:border-box;margin:4px 0 16px;padding:11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:var(--white);color:var(--ink);" onkeydown="if(event.key==='Enter') confirmSessSave()">
+    <div style="display:flex;gap:12px;"><button type="button" class="btn btn-ghost" style="flex:1;" onclick="closeSessSave()">Abbrechen</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="confirmSessSave()">Speichern</button></div>
+  </div>
+</div>
+
+<div id="sessEditOverlay" style="display:none;position:fixed;inset:0;background:var(--cream-2);z-index:75;overflow-y:auto;">
+  <div style="max-width:480px;margin:0 auto;padding:16px 20px 30px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;">
+      <b style="font-size:17px;">Trainingseinheit bearbeiten</b>
+      <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px;min-height:auto;" onclick="closeSessEdit()">Schließen</button>
+    </div>
+    <div id="sessEditBody"></div>
+  </div>
+</div>
+
+<div id="printStartOverlay" style="display:none;position:fixed;inset:0;background:rgba(43,42,38,.45);z-index:90;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this) closePrintStart()">
+  <div style="background:var(--white);border-radius:22px;max-width:380px;width:100%;padding:22px;box-sizing:border-box;">
+    <b style="font-size:17px;display:block;margin-bottom:6px;">Plan drucken</b>
+    <p style="font-size:13px;line-height:1.55;color:var(--ink-soft);margin:0 0 14px;">Gedruckt werden eine Übersicht mit Cardio, Warm-up, Sport und Training sowie je ein Blatt pro Training mit allen Übungen.</p>
+    <label style="font-size:12px;color:var(--ink-soft);">Der Plan beginnt am</label>
+    <input id="printStartDate" type="date" style="width:100%;box-sizing:border-box;margin:4px 0 12px;padding:11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:var(--white);color:var(--ink);">
+    <label style="font-size:12px;color:var(--ink-soft);">Dauer</label>
+    <select id="printStartLen" style="width:100%;box-sizing:border-box;margin:4px 0 16px;padding:11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:var(--white);color:var(--ink);"><option value="weeks">4 Wochen (28 Tage)</option><option value="month">1 Monat (bis zum gleichen Datum)</option></select>
+    <div style="display:flex;gap:12px;"><button type="button" class="btn btn-ghost" style="flex:1;" onclick="closePrintStart()">Abbrechen</button><button type="button" class="btn btn-primary" style="flex:1;" onclick="printMyPlan()">Drucken</button></div>
   </div>
 </div>
 
@@ -906,7 +987,7 @@
 
     <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:14px;">
       <button type="button" class="btn btn-secondary btn-block" onclick="toggleInfoModal();openLegal()">Impressum, Datenschutz &amp; Rechte</button>
-      <p style="font-size:11.5px;color:var(--ink-soft);margin:12px 0 0;text-align:center;">© 2026 Alexandra Amersbach · Alle Rechte vorbehalten<br>Konzept, Design &amp; Creative Direction</p>
+      <p style="font-size:12px;line-height:1.55;color:var(--ink-soft);margin:14px 0 0;border-top:1px solid var(--line);padding-top:12px;"><b>Tipp zum Start:</b> Lege die App zuerst auf den Startbildschirm und gib Namen und Praxiscode erst dort ein. Das Symbol nicht löschen, sonst sind die Daten weg.</p><p style="font-size:11.5px;color:var(--ink-soft);margin:12px 0 0;text-align:center;">© 2026 Alexandra Amersbach · Alle Rechte vorbehalten<br>Konzept, Design &amp; Creative Direction<br>App-Version: 28.10.2026 c · Trainingseinheiten, Reihenfolge, neues Menü</p>
     </div>
   </div>
 </div>
@@ -1987,11 +2068,9 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
   /* ---------- Menü ---------- */
   const MENU_ITEMS = [
     {group:'Training'},
-    {label:'Trainingsprogramme (4 Wochen)', action:'openProgramOverlay'},
-    {label:'Gesundheits-Check', action:'openHealthCheck'},
     {label:'Mein Bewegungsplan', action:'openAllExercisesOverlay'},
-    {label:'Monatsziel & Belohnung', action:'openGoalOverlay'},
-    {label:'Monatsübersicht', action:'openMonthOverview'},
+    {label:'Gesundheits-Check', action:'openHealthCheck'},
+    {label:'Trainingsprogramme (4 Wochen)', action:'openProgramOverlay'},
     {group:'Praxis'},
     {label:'Feedback zur App', action:'openFeedback'},
     {label:'Bewerten Sie uns auf Google', action:'openGoogleReview'},
@@ -3214,7 +3293,134 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     printDoc(html,'landscape');
   }
   const MP_DN = {MO:'Montag',DI:'Dienstag',MI:'Mittwoch',DO:'Donnerstag',FR:'Freitag',SA:'Samstag',SO:'Sonntag'};
-  async function printMyPlan(){
+  /* ---------- Reihenfolge und Trainingseinheiten ---------- */
+  let natKeys = [], exInfo = {};
+  function loadOrder(){ try{ const o = JSON.parse(localStorage.getItem('humaneo_order')||'[]'); return Array.isArray(o)?o:[]; }catch(e){ return []; } }
+  function saveOrder(o){ try{ localStorage.setItem('humaneo_order', JSON.stringify(o)); }catch(e){} }
+  function sortByOrder(arr, keyFn){
+    const idx = {}; loadOrder().forEach((k,i)=>{ idx[k]=i; });
+    return arr.map((x,n)=>[x,n]).sort((a,b)=>{
+      const ia = idx[keyFn(a[0])], ib = idx[keyFn(b[0])];
+      const pa = ia===undefined ? 1e6 : ia, pb = ib===undefined ? 1e6 : ib;
+      return pa!==pb ? pa-pb : a[1]-b[1];
+    }).map(x=>x[0]);
+  }
+  function normOrder(){ const o = loadOrder().filter(k=>natKeys.includes(k)); natKeys.forEach(k=>{ if(!o.includes(k)) o.push(k); }); return o; }
+  function swapOrder(a,b){ const o = normOrder(); const i=o.indexOf(a), j=o.indexOf(b); if(i<0||j<0) return; o[i]=b; o[j]=a; saveOrder(o); }
+  function moveEx(key, dir){
+    const keys = currentWorkoutItems.map(i=>i.key); const i = keys.indexOf(key), j = i+dir;
+    if(i<0 || j<0 || j>=keys.length) return;
+    swapOrder(key, keys[j]); renderHome();
+  }
+  function mvHtml(key, i, n){
+    if(n<2) return '';
+    const b = (d, dis, path)=>'<button type="button" class="btn btn-ghost mvb" '+(dis?'disabled ':'')+'aria-label="'+(d<0?'Nach oben':'Nach unten')+'" onclick="moveEx(\''+key+'\','+d+')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+path+'"/></svg></button>';
+    return '<div style="display:flex;gap:4px;">'+b(-1, i===0, 'M3 9l4-4 4 4')+b(1, i===n-1, 'M3 5l4 4 4-4')+'</div>';
+  }
+  function loadSessions(){ try{ const s = JSON.parse(localStorage.getItem('humaneo_sessions')||'[]'); return Array.isArray(s)?s:[]; }catch(e){ return []; } }
+  function saveSessions(l){ try{ localStorage.setItem('humaneo_sessions', JSON.stringify(l)); }catch(e){} }
+  async function setKeysDays(keys, days){
+    const la = loadLibraryAdded(); let ch = false;
+    keys.forEach(k=>{ if(k.indexOf('lib-')===0){ const e = la.find(x=>String(x.id)===k.slice(4)); if(e){ e.days = days.slice(); ch = true; } } });
+    if(ch) saveLibraryAdded(la);
+    const ids = keys.filter(k=>k.indexOf('clip-')===0).map(k=>parseInt(k.slice(5),10));
+    if(ids.length){
+      try{ const db = await openDB();
+        await new Promise(res=>{ const tx = db.transaction('clips','readwrite'); const st = tx.objectStore('clips');
+          ids.forEach(id=>{ const r = st.get(id); r.onsuccess = ()=>{ const rec = r.result; if(rec){ rec.days = days.slice(); st.put(rec); } }; });
+          tx.oncomplete = res; tx.onerror = res; });
+      }catch(e){}
+    }
+  }
+  function sessSaveBtnHtml(keys){
+    if(!keys.length) return '';
+    const ss = loadSessions();
+    if(ss.some(s=>s.keys.length===keys.length && keys.every(k=>s.keys.includes(k)))) return '';
+    return '<button class="btn btn-ghost btn-block" style="margin-top:12px;" onclick="openSessSave()">Als Trainingseinheit speichern</button>';
+  }
+  function openSessSave(){
+    const code = weekdayCodeOf(new Date(selectedDate+'T00:00:00'));
+    document.getElementById('sessSaveInfo').textContent = 'Die '+currentWorkoutItems.length+' Übungen dieses Tages werden zu einer Einheit zusammengefasst, in der gezeigten Reihenfolge. Sie läuft danach jeden '+MP_DN[code]+'. Die Tage kannst du später ändern.';
+    document.getElementById('sessSaveName').value = '';
+    document.getElementById('sessSaveModal').style.display = 'flex';
+    setTimeout(()=>{ try{ document.getElementById('sessSaveName').focus(); }catch(e){} }, 120);
+  }
+  function closeSessSave(){ document.getElementById('sessSaveModal').style.display = 'none'; }
+  async function confirmSessSave(){
+    const inp = document.getElementById('sessSaveName'); const name = inp.value.trim();
+    if(!name){ inp.focus(); return; }
+    const keys = currentWorkoutItems.map(i=>i.key); const code = weekdayCodeOf(new Date(selectedDate+'T00:00:00'));
+    let ss = loadSessions().map(s=>Object.assign({}, s, {keys:s.keys.filter(k=>!keys.includes(k))})).filter(s=>s.keys.length);
+    ss.push({id:'se'+Date.now(), name, keys:keys.slice(), days:[code]}); saveSessions(ss);
+    const o = normOrder(); const first = o.findIndex(k=>keys.includes(k)); const rest = o.filter(k=>!keys.includes(k));
+    rest.splice(first<0?rest.length:first, 0, ...keys); saveOrder(rest);
+    await setKeysDays(keys, [code]);
+    closeSessSave(); await renderHome();
+    showToast('„'+name+'“ ist gespeichert. Du findest die Einheit unter Mein Bewegungsplan.');
+  }
+  function renderSessionList(){
+    const el = document.getElementById('sessionList'); if(!el) return;
+    let ss = loadSessions(); const valid = new Set(natKeys);
+    const cleaned = ss.map(s=>Object.assign({}, s, {keys:s.keys.filter(k=>valid.has(k))})).filter(s=>s.keys.length);
+    if(JSON.stringify(cleaned)!==JSON.stringify(ss)){ saveSessions(cleaned); ss = cleaned; }
+    el.innerHTML = ss.length ? ss.map(s=>'<div class="mybox" style="align-items:center;"><div style="flex:1;"><b style="font-size:14px;">'+escapeHtml(s.name)+'</b><br><span class="daybadges">'+dayBadgeText(s.days)+'</span> <small style="color:var(--ink-soft);">· '+s.keys.length+' Übungen</small></div>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:190px;"><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="openSessEdit(\''+s.id+'\')">Bearbeiten</button><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="openPlanShare(\''+s.id+'\')">QR-Code</button><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="printSession(\''+s.id+'\')">Drucken</button></div></div>').join('')
+      : '<p style="font-size:12px;color:var(--ink-soft);margin:0 0 10px;line-height:1.5;">Noch keine Einheit. Lege im Kalender die Übungen eines Tages zusammen, bringe sie in die richtige Reihenfolge und tippe auf „Als Trainingseinheit speichern“.</p>';
+  }
+  let sessEditId = null;
+  function openSessEdit(id){ sessEditId = id; renderSessEdit(); document.getElementById('sessEditOverlay').style.display = 'block'; }
+  function closeSessEdit(){ document.getElementById('sessEditOverlay').style.display = 'none'; sessEditId = null; }
+  function renderSessEdit(){
+    const s = loadSessions().find(x=>x.id===sessEditId); if(!s){ closeSessEdit(); return; }
+    const nmEl = document.getElementById('sessName');
+    const name = nmEl ? nmEl.value : s.name;
+    const days = nmEl ? getSelectedDays('sess') : s.days;
+    const ord = normOrder().filter(k=>s.keys.includes(k));
+    const rows = ord.map((k,i)=>{ const inf = exInfo[k]||{title:'Übung',dose:''};
+      return '<div class="mybox" style="align-items:center;padding:8px 10px;"><div style="flex:1;font-size:13.5px;"><b>'+(i+1)+'. '+escapeHtml(inf.title)+'</b>'+(inf.dose?'<br><small style="color:var(--ink-soft);">'+escapeHtml(inf.dose)+'</small>':'')+'</div>'+
+        '<div style="display:flex;gap:4px;align-items:center;">'+
+        '<button type="button" class="btn btn-ghost mvb" '+(i===0?'disabled ':'')+'aria-label="Nach oben" onclick="sessMove(\''+k+'\',-1)"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l4-4 4 4"/></svg></button>'+
+        '<button type="button" class="btn btn-ghost mvb" '+(i===ord.length-1?'disabled ':'')+'aria-label="Nach unten" onclick="sessMove(\''+k+'\',1)"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l4 4 4-4"/></svg></button>'+
+        '<button type="button" class="btn btn-ghost" style="padding:5px 9px;font-size:11px;min-height:30px;" onclick="sessDrop(\''+k+'\')">Raus</button></div></div>'; }).join('');
+    document.getElementById('sessEditBody').innerHTML =
+      '<label style="font-size:12px;color:var(--ink-soft);">Name der Einheit</label>'+
+      '<input id="sessName" type="text" maxlength="40" value="'+escapeHtml(name)+'" style="width:100%;box-sizing:border-box;margin:4px 0 14px;padding:11px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;background:var(--white);color:var(--ink);">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><div style="font-size:12px;color:var(--ink-soft);">An welchen Tagen?</div><button type="button" class="btn btn-ghost" style="padding:3px 8px;font-size:10.5px;min-height:auto;" onclick="setAllDays(\'sess\')">Jeden Tag</button></div>'+
+      '<div class="daychips">'+dayChipsHtml('sess', days)+'</div>'+
+      '<div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:18px 2px 8px;">Übungen in dieser Reihenfolge</div>'+rows+
+      '<button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="sessSave()">Speichern</button>'+
+      '<div style="display:flex;gap:12px;margin-top:12px;"><button class="btn btn-ghost" style="flex:1;" onclick="openPlanShare(sessEditId)">QR-Code</button><button class="btn btn-ghost" style="flex:1;" onclick="printSession(sessEditId)">Drucken</button></div>'+
+      '<button class="btn btn-ghost btn-block" style="margin-top:12px;" onclick="sessDissolve()">Einheit auflösen (Übungen bleiben erhalten)</button>';
+  }
+  function sessMove(key, dir){
+    const s = loadSessions().find(x=>x.id===sessEditId); if(!s) return;
+    const ord = normOrder().filter(k=>s.keys.includes(k)); const i = ord.indexOf(key), j = i+dir;
+    if(i<0||j<0||j>=ord.length) return;
+    swapOrder(key, ord[j]); renderSessEdit(); renderHome();
+  }
+  function sessDrop(key){
+    const ss = loadSessions(); const s = ss.find(x=>x.id===sessEditId); if(!s) return;
+    s.keys = s.keys.filter(k=>k!==key);
+    saveSessions(ss.filter(x=>x.keys.length)); renderSessEdit(); renderHome();
+  }
+  async function sessSave(){
+    const ss = loadSessions(); const s = ss.find(x=>x.id===sessEditId); if(!s) return;
+    const nm = document.getElementById('sessName').value.trim(); if(!nm){ document.getElementById('sessName').focus(); return; }
+    let days = getSelectedDays('sess'); if(!days.length) days = WEEKDAYS.slice();
+    s.name = nm; s.days = days; saveSessions(ss);
+    await setKeysDays(s.keys, days);
+    closeSessEdit(); renderHome(); showToast('Die Einheit „'+nm+'“ ist gespeichert.');
+  }
+  function sessDissolve(){
+    if(!confirm('Die Einheit auflösen? Die Übungen bleiben mit ihren Tagen erhalten.')) return;
+    saveSessions(loadSessions().filter(x=>x.id!==sessEditId)); closeSessEdit(); renderHome();
+  }
+  function openPrintStart(){
+    const d = document.getElementById('printStartDate'); if(d) d.value = todayStr();
+    document.getElementById('printStartOverlay').style.display = 'flex';
+  }
+  function closePrintStart(){ document.getElementById('printStartOverlay').style.display = 'none'; }
+  async function collectPrintItems(){
     const clips = (await getClips()).slice().sort((a,b)=>a.id-b.id), libAdded = loadLibraryAdded(), libFull = fullLibrary();
     const items = [];
     clips.forEach(c=>{
@@ -3229,36 +3435,74 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
       const w = [a.weight?('mit '+a.weight+' kg'):'', a.band?'mit Widerstandsband':''].filter(Boolean).join(', ');
       items.push({key:'lib-'+a.id, title:it.title, img:it.image||'', dose, extra:w, comment:a.comment||'', days:a.days});
     });
-    if(!items.length){ alert('Du hast noch keine eigenen Übungen eingetragen. Füge Übungen aus der Bibliothek hinzu oder nimm eine auf.'); return; }
+    return sortByOrder(items, x=>x.key);
+  }
+  function sheetPageHtml(title, sub, list){
+    const rows = list.map((it,i)=>'<tr><td class="c" style="width:8mm;font-weight:700;color:#4F7D12;">'+(i+1)+'</td><td style="width:15mm;">'+(it.img?'<img class="pz-img" src="'+it.img+'">':'<div class="pz-ph"></div>')+'</td>'+
+      '<td class="n">'+escapeHtml(it.title)+(it.extra||it.comment?'<small>'+escapeHtml(it.extra)+(it.extra&&it.comment?' · ':'')+(it.comment?'<i>'+escapeHtml(it.comment)+'</i>':'')+'</small>':'')+'</td>'+
+      '<td class="c" style="width:26mm;">'+escapeHtml(it.dose||'')+'</td><td class="c" style="width:34mm;"><span class="pz-box"></span> <span class="pz-box"></span> <span class="pz-box"></span> <span class="pz-box"></span></td></tr>').join('');
+    return '<div class="pz-page">'+pzTop(null,null,title,sub)+
+      '<div class="pz-blk"><h2>Übungen in dieser Reihenfolge</h2><div class="sub">Die Wochentage sind das Minimum, öfter machen ist immer erlaubt. Die vier Kästchen sind für die vier Wochen.</div><table class="pz-t"><thead><tr><th class="c">Nr.</th><th></th><th>Übung</th><th class="c">Umfang</th><th class="c">Erledigt</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+pzFoot()+'</div>';
+  }
+  async function printSession(id){
+    const s = loadSessions().find(x=>x.id===id); if(!s) return;
+    const items = (await collectPrintItems()).filter(it=>s.keys.includes(it.key));
+    if(!items.length) return;
+    const dayTxt = s.days.length>=7 ? 'täglich' : WEEKDAYS.filter(c=>s.days.includes(c)).map(c=>MP_DN[c]).join(', ');
+    let nm = ''; try{ nm = localStorage.getItem('humaneo_name')||''; }catch(e){}
+    printDoc(PZ_CSS+'<div class="pz">'+sheetPageHtml(s.name, dayTxt+(nm?' · '+nm:''), items)+'</div>','portrait');
+  }
+  async function printMyPlan(startIso, mode){
+    if(typeof startIso!=='string'){ startIso = (document.getElementById('printStartDate')||{}).value || todayStr(); mode = (document.getElementById('printStartLen')||{}).value || 'weeks'; }
+    closePrintStart();
+    const items = await collectPrintItems();
+    const plans = loadPlans(), rsp = loadRegSports(), sess = loadSessions();
+    if(!items.length && !plans.length && !rsp.length){ alert('Es ist noch nichts geplant. Füge Übungen aus der Bibliothek hinzu oder trage Cardio, Warm-up oder regelmäßigen Sport ein.'); return; }
     const dp = loadDayPlan();
-    const today = new Date(); today.setHours(0,0,0,0);
-    const start = new Date(today); start.setDate(start.getDate()-((start.getDay()+6)%7));
-    const end = new Date(start); end.setDate(end.getDate()+27);
+    const start = new Date(startIso+'T00:00:00');
+    const end = new Date(start);
+    if(mode==='month'){ end.setMonth(end.getMonth()+1); end.setDate(end.getDate()-1); } else { end.setDate(end.getDate()+27); }
+    const gridStart = new Date(start); gridStart.setDate(gridStart.getDate()-((gridStart.getDay()+6)%7));
+    const nWeeks = Math.ceil(((end-gridStart)/86400000+1)/7);
     let nm = ''; try{ nm = localStorage.getItem('humaneo_name')||''; }catch(e){}
     const sub = (nm?nm+' · ':'')+start.toLocaleDateString('de-DE',{day:'numeric',month:'long'})+' bis '+end.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
-    const dayTxt = d=> (!d || !d.length || d.length===7) ? 'Täglich' : d.map(c=>MP_DN[c].slice(0,2)).join(' · ');
-    const rows = items.map((it,i)=>'<tr><td class="c" style="width:8mm;font-weight:700;color:#4F7D12;">'+(i+1)+'</td><td style="width:15mm;">'+(it.img?'<img class="pz-img" src="'+it.img+'">':'<div class="pz-ph"></div>')+'</td>'+
-      '<td class="n">'+escapeHtml(it.title)+(it.extra||it.comment?'<small>'+escapeHtml(it.extra)+(it.extra&&it.comment?' · ':'')+(it.comment?'<i>'+escapeHtml(it.comment)+'</i>':'')+'</small>':'')+'</td>'+
-      '<td class="c" style="width:26mm;">'+escapeHtml(it.dose||'')+'</td><td style="width:32mm;font-size:7.6pt;color:#4F7D12;font-weight:700;">'+dayTxt(it.days)+'</td></tr>').join('');
+    const dueItems = (iso,code)=> items.filter(it=>dueFor(iso,it.key,it.days,code,dp));
+    const groups = []; const bySig = {}; let letterN = 0;
+    for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+      const iso = isoDate(d), code = weekdayCodeOf(d), due = dueItems(iso,code); if(!due.length) continue;
+      const sig = due.map(x=>x.key).sort().join('|');
+      if(!bySig[sig]){
+        const named = sess.find(s=>s.keys.length===due.length && due.every(x=>s.keys.includes(x.key)));
+        bySig[sig] = {label: named ? named.name : 'Training '+String.fromCharCode(65+(letterN++)), items:due, codes:[]}; groups.push(bySig[sig]);
+      }
+      if(!bySig[sig].codes.includes(code)) bySig[sig].codes.push(code);
+    }
+    const dayWords = codes=>{ const o=WEEKDAYS.filter(c=>codes.includes(c)).map(c=>MP_DN[c]); return o.length>3 ? 'an mehreren Tagen' : (o.length>1 ? o.slice(0,-1).join(', ')+' und '+o[o.length-1] : o[0]); };
     let head = '<th style="width:17mm;"></th>';
-    for(let k=0;k<7;k++){ const d = new Date(start); d.setDate(d.getDate()+k); head += '<th style="width:23.5mm;">'+MP_DN[weekdayCodeOf(d)].slice(0,2)+'</th>'; }
+    for(let k=0;k<7;k++){ const d = new Date(gridStart); d.setDate(d.getDate()+k); head += '<th style="width:23.5mm;">'+MP_DN[weekdayCodeOf(d)].slice(0,2)+'</th>'; }
+    const warmTitle = id=>{ const w = WARMUPS.find(x=>x.id===id); return w?w.title:'Warm-up'; };
     let grid = '';
-    for(let w=0; w<4; w++){
-      const ws = new Date(start); ws.setDate(ws.getDate()+w*7); const we = new Date(ws); we.setDate(we.getDate()+6);
+    for(let w=0; w<nWeeks; w++){
+      const ws = new Date(gridStart); ws.setDate(ws.getDate()+w*7); const we = new Date(ws); we.setDate(we.getDate()+6);
       grid += '<tr><td class="pz-wk"><b style="font-size:9pt;">Woche '+(w+1)+'</b><span>'+fmtShort(ws)+'<br>bis '+fmtShort(we)+'</span></td>';
       for(let k=0;k<7;k++){
-        const d = new Date(ws); d.setDate(d.getDate()+k); const iso = isoDate(d), code = weekdayCodeOf(d);
-        const due = items.map((it,i)=>[it,i]).filter(x=>dueFor(iso,x[0].key,x[0].days,code,dp));
-        grid += '<td class="pz-cell'+(due.length?'':' rest')+'" style="height:31mm;"><div class="pz-d"><span>'+fmtShort(d)+'</span></div>'+
-          (due.length ? due.map(x=>'<div style="display:flex;align-items:center;gap:1mm;font-size:6.6pt;line-height:1.25;margin-top:.9mm;white-space:nowrap;overflow:hidden;"><span class="pz-box"></span><b>'+(x[1]+1)+'</b><span style="overflow:hidden;text-overflow:ellipsis;">'+escapeHtml(x[0].title)+'</span></div>').join('') : '<div class="pz-restt">Erholung</div>')+'</td>';
+        const d = new Date(ws); d.setDate(d.getDate()+k);
+        if(d<start || d>end){ grid += '<td class="pz-cell rest" style="height:31mm;opacity:.45;"></td>'; continue; }
+        const iso = isoDate(d), code = weekdayCodeOf(d), lines = [];
+        rsp.forEach(x=>{ if(dueFor(iso,x.id,[x.day],code,dp)) lines.push({t:x.name||'Sport', b:false}); });
+        plans.forEach(pl=>{ if(!dueFor(iso,'plan-'+pl.id,pl.days,code,dp)) return; if(pl.kind==='cardio'){ const t = ACTIVITY_TYPES.find(x=>x.id===pl.type); lines.push({t:(t?t.label:'Cardio')+(pl.minutes?' '+pl.minutes+' Min.':''), b:false}); } else lines.push({t:'Warm-up: '+warmTitle(pl.session), b:false}); });
+        const due = dueItems(iso,code);
+        if(due.length){ const sig = due.map(x=>x.key).sort().join('|'); lines.push({t:bySig[sig].label+' · '+due.length+' Übungen', b:true}); }
+        grid += '<td class="pz-cell'+(lines.length?'':' rest')+'" style="height:31mm;"><div class="pz-d"><span>'+fmtShort(d)+'</span></div>'+
+          (lines.length ? lines.map(x=>'<div style="display:flex;align-items:flex-start;gap:1mm;font-size:6.6pt;line-height:1.25;margin-top:.9mm;"><span class="pz-box" style="margin-top:.2mm;"></span><span style="'+(x.b?'font-weight:700;':'')+'overflow:hidden;">'+escapeHtml(x.t)+'</span></div>').join('') : '<div class="pz-restt">Erholung</div>')+'</td>';
       }
       grid += '</tr>';
     }
-    const html = PZ_CSS+'<div class="pz"><div class="pz-page">'+pzTop(null,null,'Mein Trainingsplan',sub)+
-      '<div class="pz-blk"><h2>Meine Übungen</h2><div class="sub">Die Wochentage sind das Minimum, öfter machen ist immer erlaubt.</div><table class="pz-t"><thead><tr><th class="c">Nr.</th><th></th><th>Übung</th><th class="c">Umfang</th><th>Tage</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+pzFoot()+'</div>'+
-      '<div class="pz-page"><div class="pz-top"><div class="pz-brand">HUMA<b>NEO</b><small>PHYSIOTHERAPIE &amp; TRAINING</small></div><div class="pz-title"><h1>Meine 4 Wochen</h1><div>'+escapeHtml(sub)+'</div></div></div>'+
-      '<table class="pz-grid" style="border-spacing:1.2mm;"><thead><tr>'+head+'</tr></thead><tbody>'+grid+'</tbody></table>'+
-      '<div style="font-size:7pt;color:#646B5F;margin-top:2mm;">Die Nummern entsprechen der Übungsliste. Kästchen abhaken, sobald die Übung erledigt ist.</div>'+pzFoot()+'</div></div>';
+    const legend = groups.length ? '<div style="font-size:7pt;color:#646B5F;margin-top:2mm;">'+groups.map(g=>'<b>'+escapeHtml(g.label)+'</b> ('+dayWords(g.codes)+', '+g.items.length+' Übungen)').join(' · ')+'. Die Übungen stehen auf den Folgeseiten. Kästchen abhaken, sobald es erledigt ist.</div>' : '<div style="font-size:7pt;color:#646B5F;margin-top:2mm;">Kästchen abhaken, sobald es erledigt ist.</div>';
+    let html = PZ_CSS+'<div class="pz"><div class="pz-page"><div class="pz-top"><div class="pz-brand">HUMA<b>NEO</b><small>PHYSIOTHERAPIE &amp; TRAINING</small></div><div class="pz-title"><h1>Mein Plan</h1><div>'+escapeHtml(sub)+'</div></div></div>'+
+      '<table class="pz-grid" style="border-spacing:1.2mm;"><thead><tr>'+head+'</tr></thead><tbody>'+grid+'</tbody></table>'+legend+pzFoot()+'</div>';
+    groups.forEach(g=>{ html += sheetPageHtml(g.label, dayWords(g.codes)+(nm?' · '+nm:''), g.items); });
+    html += '</div>';
     printDoc(html,'portrait');
   }
   function pzDose(run, kind, d, w){
@@ -3684,14 +3928,20 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
   function workoutScoliosisSmall(){
     const img = getScoliosisImg();
     if(!img) return '';
-    return '<div onclick="openScoliosisViewer()" style="cursor:pointer;display:inline-block;text-align:center;"><img src="'+img+'" alt="Korrekturhaltung" style="height:66px;max-width:40vw;border-radius:10px;border:2px solid var(--line);display:block;background:#fff;"><div style="font-size:10px;color:var(--ink-soft);margin-top:2px;">Korrekturhaltung</div></div>';
+    return '<div style="position:relative;display:inline-block;text-align:center;"><div onclick="openScoliosisViewer()" style="cursor:pointer;"><img class="wkscol" src="'+img+'" alt="Korrekturhaltung" style="height:56px;width:auto;max-width:30vw;object-fit:cover;border-radius:10px;border:2px solid var(--line);display:block;background:#fff;"><div style="font-size:10px;color:var(--ink-soft);margin-top:2px;">Korrekturhaltung</div></div><button type="button" class="scolx" aria-label="Korrekturhaltung ausblenden" onclick="event.stopPropagation();hideWkScol()">×</button></div>';
   }
   function workoutScoliosisOverlay(){
     const img = getScoliosisImg();
     if(!img) return '';
-    return '<div onclick="openScoliosisViewer()" style="position:absolute;top:10px;right:10px;cursor:pointer;text-align:center;">'+
-      '<img src="'+img+'" alt="Korrekturhaltung" style="height:120px;max-width:44vw;border-radius:12px;border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.35);display:block;background:#fff;">'+
-      '<div style="font-size:10px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7);margin-top:2px;">Korrekturhaltung</div></div>';
+    return '<div style="position:absolute;top:6px;right:6px;text-align:center;z-index:3;"><div onclick="openScoliosisViewer()" style="cursor:pointer;">'+
+      '<img class="wkscol" src="'+img+'" alt="Korrekturhaltung" style="height:52px;width:auto;max-width:22vw;object-fit:cover;border-radius:10px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);display:block;background:#fff;opacity:.92;">'+
+      '<div style="font-size:9px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);margin-top:1px;">Korrekturhaltung</div></div>'+
+      '<button type="button" class="scolx" aria-label="Korrekturhaltung ausblenden" onclick="event.stopPropagation();hideWkScol()">×</button></div>';
+  }
+  function hideWkScol(){
+    wk.hideScol = true;
+    const a = document.getElementById('wkScolSmall'); if(a) a.innerHTML = '';
+    document.querySelectorAll('#wkMedia .wkscol').forEach(i=>{ const box = i.closest('div[style*="position:absolute"]'); if(box) box.remove(); });
   }
 
   /* ---------- Trainingsmodus ---------- */
@@ -3799,7 +4049,7 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
   }
   function beginWorkout(items){
     wk.items = items.slice();
-    wk.idx = 0;
+    wk.idx = 0; wk.hideScol = false;
     if(soundOn()) initAudio();
     applySoundBtn();
     keepAwakeOn();
@@ -3871,8 +4121,8 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     else if(it.mediaUrl) media = '<img src="'+it.mediaUrl+'" style="width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:16px;display:block;background:var(--taupe-tint);">';
     else media = '<div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:'+(it.icon?'72':'18')+'px;color:var(--ink-soft);background:var(--taupe-tint);border-radius:16px;">'+(it.icon||'Bild folgt')+'</div>';
     const film = isFilmSpace();
-    document.getElementById('wkMedia').innerHTML = '<div class="wkmediabox">'+media+(it.ki?'<span class="kibadge">KI</span>':'')+(film?'':workoutScoliosisOverlay())+'</div>';
-    document.getElementById('wkScolSmall').innerHTML = film ? workoutScoliosisSmall() : '';
+    document.getElementById('wkMedia').innerHTML = '<div class="wkmediabox">'+media+(it.ki?'<span class="kibadge">KI</span>':'')+(wk.hideScol?'':workoutScoliosisOverlay())+'</div>';
+    document.getElementById('wkScolSmall').innerHTML = '';
     const vv = document.getElementById('wkVideo');
     if(vv){
       vv.muted = (wk.vidMuted===true);
@@ -4103,6 +4353,7 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     ['screen-pin','screen-app','topbanner'].forEach(id=>{ const e = document.getElementById(id); if(e) e.style.display = 'none'; });
     document.getElementById('gateImg').src = HERO_IMGS.raum;
     document.getElementById('screen-gate').style.display = 'flex';
+    try{ document.getElementById('gateInstall').style.display = planIsStandalone() ? 'none' : 'block'; }catch(e){}
   }
   let gateFails = 0;
   function submitGate(){
@@ -4123,8 +4374,10 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     else err.textContent = 'Der Code stimmt nicht. Bitte frag in der Praxis nach.';
   }
   async function init(){
+    try{ await planBoot(); }catch(e){}
     if(!accessOk()){ showGate(); return; }
     initMain();
+    try{ planAfterBoot(); }catch(e){}
   }
   async function initMain(){
     const tb = document.getElementById('topbanner');
@@ -4335,9 +4588,11 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     const libAdded = loadLibraryAdded();
     const libFull = fullLibrary();
 
+    exInfo = {};
     const allRows = [];
     const dayRows = [];
-    const wkItems = [];
+    const dayRowsEx = [];
+    let wkItems = [];
 
     clips.slice().reverse().forEach(c=>{
       const due = dueFor(selectedDate, 'clip-'+c.id, c.days, code);
@@ -4361,13 +4616,13 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
         thumb+
         '<div style="flex:1;"><b style="font-size:13.5px;">'+escapeHtml(c.title)+'</b><br><span class="daybadges">'+dayBadgeText(c.days)+'</span>'+youtubeChip(c.youtube)+(meta?'<br><small style="color:var(--ink-soft);">'+meta+'</small>':'')+commentLine+
         '<br><button type="button" class="btn btn-ghost" style="padding:3px 8px;font-size:10.5px;min-height:auto;margin-top:5px;" onclick="toggleComment(\'clip\','+c.id+')">'+(c.comment?'Kommentar bearbeiten':'+ Kommentar')+'</button></div>'+
-        '<div style="display:flex;flex-direction:column;gap:4px;">'+
+        '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">@@MV@@'+
         '<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="saveClipToGallery('+c.id+')">Sichern</button>'+
         '<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="openRemoveModal(\'clip-'+c.id+'\')">Entfernen</button></div></div>'+
         '<div class="commentbox" id="comment-clip-'+c.id+'" style="display:none;"><textarea id="commentInput-clip-'+c.id+'" rows="2" placeholder="Kommentar für den Patienten...">'+escapeHtml(c.comment||'')+'</textarea>'+
         '<button class="btn btn-primary btn-block" style="margin-top:6px;" onclick="saveComment(\'clip\','+c.id+')">Speichern</button></div></div>';
-      allRows.push(html);
-      if(due){ dayRows.push(html); wkItems.push({key, title:c.title, mediaUrl:url||null, mediaUrls:(isPhoto&&eurls.length)?[url].concat(eurls):null, mediaType:url?(isPhoto?'photo':'video'):null, icon:'', meta:[dose,w,c.notes].filter(Boolean).join(' · '), comment:c.comment||'', sets:c.sets, reps:c.reps, repsUnit:c.repsUnit, trainMode:c.trainMode||'sets', timedMinutes:c.timedMinutes||2, restSeconds:c.restSeconds||30}); }
+      allRows.push({key,html:html.split('@@MV@@').join('')}); exInfo[key]={title:c.title,dose};
+      if(due){ dayRowsEx.push({key,html}); wkItems.push({key, title:c.title, mediaUrl:url||null, mediaUrls:(isPhoto&&eurls.length)?[url].concat(eurls):null, mediaType:url?(isPhoto?'photo':'video'):null, icon:'', meta:[dose,w,c.notes].filter(Boolean).join(' · '), comment:c.comment||'', sets:c.sets, reps:c.reps, repsUnit:c.repsUnit, trainMode:c.trainMode||'sets', timedMinutes:c.timedMinutes||2, restSeconds:c.restSeconds||30}); }
     });
 
     libAdded.forEach(a=>{
@@ -4386,13 +4641,21 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
         thumbHtml(item.icon, item.image)+
         '<div style="flex:1;"><b style="font-size:13.5px;">'+item.title+'</b><br><span class="daybadges">'+dayBadgeText(a.days)+'</span>'+youtubeChip(a.youtube)+(meta?'<br><small style="color:var(--ink-soft);">'+meta+'</small>':'')+commentLine+
         '<br><button type="button" class="btn btn-ghost" style="padding:3px 8px;font-size:10.5px;min-height:auto;margin-top:5px;" onclick="toggleComment(\'lib\',\''+a.id+'\')">'+(a.comment?'Kommentar bearbeiten':'+ Kommentar')+'</button></div>'+
-        '<div style="display:flex;flex-direction:column;gap:4px;"><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="openRemoveModal(\'lib-'+a.id+'\')">Entfernen</button></div></div>'+
+        '<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">@@MV@@<button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;min-height:auto;" onclick="openRemoveModal(\'lib-'+a.id+'\')">Entfernen</button></div></div>'+
         '<div class="commentbox" id="comment-lib-'+a.id+'" style="display:none;"><textarea id="commentInput-lib-'+a.id+'" rows="2" placeholder="Kommentar für den Patienten...">'+escapeHtml(a.comment||'')+'</textarea>'+
         '<button class="btn btn-primary btn-block" style="margin-top:6px;" onclick="saveComment(\'lib\',\''+a.id+'\')">Speichern</button></div></div>';
-      allRows.push(html);
-      if(due){ dayRows.push(html); wkItems.push({key, title:item.title, mediaUrl:item.image||null, mediaType:item.image?'photo':null, ki:!!item.image, icon:item.icon, meta:[dose,w].filter(Boolean).join(' · '), comment:a.comment||'', sets:a.sets, reps:a.reps, repsUnit:a.repsUnit, trainMode:a.trainMode||'sets', timedMinutes:a.timedMinutes||2, restSeconds:a.restSeconds||30}); }
+      allRows.push({key,html:html.split('@@MV@@').join('')}); exInfo[key]={title:item.title,dose};
+      if(due){ dayRowsEx.push({key,html}); wkItems.push({key, title:item.title, mediaUrl:item.image||null, mediaType:item.image?'photo':null, ki:!!item.image, icon:item.icon, meta:[dose,w].filter(Boolean).join(' · '), comment:a.comment||'', sets:a.sets, reps:a.reps, repsUnit:a.repsUnit, trainMode:a.trainMode||'sets', timedMinutes:a.timedMinutes||2, restSeconds:a.restSeconds||30}); }
     });
 
+    natKeys = allRows.map(x=>x.key);
+    const sortedAll = sortByOrder(allRows, x=>x.key);
+    wkItems = sortByOrder(wkItems, x=>x.key);
+    const sortedEx = sortByOrder(dayRowsEx, x=>x.key);
+    { const sess = loadSessions(); let lastS = null;
+      sortedEx.forEach((e,i)=>{ const se = sess.find(x=>x.keys.includes(e.key)); const sid = se?se.id:null;
+        if(sid && sid!==lastS) dayRows.push('<div class="sesshead">'+escapeHtml(se.name)+'</div>');
+        lastS = sid; dayRows.push(e.html.split('@@MV@@').join(mvHtml(e.key,i,sortedEx.length))); }); }
     const planRows = planRowsHtml(selectedDate, code, isToday);
     currentDayKeys = wkItems.map(it=>it.key).concat(planRows.keys);
     planRows.warm.slice().reverse().forEach(h=>dayRows.unshift(h));
@@ -4400,13 +4663,14 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     progRowsForDate(selectedDate, isToday).forEach(h=>dayRows.push(h));
     renderScoliosis();
     currentWorkoutItems = wkItems;
-    document.getElementById('dayMoveWrap').innerHTML = currentDayKeys.length ? '<button class="btn btn-ghost btn-block" onclick="openMoveModal()">Dieses Training auf einen anderen Tag legen</button>' : '';
+    document.getElementById('dayMoveWrap').innerHTML = currentDayKeys.length ? '<button class="btn btn-ghost btn-block" onclick="openMoveModal()">Dieses Training auf einen anderen Tag legen</button>'+sessSaveBtnHtml(wkItems.map(i=>i.key)) : '';
     document.getElementById('workoutBtnWrap').innerHTML = wkItems.length ? '<button class="btn btn-primary btn-block" onclick="startWorkout()">Übungen jetzt machen</button>' : '';
     document.getElementById('dayFocusList').innerHTML = dayRows.length ? dayRows.join('') :
       '<div class="empty" style="font-style:italic;">'+randomRestDayMessage()+'</div>';
-    document.getElementById('homeRecorded').innerHTML = allRows.length ? allRows.join('') :
+    document.getElementById('homeRecorded').innerHTML = sortedAll.length ? sortedAll.map(x=>x.html).join('') :
       '<div class="empty">Noch keine Übungen. Nimm eine auf oder füge eine aus der Bibliothek hinzu.</div>';
     document.getElementById('homeLibrary').innerHTML = '';
+    renderSessionList();
     renderGoalCard();
     renderActivityCard();
     renderRegSportSection();
@@ -4661,6 +4925,184 @@ const SPORT_ICONS = {'Spazieren':'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
     if(name==='library') renderLibrary();
     if(name==='home') renderHome();
   }
+</script>
+<script>
+/* ---------- Plan per QR-Code weitergeben und empfangen (ohne Server) ---------- */
+const QRGEN=(function(){
+  const ECC=[[-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],[-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28]];
+  const BLK=[[-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25],[-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49]];
+  const FMT=[1,0];
+  const bit=(x,i)=>((x>>>i)&1)!==0;
+  function rawModules(v){ let r=(16*v+128)*v+64; if(v>=2){ const n=Math.floor(v/7)+2; r-=(25*n-10)*n-55; if(v>=7) r-=36; } return r; }
+  function dataCw(v,e){ return Math.floor(rawModules(v)/8)-ECC[e][v]*BLK[e][v]; }
+  function gmul(x,y){ let z=0; for(let i=7;i>=0;i--){ z=(z<<1)^((z>>>7)*0x11D); z^=((y>>>i)&1)*x; } return z; }
+  function rsDiv(d){ const r=new Array(d).fill(0); r[d-1]=1; let root=1; for(let i=0;i<d;i++){ for(let j=0;j<d;j++){ r[j]=gmul(r[j],root); if(j+1<d) r[j]^=r[j+1]; } root=gmul(root,2); } return r; }
+  function rsRem(data,div){ const r=div.map(()=>0); data.forEach(b=>{ const f=b^r.shift(); r.push(0); div.forEach((c,i)=>{ r[i]^=gmul(c,f); }); }); return r; }
+  function encode(bytes,e){
+    let ver=0;
+    for(let v=1;v<=40;v++){ const cap=dataCw(v,e)*8; const need=4+(v<10?8:16)+bytes.length*8; if(need<=cap){ ver=v; break; } }
+    if(!ver) return null;
+    const bits=[]; const put=(val,len)=>{ for(let i=len-1;i>=0;i--) bits.push((val>>>i)&1); };
+    put(4,4); put(bytes.length,ver<10?8:16); bytes.forEach(b=>put(b,8));
+    const cap=dataCw(ver,e)*8; put(0,Math.min(4,cap-bits.length)); put(0,(8-bits.length%8)%8);
+    for(let p=0xEC;bits.length<cap;p^=0xEC^0x11) put(p,8);
+    const data=[]; for(let i=0;i<bits.length;i+=8){ let b=0; for(let j=0;j<8;j++) b=(b<<1)|bits[i+j]; data.push(b); }
+    const nb=BLK[e][ver], eb=ECC[e][ver], raw=Math.floor(rawModules(ver)/8), ns=nb-raw%nb, sl=Math.floor(raw/nb);
+    const div=rsDiv(eb), blocks=[]; let k=0;
+    for(let i=0;i<nb;i++){ const dat=data.slice(k,k+sl-eb+(i<ns?0:1)); k+=dat.length; const ec=rsRem(dat,div); if(i<ns) dat.push(0); blocks.push(dat.concat(ec)); }
+    const all=[]; for(let i=0;i<blocks[0].length;i++) blocks.forEach((b,j)=>{ if(i!==sl-eb||j>=ns) all.push(b[i]); });
+    const size=ver*4+17, m=[], fn=[]; for(let i=0;i<size;i++){ m.push(new Array(size).fill(false)); fn.push(new Array(size).fill(false)); }
+    const setF=(x,y,d)=>{ m[y][x]=d; fn[y][x]=true; };
+    for(let i=0;i<size;i++){ setF(6,i,i%2===0); setF(i,6,i%2===0); }
+    const finder=(x,y)=>{ for(let dy=-4;dy<=4;dy++) for(let dx=-4;dx<=4;dx++){ const d=Math.max(Math.abs(dx),Math.abs(dy)),xx=x+dx,yy=y+dy; if(xx>=0&&xx<size&&yy>=0&&yy<size) setF(xx,yy,d!==2&&d!==4); } };
+    finder(3,3); finder(size-4,3); finder(3,size-4);
+    let ap=[]; if(ver>1){ const n=Math.floor(ver/7)+2, step=ver===32?26:Math.ceil((ver*4+4)/(n*2-2))*2; ap=[6]; for(let pos=size-7;ap.length<n;pos-=step) ap.splice(1,0,pos); }
+    ap.forEach((a,i)=>ap.forEach((b,j)=>{ if(!((i===0&&j===0)||(i===0&&j===ap.length-1)||(i===ap.length-1&&j===0))){ for(let dy=-2;dy<=2;dy++) for(let dx=-2;dx<=2;dx++) setF(b+dx,a+dy,Math.max(Math.abs(dx),Math.abs(dy))!==1); } }));
+    const fmt=(mask)=>{ const d=(FMT[e]<<3)|mask; let r=d; for(let i=0;i<10;i++) r=(r<<1)^((r>>>9)*0x537); const b=((d<<10)|r)^0x5412;
+      for(let i=0;i<=5;i++) setF(8,i,bit(b,i)); setF(8,7,bit(b,6)); setF(8,8,bit(b,7)); setF(7,8,bit(b,8)); for(let i=9;i<15;i++) setF(14-i,8,bit(b,i));
+      for(let i=0;i<8;i++) setF(size-1-i,8,bit(b,i)); for(let i=8;i<15;i++) setF(8,size-15+i,bit(b,i)); setF(8,size-8,true); };
+    fmt(0);
+    if(ver>=7){ let r=ver; for(let i=0;i<12;i++) r=(r<<1)^((r>>>11)*0x1F25); const b=(ver<<12)|r; for(let i=0;i<18;i++){ const c=bit(b,i),a=size-11+i%3,bb=Math.floor(i/3); setF(a,bb,c); setF(bb,a,c); } }
+    let i=0; for(let right=size-1;right>=1;right-=2){ if(right===6) right=5; for(let vert=0;vert<size;vert++) for(let j=0;j<2;j++){ const x=right-j, up=((right+1)&2)===0, y=up?size-1-vert:vert; if(!fn[y][x]&&i<all.length*8){ m[y][x]=bit(all[i>>>3],7-(i&7)); i++; } } }
+    const mk=(mask,x,y)=>{ switch(mask){case 0:return (x+y)%2===0;case 1:return y%2===0;case 2:return x%3===0;case 3:return (x+y)%3===0;case 4:return (Math.floor(x/3)+Math.floor(y/2))%2===0;case 5:return x*y%2+x*y%3===0;case 6:return (x*y%2+x*y%3)%2===0;default:return ((x+y)%2+x*y%3)%2===0;} };
+    const apply=(mask)=>{ for(let y=0;y<size;y++) for(let x=0;x<size;x++) if(!fn[y][x]&&mk(mask,x,y)) m[y][x]=!m[y][x]; };
+    const pen=()=>{ let p=0; for(let y=0;y<size;y++){ let run=1; for(let x=1;x<size;x++){ if(m[y][x]===m[y][x-1]){ run++; if(run===5) p+=3; else if(run>5) p++; } else run=1; } }
+      for(let x=0;x<size;x++){ let run=1; for(let y=1;y<size;y++){ if(m[y][x]===m[y-1][x]){ run++; if(run===5) p+=3; else if(run>5) p++; } else run=1; } }
+      for(let y=0;y<size-1;y++) for(let x=0;x<size-1;x++){ const c=m[y][x]; if(c===m[y][x+1]&&c===m[y+1][x]&&c===m[y+1][x+1]) p+=3; }
+      let dark=0; m.forEach(r=>r.forEach(c=>{ if(c) dark++; })); p+=Math.floor(Math.abs(dark*20-size*size*10)/(size*size))*10; return p; };
+    let best=0,bp=1e9; for(let mask=0;mask<8;mask++){ apply(mask); fmt(mask); const p=pen(); if(p<bp){ bp=p; best=mask; } apply(mask); }
+    apply(best); fmt(best);
+    return {size, modules:m, version:ver};
+  }
+  function svg(q,px){ const quiet=4, n=q.size+quiet*2; let d=''; for(let y=0;y<q.size;y++) for(let x=0;x<q.size;x++) if(q.modules[y][x]) d+='M'+(x+quiet)+','+(y+quiet)+'h1v1h-1z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+n+' '+n+'" width="'+px+'" height="'+px+'" shape-rendering="crispEdges" role="img" aria-label="QR-Code"><rect width="'+n+'" height="'+n+'" fill="#fff"/><path d="'+d+'" fill="#111"/></svg>'; }
+  return {encode,svg};
+})();
+
+function planB64(u8){ let s=''; for(let i=0;i<u8.length;i+=0x8000) s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000)); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function planUnB64(t){ t=t.replace(/-/g,'+').replace(/_/g,'/'); while(t.length%4) t+='='; const s=atob(t), u=new Uint8Array(s.length); for(let i=0;i<s.length;i++) u[i]=s.charCodeAt(i); return u; }
+async function planPack(obj){
+  const bytes=new TextEncoder().encode(JSON.stringify(obj));
+  if(window.CompressionStream){ try{ const st=new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw')); return '1'+planB64(new Uint8Array(await new Response(st).arrayBuffer())); }catch(e){} }
+  return '0'+planB64(bytes);
+}
+async function planUnpack(code){
+  code=String(code||'').trim(); const k=code.indexOf('plan='); if(k>=0) code=code.slice(k+5); code=code.replace(/[^A-Za-z0-9_\-]/g,'');
+  if(code.length<3) throw new Error('leer');
+  let u=planUnB64(code.slice(1));
+  if(code[0]==='1'){ const st=new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw')); u=new Uint8Array(await new Response(st).arrayBuffer()); }
+  const o=JSON.parse(new TextDecoder().decode(u));
+  if(!o||o.v!==1||!Array.isArray(o.L)) throw new Error('format');
+  return o;
+}
+const PLAN_BASE=()=> (location.origin&&location.origin!=='null' ? location.origin+location.pathname : 'https://alexandrahumaneo.github.io/Humaneo-App/humaneo-app.html');
+async function planCollect(sessionId){
+  const clips=(await getClips()).slice().sort((a,b)=>a.id-b.id), custom=loadCustomLibrary();
+  const sess=loadSessions(); const sel=sessionId?sess.find(s=>s.id===sessionId):null;
+  const entries=[]; let media=0;
+  const clean=o=>{ const r={}; Object.keys(o).forEach(k=>{ const v=o[k]; if(v===null||v===undefined||v===''||v===false||(Array.isArray(v)&&!v.length)) return; r[k]=v; }); return r; };
+  clips.forEach(c=>{
+    const id='cl-'+(c.createdAt||c.id); if(c.blob) media++;
+    entries.push({key:'clip-'+c.id, mapped:'lib-'+id,
+      C:clean({id,title:c.title,sub:c.notes||'Übung aus der Praxis',youtube:c.youtube}),
+      L:clean({id,days:c.days,sets:c.sets,reps:c.reps,repsUnit:c.repsUnit,weight:c.weight,band:c.band,comment:c.comment,trainMode:c.trainMode!=='sets'?c.trainMode:'',timedMinutes:c.trainMode==='timed'?c.timedMinutes:'',restSeconds:c.restSeconds})});
+  });
+  loadLibraryAdded().forEach(a=>{
+    const cu=custom.find(x=>x.id===a.id);
+    entries.push({key:'lib-'+a.id, mapped:'lib-'+a.id, L:clean(a), C:cu?clean({id:cu.id,title:cu.title,sub:cu.sub,tags:cu.tags,youtube:cu.youtube}):null});
+  });
+  let list=sortByOrder(entries,e=>e.key);
+  if(sel) list=list.filter(e=>sel.keys.includes(e.key));
+  const map={}; list.forEach(e=>{ map[e.key]=e.mapped; });
+  const S=(sel?[sel]:sess).map(s=>({id:s.id,name:s.name,days:s.days,keys:s.keys.filter(k=>map[k]).map(k=>map[k])})).filter(s=>s.keys.length);
+  const usedMedia = sel ? list.filter(e=>e.key.indexOf('clip-')===0).length : media;
+  return {v:1,L:list.map(e=>e.L),C:list.filter(e=>e.C).map(e=>e.C),S,P:sel?[]:loadPlans(),media:usedMedia};
+}
+let planLast=null;
+async function openPlanShare(sessionId){
+  const ov=document.getElementById('planShareOverlay'), box=document.getElementById('planShareBody');
+  ov.style.display='block'; box.innerHTML='<p style="font-size:13px;color:var(--ink-soft);">Einen Moment ...</p>';
+  const sid=(typeof sessionId==='string')?sessionId:null;
+  const data=await planCollect(sid);
+  const n=data.L.length+data.P.length;
+  if(!n){ box.innerHTML='<p style="font-size:14px;line-height:1.6;">Es ist noch nichts im Plan. Füge zuerst Übungen aus der Bibliothek hinzu, dann kannst du den Plan weitergeben.</p>'; return; }
+  const code=await planPack({v:1,L:data.L,C:data.C,S:data.S,P:data.P});
+  const link=PLAN_BASE()+'#plan='+code; planLast={link,code};
+  const q=QRGEN.encode(new TextEncoder().encode(link),0);
+  const full=fullLibrary();
+  const names=data.L.map(a=>{ const it=full.find(x=>x.id===a.id)||data.C.find(x=>x.id===a.id); return it?it.title:null; }).filter(Boolean);
+  const title=sid&&data.S.length?data.S[0].name:'';
+  let h='';
+  if(title) h+='<div style="font-size:19px;font-weight:800;margin:0 0 10px;">'+escapeHtml(title)+'</div>';
+  if(!q||q.version>25){ h+='<div style="background:var(--lime-soft,#f3f8e4);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:14px;"><b>Der Plan ist für einen QR-Code zu groß.</b> Gib ihn über „Link kopieren“ weiter oder teile ihn in zwei kleineren Einheiten.</div>'; }
+  else { h+='<div style="background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center;margin-bottom:12px;">'+QRGEN.svg(q,Math.min(300,window.innerWidth-80))+'<div style="font-size:12px;color:var(--ink-soft);margin-top:8px;">Patient: In der App „Plan empfangen“ wählen und diesen Code scannen.</div></div>'; }
+  h+='<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><button type="button" class="btn btn-primary" style="flex:1;min-width:140px;" onclick="planCopy(\'link\')">Link kopieren</button><button type="button" class="btn btn-ghost" style="flex:1;min-width:140px;" onclick="planCopy(\'code\')">Nur Code kopieren</button></div><div id="planCopyMsg" role="status" style="font-size:12.5px;color:var(--ink-soft);min-height:18px;margin:-6px 0 8px;"></div>';
+  h+='<b style="font-size:13px;">Das ist im Plan ('+n+')</b><ol style="margin:6px 0 12px;padding-left:20px;font-size:13px;line-height:1.6;">'+names.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ol>'+(data.P.length?'<p style="font-size:13px;margin:0 0 12px;">Dazu '+data.P.length+' Cardio- oder Warm-up-Einträge.</p>':'');
+  if(!sid&&data.S.length) h+='<p style="font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 8px;">Enthaltene Trainingseinheiten: '+data.S.map(s=>escapeHtml(s.name)).join(', ')+'.</p>';
+  h+='<p style="font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 6px;"><b>Was nicht mitgeht:</b> Eigene Fotos und Videos passen nicht in einen QR-Code. Von eigenen Aufnahmen kommen Titel, Wiederholungen und Hinweise an, aber ohne Bild oder Video.'+(data.media?' Im aktuellen Plan betrifft das '+data.media+' Aufnahme'+(data.media>1?'n':'')+'.':'')+' Ein YouTube-Link bei einer Übung geht mit.</p>';
+  h+='<p style="font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:0;">Im Plan stehen keine Namen und keine Befunde. Bitte trotzdem nur in der Praxis scannen lassen und nicht per Messenger verschicken.</p>';
+  box.innerHTML=h;
+}
+function closePlanShare(){ document.getElementById('planShareOverlay').style.display='none'; }
+async function planCopy(what){
+  const t=planLast?(what==='link'?planLast.link:planLast.code):''; const m=document.getElementById('planCopyMsg');
+  try{ await navigator.clipboard.writeText(t); m.textContent=what==='link'?'Link kopiert.':'Code kopiert.'; }
+  catch(e){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); m.textContent='Kopiert.'; }catch(x){ m.textContent='Kopieren nicht möglich.'; } ta.remove(); }
+}
+/* Empfangen */
+let planPending=null, planScanStream=null, planScanOn=false;
+function planIsStandalone(){ try{ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true; }catch(e){ return false; } }
+function openPlanRecv(keep){
+  document.getElementById('planRecvOverlay').style.display='block'; if(keep!==true) planPending=null;
+  document.getElementById('planRecvMsg').textContent=''; document.getElementById('planRecvPreview').innerHTML='';
+  document.getElementById('planRecvScanBtn').style.display=('BarcodeDetector' in window && navigator.mediaDevices)?'':'none';
+  document.getElementById('planRecvBrowserNote').style.display=planIsStandalone()?'none':'';
+}
+function closePlanRecv(){ planStopScan(); document.getElementById('planRecvOverlay').style.display='none'; }
+function planStopScan(){ planScanOn=false; if(planScanStream){ planScanStream.getTracks().forEach(t=>t.stop()); planScanStream=null; } const v=document.getElementById('planRecvVideo'); if(v){ v.style.display='none'; v.srcObject=null; } }
+async function planStartScan(){
+  const msg=document.getElementById('planRecvMsg'), v=document.getElementById('planRecvVideo');
+  try{
+    const det=new BarcodeDetector({formats:['qr_code']});
+    planScanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}); v.srcObject=planScanStream; v.style.display='block'; await v.play(); planScanOn=true; msg.textContent='Halte die Kamera auf den QR-Code.';
+    const loop=async()=>{ if(!planScanOn) return; try{ const r=await det.detect(v); if(r&&r.length){ planStopScan(); await planPreview(r[0].rawValue); return; } }catch(e){} setTimeout(loop,250); };
+    loop();
+  }catch(e){ planStopScan(); msg.textContent='Die Kamera ist nicht verfügbar. Bitte den Code unten einfügen.'; }
+}
+async function planPaste(){ const t=document.getElementById('planRecvInput').value; if(!t.trim()){ document.getElementById('planRecvMsg').textContent='Bitte zuerst den Code oder Link einfügen.'; return; } await planPreview(t); }
+async function planPreview(text){
+  const msg=document.getElementById('planRecvMsg'), pv=document.getElementById('planRecvPreview');
+  try{ const o=await planUnpack(text); planPending=o; msg.textContent=''; planShowPending(pv); }
+  catch(e){ planPending=null; pv.innerHTML=''; msg.textContent='Dieser Code konnte nicht gelesen werden. Bitte den QR-Code noch einmal scannen oder den Link ganz kopieren.'; }
+}
+function planShowPending(pv){
+  const o=planPending, titles=o.L.map(a=>{ const c=(o.C||[]).find(x=>x.id===a.id); const it=c||LIBRARY.find(x=>x.id===a.id); return it?it.title:'Übung'; });
+  const sn=(o.S||[]).map(s=>s.name);
+  pv.innerHTML='<div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0 10px;"><b style="font-size:14px;">'+(sn.length===1?escapeHtml(sn[0]):'Plan von deiner Praxis')+'</b><ol style="margin:8px 0 0;padding-left:20px;font-size:13px;line-height:1.6;">'+titles.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ol>'+((o.P||[]).length?'<p style="font-size:13px;margin:8px 0 0;">Dazu '+o.P.length+' Cardio- oder Warm-up-Einträge.</p>':'')+(sn.length>1?'<p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;">Trainingseinheiten: '+sn.map(escapeHtml).join(', ')+'.</p>':'')+'</div><button type="button" class="btn btn-primary btn-block" onclick="planApply()">Plan übernehmen</button>';
+}
+function planApply(){
+  const o=planPending; if(!o) return;
+  const la=loadLibraryAdded(); o.L.forEach(a=>{ const i=la.findIndex(x=>String(x.id)===String(a.id)); const e=Object.assign({days:[]},a); if(i>=0) la[i]=e; else la.push(e); }); saveLibraryAdded(la);
+  const cl=loadCustomLibrary(); (o.C||[]).forEach(c=>{ const e=Object.assign({tags:[],icon:'',image:null,youtube:null,sub:'Übung aus der Praxis'},c); const i=cl.findIndex(x=>x.id===c.id); if(i>=0) cl[i]=Object.assign({},cl[i],e); else cl.push(e); }); saveCustomLibrary(cl);
+  const pl=loadPlans(); (o.P||[]).forEach(p=>{ if(!pl.find(x=>x.id===p.id)) pl.push(p); }); savePlans(pl);
+  const newKeys=o.L.map(a=>'lib-'+a.id);
+  if(o.S&&o.S.length){ let ss=loadSessions(); o.S.forEach(s=>{ ss=ss.filter(x=>x.id!==s.id).map(x=>Object.assign({},x,{keys:x.keys.filter(k=>!s.keys.includes(k))})).filter(x=>x.keys.length); ss.push({id:s.id,name:s.name,days:s.days||[],keys:s.keys}); }); saveSessions(ss); }
+  const ord=loadOrder().filter(k=>!newKeys.includes(k)); newKeys.forEach(k=>ord.push(k)); saveOrder(ord);
+  planPending=null; document.getElementById('planRecvPreview').innerHTML='';
+  document.getElementById('planRecvMsg').textContent='Der Plan ist übernommen. Du findest ihn unter „Meine Übungen“ und im Kalender.';
+  try{ renderHome(); renderLibrary(); renderPlanSections(); }catch(e){}
+}
+/* Start: Plan-Link in der Adresse */
+async function planBoot(){
+  const h=location.hash||''; if(h.indexOf('#plan=')!==0) return;
+  try{ const o=await planUnpack(h); planPending=o; try{ localStorage.setItem('humaneo_access', ACCESS_HASH); }catch(e){} }catch(e){ planPending=null; }
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+}
+function planAfterBoot(){
+  if(!planPending) return;
+  openPlanRecv(true); planShowPending(document.getElementById('planRecvPreview'));
+}
+
 </script>
 <script>
 /* Fenster/Overlays immer nach vorne holen, sobald sie geöffnet werden */
