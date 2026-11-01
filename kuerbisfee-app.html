@@ -2741,7 +2741,41 @@ function seasonDist(k){ const i = SEASONS.findIndex(x => x[0] === k); return (i 
   const h = SEASONS.map(([k,n]) => `<button class="season-btn ${seasonDist(k)===0?'now':'soon'}" onclick="openSeason('${k}')" aria-label="${n}"><img alt="${n}" src="data:image/webp;base64,${SEASON_IMG[k]}"><span>${n}</span></button>`).join('');
   document.getElementById('seasons').innerHTML = h;
 })();
+/* ---------- Übergang zum Winterwunder im Flüsterwald (ab 1. November 2026) ---------- */
+const WINTER_START = '2026-11-01', WINTER_URL = 'winterwunder.html';
+function wwToday(){ const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function wwSleeps(){ const [y,m,d] = WINTER_START.split('-').map(Number); const t = new Date(); t.setHours(0,0,0,0); return Math.round((new Date(y,m-1,d) - t)/864e5); }
+function wwHerbstDone(){ try { const {done, total} = totalDone(); return total > 0 && done >= total; } catch(e){ return false; } }
+function openWinterChoice(){
+  const card = document.getElementById('introCard'), img = `<img alt="Winter" src="data:image/webp;base64,${SEASON_IMG.winter}" style="width:120px; height:120px; border-radius:22px; display:block; margin:0 auto 10px;">`;
+  const close = `<button class="cta-btn secondary" style="width:100%;" onclick="document.getElementById('introPopup').style.display='none'">`;
+  if (wwToday() < WINTER_START) {
+    const n = wwSleeps(), w = n === 1 ? 'einmal' : n === 2 ? 'zweimal' : n === 3 ? 'dreimal' : n + '-mal';
+    card.innerHTML = img + `<h3>Noch ${w} schlafen!</h3><p>Am Sonntag, 1. November, beginnt Pias neues Abenteuer: <b>Winterwunder im Flüsterwald</b>. Bis dahin kannst du hier im Herbst weiter Kürbisse sammeln.</p>` + close + `Bis bald im Winter</button>`;
+  } else if (wwHerbstDone()) {
+    card.innerHTML = img + `<h3>Das Winterwunder ist da!</h3><p>Du hast den ganzen Herbst geschafft. Jetzt braucht Pia deine Hilfe im Winter: <b>Winterwunder im Flüsterwald</b> hat neue Geschichten, neue Übungen und neue Spiele.</p>
+      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top">Winterwunder starten</a>` + close + `Später</button>`;
+  } else {
+    card.innerHTML = img + `<h3>Das Winterwunder ist da!</h3><p>Pias neues Abenteuer <b>Winterwunder im Flüsterwald</b> hat begonnen. Möchtest du erst den Herbst fertig machen oder gleich in den Winter starten?</p><p style="font-size:.85rem;">Du kannst jederzeit wechseln: Oben bei den Jahreszeiten kommst du immer in den Winter und wieder zurück in den Herbst.</p>
+      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top">Gleich mit dem Winter starten</a>` + close + `Erst den Herbst fertig machen</button>`;
+  }
+  document.getElementById('introPopup').style.display = 'flex';
+}
+/* Ab 1. November einmal von selbst fragen, sobald keine anderen Fenster offen sind */
+(function(){
+  let asked = false; try { asked = localStorage.getItem('kuerbisfee_winter_asked') === '1'; } catch(e){}
+  if (asked || wwToday() < WINTER_START) return;
+  let tries = 0;
+  const t = setInterval(() => {
+    tries++; if (tries > 120) { clearInterval(t); return; }
+    const busy = ['introPopup','welcomeOverlay','tourOverlay','parentPopup','dlgOverlay','infoPopup'].some(id => { const el = document.getElementById(id); return el && getComputedStyle(el).display !== 'none'; });
+    if (busy) return;
+    clearInterval(t); try { localStorage.setItem('kuerbisfee_winter_asked','1'); } catch(e){}
+    openWinterChoice();
+  }, 1500);
+})();
 function openSeason(k){
+  if (k === 'winter') { openWinterChoice(); return; }
   const n = (SEASONS.find(x => x[0] === k) || [k,k])[1];
   const d = seasonDist(k);
   let title, text;
