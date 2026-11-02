@@ -1,5 +1,9 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bewegtes Vorlesen mit Kürbisfee Pia</title></head>
 <body style="margin:0;padding:0;background:#fbf4ea">
+<div id="tool" style="position:sticky;top:0;z-index:9;background:#1c3056;padding:12px 14px;text-align:center;font-family:Helvetica,Arial,sans-serif">
+<button id="cp" style="background:#c46a2c;color:#fff;border:0;border-radius:24px;padding:12px 26px;font-size:16px;font-weight:bold;font-family:Helvetica,Arial,sans-serif">E-Mail kopieren</button>
+<div id="msg" style="color:#fff;font-size:13px;margin-top:8px">Tippen, dann in Apple Mail lange ins Textfeld drücken und „Einsetzen“ wählen.</div></div>
+<div id="mail" style="background:#fbf4ea">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fbf4ea"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fbf4ea">
 <tr><td align="center" style="font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:3px;color:#b8893e;font-weight:bold;padding:4px 0 6px">BUNDESWEITER VORLESETAG &middot; 20. NOVEMBER 2026</td></tr>
@@ -41,4 +45,18 @@ Ich lese an Ihrer Schule vor, und die Kinder machen in der Sporthalle direkt mit
 Humaneo Physiotherapie und Kinderphysiotherapie<br>Daimlerstraße 13, 61352 Bad Homburg<br>Telefon und WhatsApp: 0177 6700746<br>
 <a href="mailto:mail@humaneo-praxis.de" style="color:#c46a2c;text-decoration:none">mail@humaneo-praxis.de</a> &middot; <a href="https://www.humaneo-praxis.de" style="color:#c46a2c;text-decoration:none">www.humaneo-praxis.de</a></p></td></tr>
 <tr><td align="center" style="padding:28px 20px 10px;font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#9a8c80;line-height:1.5">Eine Aktion zum Bundesweiten Vorlesetag, einer Initiative von DIE ZEIT, Stiftung Lesen und Deutsche Bahn Stiftung.</td></tr>
-</table></td></tr></table></body></html>
+</table></td></tr></table></div>
+<script>
+document.getElementById('cp').onclick=async function(){
+ var el=document.getElementById('mail'),m=document.getElementById('msg');
+ try{
+  await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})]);
+  m.textContent='Kopiert. Jetzt in der neuen E-Mail lange ins Textfeld drücken und „Einsetzen“ wählen.';
+ }catch(e){
+  var r=document.createRange();r.selectNode(el);var sel=window.getSelection();sel.removeAllRanges();sel.addRange(r);
+  var ok=false;try{ok=document.execCommand('copy');}catch(x){}
+  sel.removeAllRanges();
+  m.textContent=ok?'Kopiert. Jetzt in der neuen E-Mail lange ins Textfeld drücken und „Einsetzen“ wählen.':'Kopieren hat nicht geklappt. Bitte am Computer öffnen.';
+ }
+};
+</script></body></html>
