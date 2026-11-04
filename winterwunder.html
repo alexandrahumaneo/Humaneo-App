@@ -764,6 +764,12 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--lantern);outline-of
 .winterhead h1{font-size:2.2rem;color:var(--ink)}
 h2.sec{font-family:var(--display);font-weight:400;font-size:2rem;text-align:center;margin:4px 0 0}
 .wtile.big{align-items:center;text-align:center;padding:20px 12px;cursor:pointer}
+.bish img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;display:block;margin-bottom:8px}.bish b{display:block;font-size:1.08em;margin:2px 0 4px}.bish p{margin:0 0 8px}
+.wk.past .wkban{opacity:.92}
+.rzm{background:#fff;border:2px dashed var(--wborder);border-radius:14px;padding:8px 12px;margin:10px 0 4px;font-weight:800;font-size:1.05em;color:var(--lantern-deep);text-align:center;line-height:1.45}
+.mmban{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;background:var(--wcream);border:2.5px solid var(--wborder);border-radius:22px;padding:10px 14px 10px 10px;text-align:left;cursor:pointer;color:var(--ink);font-family:inherit}
+.mmban img{width:78px;height:78px;border-radius:16px;object-fit:cover;flex:none}.mmban span:not(.chev){flex:1}.mmban b{display:block;font-size:1.02em}.mmban small{display:block;color:var(--ink-soft);margin-top:2px}.mmban .chev{width:20px;flex:none}
+.mmcard .mmimgs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 10px}.mmcard .mmimgs img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block}.mmcard b{font-size:1.08em}.mmcard p{margin:4px 0 10px}
 .wtile.big .ic{width:54px;height:54px;border-radius:16px}
 .wtile.big .ic svg{width:30px;height:30px}
 .menu .ic .stsvg{width:30px}
@@ -873,7 +879,7 @@ body.inplayer #bottomNav,body.inplayer #app::after{display:none!important}body.i
 }
 @media (min-width:700px) and (min-height:700px){.plinfo .pn{font-size:2.1em}.plinfo .pd{font-size:1.2em}.player .wring{width:170px;height:170px}.player .wring span{font-size:2.8em}.plinfo .eyebrow{font-size:.95em}.player .plbtn{font-size:1.2em}.plnext{font-size:1em}}
 @media (orientation:landscape) and (max-height:500px){.plinfo .pd{display:none}.player .wring{width:90px;height:90px}}
-.ponly{display:none}@media print{.ponly{display:block!important}}
+.ponly,#printArea.ponly{display:none!important}@media print{.ponly,#printArea.ponly{display:block!important}}@media print{body.prz>*:not(#app){display:none!important}body.prz #app>*:not(.screen){display:none!important}body.prz .screen>*:not(#printArea){display:none!important}body.prz #app::after{display:none!important}body.prz #printArea{position:static!important;width:100%!important}body.prz .rzpcols{display:flex;gap:10mm}body.prz .rzpcols>div{flex:1}}
 .rezcard{display:flex;align-items:center;gap:12px;padding:10px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
 .rezcard img{width:72px;height:72px;border-radius:14px;object-fit:cover;flex:none}.rezcard span:not(.chev){flex:1}.rezcard b{display:block;font-size:1.05em}.rezcard small{display:block;color:var(--ink-soft)}.rezcard em{display:block;font-style:normal;font-size:.8em;font-weight:800;color:var(--lantern-deep);margin-top:2px}.rezcard .chev{width:20px;flex:none}
 .rzg{font-weight:800;margin:12px 0 6px;font-size:.9em;color:var(--lantern-deep);text-transform:uppercase;letter-spacing:.04em}
@@ -881,7 +887,7 @@ body.inplayer #bottomNav,body.inplayer #app::after{display:none!important}body.i
 .rzstep{background:var(--card);border:2.5px solid var(--lantern);border-radius:22px;padding:16px 18px;text-align:center}
 .rzstep .prog{height:6px;border-radius:9px;background:var(--moss-soft);overflow:hidden;margin:8px 0 12px}.rzstep .prog i{display:block;height:100%;background:var(--lantern)}
 .rzamt{display:inline-block;font-size:1.5em;font-weight:800;background:#FFF4D6;color:#7a5410;border-radius:14px;padding:8px 16px;margin:4px 0 10px}
-.rzt{font-size:1.12em;line-height:1.5;margin:0}.rzadult{display:inline-block;font-size:.8em;font-weight:800;color:#8A3B1E;background:#FBEAE6;border-radius:99px;padding:4px 12px;margin-bottom:10px}
+.rzpia{display:inline-block;font-size:.8em;font-weight:800;color:#5B4A8A;background:#EEE8F8;border-radius:99px;padding:4px 12px;margin-bottom:10px}.rzt{font-size:1.12em;line-height:1.5;margin:0}.rzadult{display:inline-block;font-size:.8em;font-weight:800;color:#8A3B1E;background:#FBEAE6;border-radius:99px;padding:4px 12px;margin-bottom:10px}
 .rzlist{padding-left:20px}.rzlist li{margin:6px 0;cursor:pointer}.rzlist li.done{opacity:.5;text-decoration:line-through}.rzlist li.cur{font-weight:700}
 .rzdone{text-align:center}.rzdone b{font-size:1.3em;display:block;margin:6px 0}
 .rzp{font-family:Georgia,serif;color:#3a2e26;padding:12mm 14mm}.rzp h1{font-size:28pt;margin:0}.rzps{font-style:italic;margin:2mm 0 6mm}.rzpcols{display:grid;grid-template-columns:1fr 1.6fr;gap:10mm}.rzp h2{font-size:15pt;border-bottom:1px solid #c9b29a;padding-bottom:1mm}.rzp h3{font-size:11pt;margin:4mm 0 1mm}.rzp ul{list-style:none;padding:0}.rzp li{margin:2mm 0;font-size:11pt;line-height:1.4}.rzp ol{padding-left:6mm}.rzp .bx{display:inline-block;width:3.5mm;height:3.5mm;border:1px solid #5a4636;margin-right:2mm;vertical-align:-0.5mm}.rzpf{margin-top:10mm;font-size:9pt;color:#8a7a6a;text-align:center}
@@ -1563,6 +1569,7 @@ const est=t=>Math.round((WARM.reduce((a,w)=>a+w.sec,0)+t.ex.reduce((a,id)=>{cons
 
 /* ---------- Speicher (nur auf diesem Gerät) ---------- */
 const KEY="pias-lichterzauber-v2";
+try{if(window.self===window.top)localStorage.setItem("kuerbisfee_season","winter")}catch(e){}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))||null}catch(e){return null}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const todayISO=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
@@ -1574,6 +1581,8 @@ if(!S.rounds)S.rounds=1;
 const EPOCH=()=>{const [y,m,d]=WEEKS[0].from.split("-").map(Number);return new Date(y,m-1,d)};
 const NW=WEEKS.length;
 const dayDate=(w,i)=>{const d=EPOCH();d.setDate(d.getDate()+w*7+i);return d};
+const JOINED=()=>{if(!S.joined){const ks=Object.keys(S.done||{}).filter(k=>(S.done[k]||[]).length).sort();let j=ks[0]||iso(todayISO());const st=iso(EPOCH());if(j<st)j=st;S.joined=j;try{save()}catch(e){}}return S.joined};
+const JW=()=>{if(PREVIEW)return 0;const p=JOINED().split("-").map(Number);return Math.max(0,Math.min(NW-1,Math.floor((new Date(p[0],p[1]-1,p[2])-EPOCH())/864e5/7)))};
 const currentWeek=()=>Math.max(0,Math.min(NW-1,Math.floor((todayISO()-EPOCH())/864e5/7)));
 const maxWeek=()=>PREVIEW?NW-1:currentWeek();
 const doneList=k=>Array.isArray(S.done[k])?S.done[k]:[];
@@ -1705,6 +1714,7 @@ function path(){
  const cw=currentWeek(),max=maxWeek();let h="";
  for(let w=0;w<NW;w++){
   const W=WEEKS[w],locked=w>max,n=weekStones(w);
+  if(!locked&&w<JW()&&n===0){h+=`<section class="wk past" id="wk${w}"><div class="wkban"><div class="wkt"><span class="eyebrow">Woche ${w+1} · zum Nachlesen</span><h3>${W.t}</h3><p class="teaser">${W.teaser}</p></div><button class="wkread" onclick="go('story',{week:${w}})">${ic.book}<span>Geschichte</span></button></div></section>`;continue}
   h+=`<section class="wk ${locked?'locked':''}" id="wk${w}">
   <div class="wkban ${w===cw?'cur':''}">
    <div class="wkt"><span class="eyebrow">Woche ${w+1} · ab ${fmt(dayDate(w,0))}</span><h3>${locked?'Noch geheim':W.t}</h3>
@@ -1717,7 +1727,7 @@ function path(){
  }
  V.justLit=null;
  const MN=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],td=todayISO(),mo=td.getMonth(),yr=td.getFullYear();
- let ml=0,mt=0;{const end=dayDate(NW-1,6),st=dayDate(0,-1);for(let d=new Date(yr,mo,1);d.getMonth()===mo;d.setDate(d.getDate()+1)){if(d<st||d>end)continue;mt++;if(isLit(iso(d)))ml++}}
+ let ml=0,mt=0;{const end=dayDate(NW-1,6);let st=dayDate(0,-1);if(!PREVIEW){const p=JOINED().split("-").map(Number),jd=new Date(p[0],p[1]-1,p[2]);jd.setDate(jd.getDate()-1);if(jd>st)st=jd}for(let d=new Date(yr,mo,1);d.getMonth()===mo;d.setDate(d.getDate()+1)){if(d<st||d>end)continue;mt++;if(isLit(iso(d)))ml++}}
  return `<div class="screen pathscr"><h2 class="sec">Mein Steinweg</h2>
  <div class="ptotal"><div class="ptop"><b>${ml}</b><span>${ml===1?'Stein leuchtet':'Steine leuchten'} im ${MN[mo]}${ml&&KN()?', '+esc(KN()):''}</span></div><div class="pbar"><i style="width:${mt?(ml/mt*100).toFixed(1):0}%"></i></div></div>
  <div class="pathtop"><button class="gbtn ${gamesOpenCount()>0?'glow':''}" onclick="openGames()" aria-label="Pias Spiele: ${gamesBadge()}"><img src="${GAMES_IMG}" alt=""><span class="gline">${gamesOpenCount()>0?'<span class="dot"></span>':''}<span>${gamesBadge()}</span><span class="chev">${ic.next}</span></span></button>
@@ -1818,9 +1828,36 @@ function lib(){
  <button class="hintcard" onclick="go('backstube',{rz:null,rfrom:'lib'})"><span class="ic">${ic.cut}</span><span><b>Pias Backstube</b><small>Apfelkuchen, Kürbisbrot und Kürbiskuchen zum Nachbacken</small></span><span class="chev">${ic.next}</span></button>
  <button class="hintcard" onclick="go('familie',{ffrom:'lib'})"><span class="ic">${ic.leaf}</span><span><b>Pias Familie</b><small>Steckbriefe von Mama Vega und Tante Linn</small></span><span class="chev">${ic.next}</span></button>
  <div class="grid2 libtiles">${t.map(x=>`<button class="wtile big" onclick="go('${x[0]}'${x[4]?','+x[4]:''})"><span class="ic">${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></button>`).join("")}</div>
+ ${mmBanner('lib')}
  <button class="hintcard" onclick="go('druck',{pw:currentWeek(),pn:1})"><span class="ic">${ic.pen}</span><span><b>Zum Ausdrucken</b><small>Wochenplan oder 4-Wochen-Plan mit allen Übungen</small></span><span class="chev">${ic.next}</span></button>
  </div>`;
 }
+const MM_BASE="https://alexandrahumaneo.github.io/Humaneo-App/";
+const MM=[["Bär und Maus im Flüsterwald","Mitmachgeschichte-Baer-und-Maus.pdf","Bärengang, Maus und Kerzenlicht. Die erste Geschichte, besonders für die Kleinsten.",["baer","maus","kerze"]],
+ ["Die Maus und der kleine Welpe","Mitmachgeschichte-Maus-und-Welpe.pdf","Maus, Welpe und das starke Brett. Mit Balancieren über den Bach.",["maus","welpe","brett"]],
+ ["Bär, Maus und der kleine Frosch","Mitmachgeschichte-Baer-Maus-Frosch.pdf","Bärengang, Maus und Frosch am Mondbach.",["baer","maus","frosch"]]];
+function mmBanner(from){return `<button class="mmban" onclick="go('mitmach',{mfrom:'${from}'})"><img src="${pic('baer')}" alt=""><span><b>Mitmachgeschichten für Krippe und Kindergarten</b><small>Kleine Bewegungsgeschichten zum Vorlesen und Mitmachen, zum Ausdrucken</small></span><span class="chev">${ic.next}</span></button>`}
+function mitmach(){const b=V.mfrom||'lib';
+ return `<div class="screen">${bar("Mitmachgeschichten",b)}
+ <p class="lead center">Kurze Bewegungsgeschichten mit Pias Freunden für Kinder ab etwa 2 Jahren. Zum Vorlesen zu Hause oder für die Krippe und den Kindergarten, zum Beispiel im Morgenkreis.</p>
+ ${MM.map(m=>`<div class="story extra mmcard"><div class="mmimgs">${m[3].map(k=>`<img src="${pic(k)}" alt="">`).join("")}</div><b>${m[0]}</b><p>${m[2]}</p><a class="cta" style="text-decoration:none" href="${MM_BASE+m[1]}" target="_blank" rel="noopener">${ic.book} PDF öffnen und drucken</a></div>`).join("")}
+ <div class="story extra"><b>Gut zu wissen</b><p>Jedes PDF hat zwei Seiten Geschichte mit Hinweisen für Erwachsene und im Anhang Bildkarten der Übungen zum Ausschneiden. Kennt eure Krippe oder euer Kindergarten die Geschichten noch nicht? Gebt sie gern ausgedruckt mit.</p>
+ <a class="cta alt2" style="text-decoration:none" href="${MM_BASE}Uebungskarten-Bilder.zip" target="_blank" rel="noopener">${ic.pen} Alle Übungsbilder einzeln (ZIP)</a></div></div>`}
+function spaet(){const cw=currentWeek();
+ return `<div class="screen"><figure class="winterhead"><img src="${IMG.heads[0]}" alt="Pia und ihre Freunde"></figure>
+ <h2 class="sec">Schön, dass du da bist${nm(", ")}!</h2>
+ <p class="lead center">Der Winter im Flüsterwald hat schon begonnen. Pia und ihre Freunde sind gerade in Woche ${cw+1}: <b>${WEEKS[cw].t}</b>.</p>
+ <p class="lead center">Damit du gut reinfindest, kannst du kurz nachlesen, was bisher passiert ist. Und wer Pia noch nicht kennt, liest am besten zuerst, wie alles begann.</p>
+ <button class="hintcard" onclick="go('bisher')"><span class="ic">${ic.book}</span><span><b>Was bisher geschah</b><small>Die Wochen 1 bis ${cw} ganz kurz erzählt</small></span><span class="chev">${ic.next}</span></button>
+ <button class="hintcard" onclick="go('vorgeschichte',{vfrom:'spaet'})"><span class="ic">${ic.leaf}</span><span><b>Wie alles begann</b><small>Wer ist Pia? Die Geschichte aus dem Herbst</small></span><span class="chev">${ic.next}</span></button>
+ <button class="cta" onclick="S.lateHi=1;save();go('home')">${ic.play} Los geht's mit Woche ${cw+1}</button>
+ <p class="note center">Deine Steine zählen ab heute. Die Geschichten und Übungen der früheren Wochen kannst du trotzdem jederzeit machen.</p></div>`}
+function bisher(){const cw=currentWeek();let h="";
+ for(let w=0;w<cw;w++){const W=WEEKS[w],m=(W.html||"").match(/data-simg="(\w+)"/);
+  h+=`<div class="story extra bish">${m&&IMG.simg[m[1]]?`<img src="${IMG.simg[m[1]]}" alt="">`:''}<span class="eyebrow">Woche ${w+1}</span><b>${W.t}</b><p>${W.teaser}</p><button class="cta alt2" onclick="go('story',{week:${w}})">Ganze Geschichte lesen</button></div>`}
+ return `<div class="screen">${bar("Was bisher geschah",S.lateHi?"home":"spaet")}
+ <p class="lead center">So hat der Winter im Flüsterwald angefangen.</p>${h}
+ <button class="cta" onclick="S.lateHi=1;save();go('home')">${ic.play} Los geht's mit Woche ${cw+1}</button></div>`}
 function info(){
  return `<div class="screen">${bar("So funktioniert der Winter")}
  <div class="story"><h3>So funktioniert Winterwunder im Flüsterwald</h3>
@@ -1937,7 +1974,7 @@ function bewegung(){const b=V.bfrom||'lib';
  const t=[["wuerfel",ic.dice,"Pias Bewegungswürfel","Würfle eine Übung und mach sie mit"],["freeze",ic.snow,"Einfrieren","Tanzen, bis die Musik stoppt, dann erstarren"],["simon",ic.seq,"Pia sagt","Nur wenn Pia es sagt, machst du mit"]];
  return `<div class="screen">${bar("Bewegungsspiele",b,b==='path'?`{focus:${currentWeek()}}`:'')}
  <p class="lead">Diese Spiele sind <b>immer frei</b>. Allein, mit Geschwistern oder mit der ganzen Familie.</p>
- <div class="mgrid">${t.map(x=>`<button class="wtile big" onclick="go('${x[0]}')"><span class="ic">${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></button>`).join("")}</div></div>`}
+ <div class="mgrid">${t.map(x=>`<button class="wtile big" onclick="go('${x[0]}')"><span class="ic">${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></button>`).join("")}</div>${mmBanner('bewegung')}</div>`}
 const DICE_OK=LIB.filter(e=>!["igelball","waden","waldtierwippe","kuerbisbaelle","astschaukel","herzoeffner","starkemitte"].includes(e.id));
 function wuerfel(){const e=V.wex?byId(V.wex):null,lv=V.wlv||0;
  return `<div class="screen">${bar("Pias Bewegungswürfel","bewegung")}
@@ -2152,7 +2189,7 @@ function countdown(){const [y,m,d]=START.split("-").map(Number),n=Math.round((ne
  <p>Am <b>Sonntag, 1. November</b>, geht es los. Dann braucht Pia deine Hilfe, damit ihr Kürbishaus gut durch den Winter kommt.</p>
  <div class="cdmoons">${Array.from({length:Math.min(n,7)},()=>'<i></i>').join("")}</div></div>
  <button class="hintcard" onclick="go('vorgeschichte',{vfrom:'countdown'})"><span class="ic">${ic.leaf}</span><span><b>Wie alles begann</b><small>Wer ist Pia? Lies schon mal, was im Herbst passiert ist.</small></span><span class="chev">${ic.next}</span></button>
- <a class="cta alt2 cdback" href="kuerbisfee-app.html" target="_top">Zurück zum Herbst</a></div>`}
+ <a class="cta alt2 cdback" href="kuerbisfee-app.html?herbst=1" target="_top">Zurück zum Herbst</a></div>`}
 
 /* ================= ZUM AUSDRUCKEN: Wochenplan / 4-Wochen-Plan ================= */
 function weekPlanData(w){const days=[];const names=[];
@@ -2367,6 +2404,7 @@ function tapSuch(e,w){const s=SUCH[w],r=e.currentTarget.getBoundingClientRect(),
 // Freundebuch
 const FREUNDE=[
  {k:"pia",n:"Pia",a:"die Kürbisfee",w:0,f:[["Wohnt","im Kürbishaus am Waldrand"],["Kann gut","zaubern, wenn sie ganz ruhig ist"],["Mag","Kürbisse, Barfußlaufen und ihre Freunde"]],x:"Ihr Zauber klappt nur mit dem Kürbisatem: ein wie eine Blume, aus wie ein Blatt."},
+ {k:"haus",n:"Das Kürbishaus",a:"Pias Zuhause am Waldrand",w:0,img:"kuerbislicht",f:[["Steht","am Rand vom Flüsterwald, das ganze Jahr über"],["Braucht","jeden Tag ein bisschen Magie"],["Mag","wenn Pia und ihre Freunde sich bewegen"]],x:"Eigentlich würde ein Kürbis irgendwann weich werden. Doch Pia macht jeden Tag ihre Übungen. Bei jeder Bewegung wird ein bisschen Magie frei, und damit lädt Pia ihr Kürbishaus auf. So bleibt es das ganze Jahr über stark und gemütlich. Und wenn du deine Übungen machst, schenkst du dem Kürbishaus auch ein bisschen Magie."},
  {k:"hazel",n:"Hazel",a:"das Eichhörnchen",w:0,f:[["Wohnt","in ihrem Kobel in der Eiche"],["Kann gut","Nüsse verstecken und wiederfinden"],["Mag","Nüsse, Nüsse und noch mehr Nüsse"]],x:"Eichhörnchen halten Winterruhe. Sie wachen zwischendurch auf und knabbern an ihren Vorräten."},
  {k:"bruno",n:"Bruno",a:"der Igel",w:0,f:[["Wohnt","in der Höhle unter der umgestürzten Eiche"],["Kann gut","sich zur Stachelkugel einrollen"],["Mag","Schnecken und Regenwürmer"]],x:"Igel halten Winterschlaf, vom Spätherbst bis in den Frühling."},
  {k:"rana",n:"Rana",a:"die Füchsin",w:0,f:[["Wohnt","im Wald, sie schläft sogar draußen im Frost"],["Kann gut","schnell laufen und den Mäuselsprung"],["Mag","Mäuse und den Winter"]],x:"Füchse hören eine Maus unter dem Gras oder unter dem Schnee tippeln."},
@@ -2382,12 +2420,12 @@ const metFriend=f=>f.w===0||rmax()>=f.w;
 function markRead(w){if(rmax()<w){const before=FREUNDE.filter(metFriend).length;S.readmax=w;save();const nf=FREUNDE.filter(f=>f.w===w&&f.w>0);if(nf.length&&FREUNDE.filter(metFriend).length>before)V.newf=nf.map(f=>f.n)}}
 function freundebuch(){const n=FREUNDE.filter(metFriend).length;
  if(V.fb!=null){const f=FREUNDE[V.fb];return `<div class="screen">${bar(f.n,"freundebuch","{fb:null}")}
-  <div class="fcard big"><span class="por por-${f.k}"></span><h2 class="sec">${f.n}</h2><p class="sub">${f.a}</p>
+  <div class="fcard big"><span class="por por-${f.k}" ${f.img?`style="background-image:url(${IMG.simg[f.img]})"`:""}></span><h2 class="sec">${f.n}</h2><p class="sub">${f.a}</p>
   <dl>${f.f.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl><p class="fx"><b>Wusstest du?</b> ${f.x}</p></div></div>`}
  return `<div class="screen">${bar("Pias Freundebuch",V.ffrom||"lib")}
  <p class="lead center">Mit jeder Geschichte lernst du neue Freunde aus dem Flüsterwald kennen. ${KN()?esc(KN())+", du hast":"Du hast"} schon ${n} von ${FREUNDE.length}.</p>
  ${V.fme?meForm():`<button class="mecard" onclick="V.fme=true;render()"><span class="meph" ${S.me&&S.me.photo?`style="background-image:url(${S.me.photo})"`:''}>${S.me&&S.me.photo?'':'+'}</span><span><b>${S.me&&(S.me.done)?'Mein Steckbrief'+nm(': '):'Mein eigener Steckbrief'}</b><small>${S.me&&S.me.done?'Antippen zum Ansehen oder Ändern':'Du gehörst auch zu Pias Freunden! Mach ein Foto oder male dich.'}</small></span><span class="chev">${ic.next}</span></button>`}
- <div class="fgrid">${FREUNDE.map((f,i)=>metFriend(f)?`<button class="fcard" onclick="go('freundebuch',{fb:${i}})"><span class="por por-${f.k}"></span><b>${f.n}</b><small>${f.a.split(',')[0]}</small></button>`
+ <div class="fgrid">${FREUNDE.map((f,i)=>metFriend(f)?`<button class="fcard" onclick="go('freundebuch',{fb:${i}})"><span class="por por-${f.k}" ${f.img?`style="background-image:url(${IMG.simg[f.img]})"`:""}></span><b>${f.n}</b><small>${f.a.split(',')[0]}</small></button>`
   :`<div class="fcard locked"><span class="por q">?</span><b>Geheim</b><small>ab Woche ${f.w+1}</small></div>`).join("")}</div>
  ${S.wish?`<div class="wishmini"><span class="wstar">${STAR_SVG}</span><span><b>Dein Wunschstern</b><small>${esc(S.wish)}</small></span></div>`:''}</div>`}
 
@@ -2550,7 +2588,7 @@ function drawLines(){const w=document.getElementById("mwrap");if(!w)return;const
  sv.innerHTML=s}
 
 // ---- Urkunde ----
-function urkunde(p){const ok=p.b.filter(w=>weekStones(w)>0).length,d=new Date();
+function urkunde(p0){const jw=JW(),pb=p0.b.filter(w=>w>=jw||weekStones(w)>0),p=Object.assign({},p0,{b:pb.length?pb:p0.b}),ok=p.b.filter(w=>weekStones(w)>0).length,d=new Date();
  return `<div class="urkcard"><span class="eyebrow center">${p.id==='u5'?'Winterwunder im Flüsterwald':'Woche '+(p.b[0]+1)+' bis '+(p.b[p.b.length-1]+1)}</span>
  <h2 class="urkh">${p.id==='u5'?'Große Winter-Urkunde':'Urkunde'}</h2><img src="${IMG.simg[p.img]}" alt=""><div class="urkname">${KN()?esc(KN()):'<span class="ph">Dein Name</span>'}</div>
  <p class="urktxt">${p.txt}</p>${p.id==='u5'?'<p class="urkq">Was langsam wächst, wird stark.</p>':''}
@@ -2562,41 +2600,41 @@ function urkunde(p){const ok=p.b.filter(w=>weekStones(w)>0).length,d=new Date();
 
 /* ================= PIAS BACKSTUBE ================= */
 const REZ=[
- {id:"spitz",n:"Vegas Spitzbuben",s:"Klassische Plätzchen mit Marmelade",img:"spitzbuben",tall:1,adv:"2026-12-01",w:-1,info:"Adventskalender · Türchen 1",done:"Deine Spitzbuben sind gebacken",
-  z:[["Für den Teig",[["400 g","Mehl"],["125 g","Zucker"],["2","Eier"],["180 g","Butter"]]],["Außerdem",[["etwas","Marmelade"],["etwas","Puderzucker"]]]],
-  st:[{a:"400 g Mehl, 125 g Zucker, 2 Eier, 180 g Butter",t:"Alle Zutaten zu einem glatten Teig verkneten."},
-   {t:"Den Teig ausrollen und Plätzchen in 2 Größen ausstechen."},
-   {t:"Die Plätzchen backen.",e:1},
-   {a:"Marmelade",t:"Die großen Stücke mit Marmelade bestreichen und mit den kleinen zusammensetzen."},
-   {a:"Puderzucker",t:"Mit Puderzucker bestreuen."}]},
- {id:"apfel",n:"Vegas Apfelkuchen",s:"Saftig, mit Zimt und Äpfeln",img:"apfelvega",tall:1,w:12,info:"1 Springform (26 cm) · ca. 20 Min. Arbeit · 40 Min. Backen",
-  z:[["Für den Teig",[["250 g","Mehl"],["150 g","Zucker"],["2 TL","Backpulver"],["1 TL","Zimt"],["½ TL","Salz"],["100 g","weiche Butter"],["2","Eier"],["200 ml","Milch"]]],
-     ["Für die Äpfel",[["3–4","Äpfel"]]],
-     ["Wer mag: Streusel obendrauf",[["150 g","Mehl"],["100 g","Zucker"],["100 g","weiche Butter"],["½ TL","Zimt"]]],
-     ["Zum Bestreuen (wer mag)",[["etwas","Zimtzucker"]]]],
-  st:[{t:"Der Ofen wird auf 180 °C vorgeheizt. Dann die Kuchenform mit etwas Butter einfetten.",e:1},
-   {a:"250 g Mehl und 150 g Zucker",t:"Gib Mehl und Zucker in eine große Schüssel."},
-   {a:"2 TL Backpulver, 1 TL Zimt, ½ TL Salz",t:"Gib Backpulver, Zimt und Salz dazu und rühr alles einmal gut um. Riech mal am Zimt!"},
-   {a:"100 g Butter, 2 Eier, 200 ml Milch",t:"Jetzt kommen die weiche Butter, die Eier und die Milch dazu. Rühr so lange, bis ein glatter Teig entsteht."},
-   {t:"Die Äpfel werden geschält, entkernt und in kleine Würfel geschnitten.",e:1},
-   {t:"Gib die Apfelwürfel in den Teig und heb sie vorsichtig unter, damit sie überall verteilt sind."},
-   {t:"Füll den Teig in die Form und streich die Oberfläche glatt."},
-   {a:"Wer mag: Streusel",t:"Für Streusel wie bei Vega: Mehl, Zucker, Butter und Zimt mit den Fingern zu kleinen Krümeln zerreiben und über den Teig streuen. Es geht aber auch ganz ohne."},
-   {t:"Der Kuchen backt etwa 40 Minuten, bis er goldbraun ist. Steck einen Holzstab hinein: Bleibt kein Teig daran kleben, ist er fertig.",e:1},
-   {t:"Lass den Kuchen 10 Minuten in der Form abkühlen und nimm ihn dann heraus. Wer mag, streut noch etwas Zimtzucker darüber."}]},
- {id:"brot",n:"Pias Kürbisbrot",s:"Für das Winterpicknick",img:"brotpia",tall:1,w:11,info:"1 Laib · ca. 30 Min. Arbeit · 1½ Std. Gehzeit · 40 Min. Backen",
-  z:[["Zutaten",[["300 g","Hokkaido-Kürbis (oder 250 g Kürbispüree)"],["500 g","Mehl"],["1 Päckchen","Trockenhefe"],["1½ TL","Salz"],["1 TL","Honig oder Zucker"],["2 EL","Rapsöl oder weiche Butter"],["ca. 80 ml","lauwarmes Wasser"],["2 EL","Kürbiskerne"]]]],
-  st:[{t:"Der Kürbis wird entkernt, gewürfelt und in wenig Wasser etwa 15 Minuten weich gekocht.",e:1},
-   {t:"Abgießen und fein pürieren. Dann lauwarm abkühlen lassen.",e:1},
-   {a:"500 g Mehl",t:"Gib das Mehl in eine große Schüssel."},
-   {a:"Hefe, 1½ TL Salz, 1 TL Honig",t:"Gib die Hefe, das Salz und den Honig dazu und misch alles gut."},
-   {a:"Kürbispüree und 2 EL Öl",t:"Jetzt kommen das Kürbispüree und das Öl in die Schüssel."},
-   {a:"ca. 80 ml Wasser",t:"Gieß das Wasser nach und nach dazu. Knete so lange, bis ein weicher Teig entsteht, der nicht mehr klebt. Das dauert etwa 8 Minuten. Knete kräftig, das ist wie eine Übung für deine Arme!"},
-   {t:"Deck die Schüssel mit einem Tuch zu. Der Teig darf jetzt etwa 1 Stunde an einem warmen Ort wachsen."},
-   {t:"Knete den Teig kurz durch und form einen runden Laib. Oder leg ihn in eine gefettete Kastenform. Noch einmal 30 Minuten gehen lassen. Jetzt wird der Ofen auf 200 °C vorgeheizt."},
-   {a:"2 EL Kürbiskerne",t:"Bestreich das Brot mit etwas Wasser und streu die Kürbiskerne darauf."},
-   {t:"Das Brot backt 35 bis 40 Minuten, bis es goldbraun ist. Klopf unten drauf: Klingt es hohl, ist es fertig.",e:1},
-   {t:"Lass das Brot auf einem Gitter abkühlen. Dazu passt Kürbisaufstrich."}]},
+ {id:"spitz",n:"Vegas Spitzbuben",s:"Uschis Plätzchen mit Marmelade",img:"spitzbuben",tall:1,adv:"2026-12-01",w:-1,info:"Adventskalender · Türchen 1",done:"Deine Spitzbuben sind gebacken",
+  z:[["Zutaten",[["400 g","Mehl"],["125 g","Zucker"],["2","Eier"],["180 g","Butter"]]],["Außerdem",[["","Marmelade"],["","Puderzucker"]]]],
+  st:[{t:"2 Größen ausstechen.",m:"Teig aus 400 g Mehl · 125 g Zucker · 2 Eiern · 180 g Butter"},
+   {t:"Backen.",e:1},
+   {a:"Pias Aufräumzauber",p:1,t:"Während die Plätzchen im Ofen sind, würde Pia dir so gerne einen Aufräumzauber schicken, der Schüsseln, Löffel und Mehlspuren mit einem Fingerschnipsen verschwinden lässt. Doch ihre Magie steckt gerade in deinem Teig. Deshalb bist jetzt du der Aufräumzauberer: Hilf deinen Eltern, alles zur Spüle zu bringen, den Tisch abzuwischen und die Zutaten wieder an ihren Platz zu stellen. Wenn alles glänzt, machst du ein paar Übungen aus der App und tankst so neue Magie, für dich und für Pia."},
+   {t:"Große Stücke mit Marmelade bestreichen und zusammensetzen."},
+   {t:"Mit Puderzucker bestreuen."}]},
+ {id:"apfel",n:"Vegas Apfelkuchen",s:"Saftig, aromatisch und einfach lecker",img:"apfelvega",tall:1,w:12,info:"Backzeit etwa 40 Minuten bei 180 Grad",
+  z:[["Zutaten",[["250 g","Mehl"],["150 g","Zucker"],["2 TL","Backpulver"],["1 TL","Zimt"],["1/2 TL","Salz"],["100 g","Butter (weich)"],["2","Eier"],["200 ml","Milch"],["3-4","Äpfel (geschält, entkernt und in Würfel geschnitten)"],["","Zimtzucker (optional zur Dekoration)"]]],["Wer mag: Streusel obendrauf",[["150 g","Mehl"],["100 g","Zucker"],["100 g","Butter"],["½ TL","Zimt"]]]],
+  vari:"Wer mag, zerkrümelt 150 g Mehl, 100 g Zucker, 100 g Butter und ½ TL Zimt mit den Fingern zu Streuseln und streut sie vor dem Backen über den Teig.",
+  st:[{a:"Den Ofen vorheizen",t:"Heize deinen Ofen auf 180 Grad Celsius vor und fette eine Kuchenform ein.",m:"180 Grad Celsius"},
+   {a:"Teig vorbereiten",t:"In einer großen Schüssel Mehl, Zucker, Backpulver, Zimt und Salz vermischen.",m:"250 g Mehl · 150 g Zucker · 2 TL Backpulver · 1 TL Zimt · 1/2 TL Salz"},
+   {a:"Butter und Eier hinzugeben",t:"Gib die weiche Butter, die Eier und die Milch in die Schüssel und vermenge alles gründlich, bis eine glatte Teigmischung entsteht.",m:"100 g Butter (weich) · 2 Eier · 200 ml Milch"},
+   {a:"Äpfel einarbeiten",t:"Füge die gewürfelten Äpfel in den Teig und vermenge sie vorsichtig, damit sie gleichmäßig verteilt werden.",m:"3-4 Äpfel (geschält, entkernt und in Würfel geschnitten)"},
+   {a:"Teig in die Form geben",t:"Gieße die Teigmischung in die vorbereitete Kuchenform und streiche die Oberfläche glatt."},
+   {a:"Backen",t:"Backe den Kuchen für etwa 40 Minuten im vorgeheizten Ofen, bis er goldbraun ist und ein Zahnstocher sauber herauskommt.",m:"etwa 40 Minuten"},
+   {a:"Pias Aufräumzauber",p:1,t:"Während der Kuchen im Ofen ist, würde Pia dir so gerne einen Aufräumzauber schicken, der Schüsseln, Löffel und Mehlspuren mit einem Fingerschnipsen verschwinden lässt. Doch ihre Magie steckt gerade in deinem Teig. Deshalb bist jetzt du der Aufräumzauberer: Hilf deinen Eltern, alles zur Spüle zu bringen, den Tisch abzuwischen und die Zutaten wieder an ihren Platz zu stellen. Wenn alles glänzt, machst du ein paar Übungen aus der App und tankst so neue Magie, für dich und für Pia."},
+   {a:"Abkühlen lassen",t:"Lass den Kuchen in der Form für 10 Minuten abkühlen, bevor du ihn …",m:"10 Minuten"}]},
+ {id:"brot",n:"Pias Kürbisbrot",s:"Herzhaft, saftig und so einfach",img:"brotpia",tall:1,w:11,info:"Für 1 Kastenform (ca. 25–30 cm)",
+  z:[["Zutaten",[["500 g","Mehl (Weizenmehl Type 550 oder Dinkelmehl Type 630)"],["250 g","Hokkaido-Kürbis (gewogen ohne Kerne, mit Schale!)"],["1 Päckchen","Trockenhefe (oder ½ Würfel frische Hefe)"],["150 ml","lauwarme Milch (oder Hafermilch)"],["1 gehäufter EL","Honig (oder Zucker)"],["2 EL","Olivenöl (oder weiche Butter)"],["1 TL","Salz"],["1 TL","Kurkuma (für die Knallfarbe – optional)"],["Zum Bestreuen:","Eine Handvoll Kürbiskerne"]]]],
+  st:[{a:"1. Kürbis vorbereiten · Eltern-Aufgabe",t:"Den Hokkaido-Kürbis halbieren und den Strunk abschneiden.",e:1,m:"Für 250 g Hokkaido-Kürbis (gewogen ohne Kerne, mit Schale)"},
+   {a:"Kinder-Aufgabe",t:"Mit einem großen Löffel die Kerne und das faserige Innere herauskratzen."},
+   {a:"Gemeinsam",t:"Den Kürbis auf einer Küchenreibe fein raspeln. Da Hokkaido nicht geschält werden muss, geht das super schnell und sicher.",m:"250 g Hokkaido-Kürbis"},
+   {a:"2. Den „Zauber-Hefeteig“ mischen · Kinder-Aufgabe",t:"Mehl, Trockenhefe, Salz und Kurkuma in einer großen Schüssel mit einem Löffel verrühren.",m:"500 g Mehl · 1 Päckchen Trockenhefe (oder ½ Würfel frische Hefe) · 1 TL Salz · 1 TL Kurkuma (optional)"},
+   {a:"Gemeinsam",t:"Die lauwarme Milch, den Honig, das Öl und die Kürbisraspeln dazugeben. Alles zusammen mit den Händen oder den Knethaken des Mixers ca. 5 Minuten lang zu einem glatten, geschmeidigen Teig verkneten.",m:"150 ml lauwarme Milch · 1 gehäufter EL Honig · 2 EL Olivenöl · alle Kürbisraspeln"},
+   {a:"Tipp für die Konsistenz",t:"Da jeder Kürbis unterschiedlich viel Wasser abgibt, einfach etwas Mehl dazugeben, falls der Teig zu klebrig ist, oder einen Schluck Milch nachgießen, wenn er zu trocken wirkt."},
+   {a:"3. Die Teig-Ruhepause",t:"Die Schüssel mit einem sauberen Küchentuch abdecken. An einem warmen Ort für 60 Minuten gehen lassen, bis der Teig doppelt so groß geworden ist. Schau ruhig zwischendurch mal nach, wie der Teig wächst! Und in der Wartezeit kannst du prima ein paar Übungen machen, ein Rätsel lösen, das Quiz zur Geschichte ausprobieren oder eines von Pias Spielen spielen.",m:"60 Minuten"},
+   {a:"4. Ab in die Form · Kinder-Aufgabe",t:"Eine Kastenform mit etwas Butter oder Margarine einfetten und mit ein wenig Mehl ausstreuen, damit nichts kleben bleibt."},
+   {t:"Den Teig auf einer leicht bemehlten Arbeitsfläche noch einmal kurz durchkneten, zu einer Rolle formen und in die Kastenform legen."},
+   {t:"Nochmals abgedeckt 15 bis 20 Minuten gehen lassen.",m:"15 bis 20 Minuten"},
+   {a:"5. Das große Finale & Backen · Kinder-Aufgabe",t:"Die Oberfläche des Brotes mit etwas Wasser oder Milch bepinseln und die Kürbiskerne stolz wie Konfetti darauf verstreuen und leicht festdrücken.",m:"Eine Handvoll Kürbiskerne"},
+   {a:"Eltern-Aufgabe",t:"Den Ofen auf 200 °C Ober-/Unterhitze (oder 180 °C Umluft) vorheizen. Das Brot auf mittlerer Schiene für ca. 35–40 Minuten goldbraun backen.",e:1,m:"200 °C Ober-/Unterhitze (180 °C Umluft) · 35–40 Minuten"},
+   {a:"Pias Aufräumzauber",p:1,t:"Während das Brot im Ofen ist, würde Pia dir so gerne einen Aufräumzauber schicken, der Schüsseln, Löffel und Mehlspuren mit einem Fingerschnipsen verschwinden lässt. Doch ihre Magie steckt gerade in deinem Teig. Deshalb bist jetzt du der Aufräumzauberer: Hilf deinen Eltern, alles zur Spüle zu bringen, den Tisch abzuwischen und die Zutaten wieder an ihren Platz zu stellen. Wenn alles glänzt, machst du ein paar Übungen aus der App und tankst so neue Magie, für dich und für Pia."},
+   {a:"Der Klopftest",t:"Wenn man auf die Unterseite des Brotes klopft und es sich hohl anhört, ist das Meisterwerk fertig!"},
+   {t:"Das Brot vor dem Anschneiden auf einem Kuchengitter abkühlen lassen – auch wenn der Duft in der Küche das Warten schwer macht! Viel Spaß beim gemeinsamen Backen!"}]},
  {id:"kuerbis",n:"Pias Kürbiskuchen",s:"Süß und saftig",img:"kuchenpia",tall:1,vid:"https://alexandrahumaneo.github.io/Humaneo-App/kuerbiskuchen-video.mp4",w:0,info:"1 Springform (Ø 26 cm) · ca. 60 Min. Backen",
   card:"https://alexandrahumaneo.github.io/Humaneo-App/rezept-kuerbiskuchen.pdf",
   ger:["Küchenwaage","Rührschüssel","Handrührgerät oder Küchenmaschine","Reibe","Springform (Ø 26 cm)","Backpapier (optional)"],
@@ -2604,15 +2642,16 @@ const REZ=[
   vari:"Schmeckt auch lecker mit Haselnuss-Schoko-Glasur und bunten Streuseln.",
   z:[["Zutaten",[["400 g","Hokkaido-Kürbis"],["225 g","Zucker"],["1 Päckchen","Vanillezucker"],["300 g","Weizenmehl (Type 405)"],["1 Päckchen","Backpulver"],["1 TL","Natron"],["4 TL","Zimt"],["2 Msp.","Nelke"],["2 Msp.","Muskat"],["80 g","gehackte Haselnüsse"],["100 g","gemahlene Mandeln"],["1","Bio-Orange (für Saft und Schale)"],["200 ml","neutrales Speiseöl (z. B. Rapsöl)"],["4","Eier (Gr. M)"],["1 TL","Puderzucker (zum Bestäuben)"],["etwas","Butter für die Form"],["etwas","Mehl für die Form"]]]],
   st:[{t:"Eine Springform (Ø 26 cm) mit Butter einfetten und leicht mit Mehl bestäuben."},
-   {a:"400 g Hokkaido-Kürbis",t:"Den Kürbis waschen und mit der Schale fein raspeln. Der Hokkaido-Kürbis muss nicht geschält oder gekocht werden!",e:1},
-   {a:"Trockene Zutaten",t:"Zucker, Vanillezucker, Mehl, Backpulver, Natron, Zimt, Nelke, Muskat, gehackte Haselnüsse und gemahlene Mandeln in einer Schüssel vermischen."},
-   {t:"Die Hälfte der Kürbisraspel unterrühren."},
-   {a:"1 Bio-Orange",t:"Orange heiß waschen, Schale abreiben, Frucht halbieren und den Saft auspressen.",e:1},
-   {t:"Backofen auf 160 °C Ober-/Unterhitze (Umluft: 140 °C) vorheizen.",e:1},
-   {a:"200 ml Öl, 4 Eier, Orangensaft",t:"Das Öl mit Eiern und Orangensaft mischen und hinzufügen."},
-   {t:"Den restlichen Kürbis und den Orangen-Abrieb hinzufügen und alles gut miteinander verrühren."},
-   {t:"Den Teig in die vorbereitete Form geben und den Kuchen im vorgeheizten Ofen für ca. 60 Minuten backen.",e:1},
-   {a:"1 TL Puderzucker",t:"Den Kuchen auskühlen lassen, mit Puderzucker bestäuben und servieren. Der Kuchen hält sich unter einer Kuchenhaube mehrere Tage frisch."}]}];
+   {a:"400 g Hokkaido-Kürbis",t:"Den Kürbis waschen und mit der Schale fein raspeln. Der Hokkaido-Kürbis muss nicht geschält oder gekocht werden!",e:1,m:"400 g Hokkaido-Kürbis"},
+   {a:"Trockene Zutaten",t:"Zucker, Vanillezucker, Mehl, Backpulver, Natron, Zimt, Nelke, Muskat, gehackte Haselnüsse und gemahlene Mandeln in einer Schüssel vermischen.",m:"225 g Zucker · 1 Päckchen Vanillezucker · 300 g Weizenmehl (Type 405) · 1 Päckchen Backpulver · 1 TL Natron · 4 TL Zimt · 2 Msp. Nelke · 2 Msp. Muskat · 80 g gehackte Haselnüsse · 100 g gemahlene Mandeln"},
+   {t:"Die Hälfte der Kürbisraspel unterrühren.",m:"die Hälfte der Kürbisraspel (ca. 200 g)"},
+   {a:"1 Bio-Orange",t:"Orange heiß waschen, Schale abreiben, Frucht halbieren und den Saft auspressen.",e:1,m:"1 Bio-Orange"},
+   {t:"Backofen auf 160 °C Ober-/Unterhitze (Umluft: 140 °C) vorheizen.",e:1,m:"160 °C Ober-/Unterhitze (Umluft: 140 °C)"},
+   {a:"200 ml Öl, 4 Eier, Orangensaft",t:"Das Öl mit Eiern und Orangensaft mischen und hinzufügen.",m:"200 ml neutrales Speiseöl · 4 Eier (Gr. M) · der Orangensaft"},
+   {t:"Den restlichen Kürbis und den Orangen-Abrieb hinzufügen und alles gut miteinander verrühren.",m:"der restliche Kürbis (ca. 200 g) · der Orangen-Abrieb"},
+   {t:"Den Teig in die vorbereitete Form geben und den Kuchen im vorgeheizten Ofen für ca. 60 Minuten backen.",e:1,m:"ca. 60 Minuten"},
+   {a:"Pias Aufräumzauber",p:1,t:"Während der Kuchen im Ofen ist, würde Pia dir so gerne einen Aufräumzauber schicken, der Schüsseln, Löffel und Mehlspuren mit einem Fingerschnipsen verschwinden lässt. Doch ihre Magie steckt gerade in deinem Teig. Deshalb bist jetzt du der Aufräumzauberer: Hilf deinen Eltern, alles zur Spüle zu bringen, den Tisch abzuwischen und die Zutaten wieder an ihren Platz zu stellen. Wenn alles glänzt, machst du ein paar Übungen aus der App und tankst so neue Magie, für dich und für Pia."},
+   {a:"1 TL Puderzucker",t:"Den Kuchen auskühlen lassen, mit Puderzucker bestäuben und servieren. Der Kuchen hält sich unter einer Kuchenhaube mehrere Tage frisch.",m:"1 TL Puderzucker"}]}];
 function rs(id){S.rez=S.rez||{};return S.rez[id]=S.rez[id]||{h:[],s:-1}}
 function rzLocked(r){return !!r.adv&&iso(todayISO())<r.adv}
 function rzDate(d){const p=d.split("-");return (+p[2])+". "+["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"][+p[1]-1]}
@@ -2636,20 +2675,23 @@ function rezept(R){const st=rs(R.id),Z=rezAll(R),hv=st.h.length,n=R.st.length;
  else if(st.s>=n){main=`<div class="story extra rzdone"><span class="wstar glow">${STAR_SVG}</span><b>Fertig${nm(", ")}!</b><p>${R.done||"Dein "+R.n.replace(/^(Vegas|Pias) /,"")+" ist gebacken"}. Pia ist richtig stolz auf dich. Guten Appetit!</p></div>
   <button class="ghost" onclick="S.rez['${R.id}']={h:[],s:-1};save();rerenderKeep()">Noch einmal backen</button>`}
  else{const x=R.st[st.s];main=`<div class="rzstep"><span class="eyebrow">Schritt ${st.s+1} von ${n}</span><div class="prog"><i style="width:${(st.s/n*100).toFixed(0)}%"></i></div>
-  ${x.e?`<span class="rzadult">Das macht ein Erwachsener</span>`:''}${x.a?`<div class="rzamt">${x.a}</div>`:''}<p class="rzt">${x.t}</p></div>
+  ${x.e?`<span class="rzadult">Das macht ein Erwachsener</span>`:''}${x.p?`<span class="rzpia">Pias Aufräumzauber</span>`:''}${x.a&&!x.p?`<div class="rzamt">${x.a}</div>`:''}${x.m?`<div class="rzm">${x.m}</div>`:''}<p class="rzt">${x.t}</p>${x.p?`<button class="cta alt2" style="margin-top:14px" onclick="go('moves')">${ic.play} Nach dem Aufräumen: zu den Übungen</button>`:''}</div>
   <div class="two"><button class="cta alt2" onclick="rzGo('${R.id}',${st.s-1})">${ic.back} Zurück</button><button class="cta" onclick="rzGo('${R.id}',${st.s+1})">${ic.chk} Erledigt</button></div>
-  <details class="story extra"><summary>Alle Schritte</summary><ol class="rzlist">${R.st.map((y,i)=>`<li class="${i<st.s?'done':i===st.s?'cur':''}" onclick="rzGo('${R.id}',${i})">${y.a?`<b>${y.a}:</b> `:''}${y.t}</li>`).join("")}</ol></details>`}
+  <details class="story extra"><summary>Alle Schritte</summary><ol class="rzlist">${R.st.map((y,i)=>`<li class="${i<st.s?'done':i===st.s?'cur':''}" onclick="rzGo('${R.id}',${i})">${y.a?`<b>${y.a}:</b> `:''}${y.m?`<i>(${y.m})</i> `:''}${y.t}</li>`).join("")}</ol></details>`}
  return `<div class="screen">${bar(R.n,"backstube","{rz:null}")}
  <div class="scene" ${R.tall?'style="aspect-ratio:auto"':''}><img src="${IMG.simg[R.img]}" alt="" ${R.tall?'style="height:auto"':''}></div>${R.vid?`<details class="story extra" style="margin-top:10px"><summary><b>Video: So backst du ihn</b></summary><video src="${R.vid}" controls playsinline preload="none" style="width:100%;border-radius:14px;margin-top:10px;background:#000"></video></details>`:''}<p class="lead center" style="margin:0">${R.s}<br><small>${R.info}</small></p>
  ${main}
- ${R.card?`<a class="cta alt2" style="text-decoration:none" href="${R.card}" target="_blank" rel="noopener">${ic.pen} Rezeptkarte zum Ausdrucken</a>`:`<button class="cta alt2" onclick="window.print()">${ic.pen} Rezept ausdrucken</button>`}
- <div id="printArea" class="ponly">${rezPrint(R)}</div></div>`}
+ ${R.card?`<a class="cta alt2" style="text-decoration:none" href="${R.card}" target="_blank" rel="noopener">${ic.pen} Rezeptkarte zum Ausdrucken</a>`:`<button class="cta alt2" onclick="rzPrintNow()">${ic.pen} Rezept ausdrucken</button><p id="rzpn" class="note center" style="display:none"></p>`}
+ <div id="printArea" class="ponly rzpa">${rezPrint(R)}</div></div>`}
 function rezPrint(R){return `<div class="rzp"><h1>${R.n}</h1><p class="rzps">${R.s} · ${R.info}</p>
  <div class="rzpcols"><div><h2>Das brauchst du</h2>${R.z.map(g=>`<h3>${g[0]}</h3><ul>${g[1].map(x=>`<li><span class="bx"></span><b>${x[0]}</b> ${x[1]}</li>`).join("")}</ul>`).join("")}
  ${R.ger?`<h3>Du brauchst noch</h3><ul>${R.ger.map(x=>`<li><span class="bx"></span>${x}</li>`).join("")}</ul>`:''}</div>
- <div><h2>So geht's</h2><ol>${R.st.map(x=>`<li><span class="bx"></span>${x.a?`<b>${x.a}:</b> `:''}${x.t}${x.e?' <i>(Erwachsene)</i>':''}</li>`).join("")}</ol></div></div>
+ <div><h2>So geht's</h2><ol>${R.st.map(x=>`<li><span class="bx"></span>${x.a?`<b>${x.a}:</b> `:''}${x.m?`<i>(${x.m})</i> `:''}${x.t}${x.e?' <i>(Erwachsene)</i>':''}</li>`).join("")}</ol></div></div>
  ${R.vari?`<p class="rzps"><b>Variante:</b> ${R.vari}</p>`:''}
  <p class="rzpf">Winterwunder im Flüsterwald · Pias Backstube · Humaneo</p></div>`}
+function rzPrintNow(){const n=document.getElementById('rzpn');let inFrame=false;try{inFrame=window.self!==window.top}catch(e){inFrame=true}
+ document.body.classList.add('prz');window.addEventListener('afterprint',()=>document.body.classList.remove('prz'),{once:true});try{window.print()}catch(e){}
+ if(inFrame&&n){n.style.display='block';n.textContent='Falls sich kein Druckfenster öffnet: In der Vorschau hier ist Drucken gesperrt. In der App über den Link (GitHub) funktioniert es.'}}
 function rzWa(R){const st=rs(R.id);let L=[];R.z.forEach((g,gi)=>g[1].forEach((x,xi)=>{if(!st.h.includes(gi+"-"+xi))L.push("- "+x[0]+" "+x[1])}));
  return "https://wa.me/?text="+encodeURIComponent("Einkaufsliste für "+R.n+":\n"+L.join("\n"))}
 function rzHave(id,k){const st=rs(id),i=st.h.indexOf(k);i>=0?st.h.splice(i,1):st.h.push(k);save();rerenderKeep()}
@@ -2675,8 +2717,8 @@ function numsBox(p){const h=hst()[p.id]=hst()[p.id]||{n:{}};h.n=h.n||{};const L=
  <p class="dfb" style="text-align:center">${best?`Dein weitester Sprung: <b>${best} Fußlängen</b>${nm(", ")}. Pias Flügel wären stolz auf dich!`:'Eine Fußlänge: Setz einen Fuß direkt vor den anderen und zähl mit.'}</p>
  <p class="note">Am besten auf weichem Boden springen, zum Beispiel auf einer Wiese oder einer Matte.</p></div>`}
 /*EXTRAS-END*/
-/*keep*/const SCREENS={home,backstube,kindname,freundebuch,familie,teilen,lib,path,day,training,player,moves,exdetail,story,house,workbook,info,spiele,bewegung,wuerfel,freeze,simon,vorgeschichte,herbst,countdown,druck,extra,anpassen};
-const TABOF={home:"uebungen",backstube:"bibliothek",kindname:"uebungen",freundebuch:"bibliothek",familie:"bibliothek",teilen:"uebungen",training:"uebungen",player:"uebungen",exdetail:"uebungen",moves:"uebungen",info:"uebungen",path:"erfolge",day:"erfolge",house:"erfolge",lib:"bibliothek",story:"bibliothek",workbook:"bibliothek",spiele:"erfolge",vorgeschichte:"bibliothek",herbst:"bibliothek",druck:"bibliothek",extra:"uebungen",anpassen:"uebungen"};
+/*keep*/const SCREENS={spaet,bisher,mitmach,home,backstube,kindname,freundebuch,familie,teilen,lib,path,day,training,player,moves,exdetail,story,house,workbook,info,spiele,bewegung,wuerfel,freeze,simon,vorgeschichte,herbst,countdown,druck,extra,anpassen};
+const TABOF={spaet:"uebungen",bisher:"bibliothek",mitmach:"bibliothek",home:"uebungen",backstube:"bibliothek",kindname:"uebungen",freundebuch:"bibliothek",familie:"bibliothek",teilen:"uebungen",training:"uebungen",player:"uebungen",exdetail:"uebungen",moves:"uebungen",info:"uebungen",path:"erfolge",day:"erfolge",house:"erfolge",lib:"bibliothek",story:"bibliothek",workbook:"bibliothek",spiele:"erfolge",vorgeschichte:"bibliothek",herbst:"bibliothek",druck:"bibliothek",extra:"uebungen",anpassen:"uebungen"};
 const MOVESCR=["bewegung","wuerfel","freeze","simon"];
 function markNav(t){document.body.setAttribute("data-tab",t);document.querySelectorAll("#bottomNav button").forEach(b=>{const on=b.dataset.tab===t;b.classList.toggle("active",on);b.setAttribute("aria-current",on?"page":"false")})}
 function showUeb(on){const u=document.getElementById("uebersichtView"),a=document.getElementById("app");if(u)u.style.display=on?"":"none";if(a)a.style.display=on?"none":""}
@@ -2685,6 +2727,7 @@ function setTab(t){if(t==="uebersicht"){stopSpeak();stopPlayer();stopMoveGames()
 function renderAll(){try{applyKidModeUI()}catch(e){}render()}
 async function resetWinterDlg(){if(isKidMode())return;const ok=await dlg({text:"Wirklich alle leuchtenden Steine dieses Winters zurücksetzen?",cancel:true,ok:"Zurücksetzen"});if(ok){S={done:{},rounds:S.rounds,gamesMode:S.gamesMode,skip:S.skip,custom:S.custom,kurz:S.kurz,kidname:S.kidname,noname:S.noname,exsec:S.exsec,media:S.media,pause:S.pause,me:S.me};save();closeParentPopup();go("path",{focus:currentWeek()})}}
 function render(){if(gated()&&!GATE_OK.includes(V.screen))V.screen="countdown";document.body.classList.toggle("inplayer",V.screen==="player");$("#app").innerHTML=SCREENS[V.screen]();try{initDraw();drawLines()}catch(e){}markNav(MOVESCR.includes(V.screen)?(V.bfrom==="lib"?"bibliothek":"erfolge"):(TABOF[V.screen]||"uebungen"))}
+try{if(!PREVIEW&&!gated()&&JW()>0&&!S.lateHi&&V.screen==="home")V.screen="spaet"}catch(e){}
 render();
 
 </script>
@@ -2718,26 +2761,14 @@ function openWinterChoice(){
     card.innerHTML = img + `<h3>Noch ${w} schlafen!</h3><p>Am Sonntag, 1. November, beginnt Pias neues Abenteuer: <b>Winterwunder im Flüsterwald</b>. Bis dahin kannst du hier im Herbst weiter Kürbisse sammeln.</p>` + close + `Bis bald im Winter</button>`;
   } else if (wwHerbstDone()) {
     card.innerHTML = img + `<h3>Das Winterwunder ist da!</h3><p>Du hast den ganzen Herbst geschafft. Jetzt braucht Pia deine Hilfe im Winter: <b>Winterwunder im Flüsterwald</b> hat neue Geschichten, neue Übungen und neue Spiele.</p>
-      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top">Winterwunder starten</a>` + close + `Später</button>`;
+      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top" onclick="wwChoose('winter')">Winterwunder starten</a>` + close + `Später</button>`;
   } else {
     card.innerHTML = img + `<h3>Das Winterwunder ist da!</h3><p>Pias neues Abenteuer <b>Winterwunder im Flüsterwald</b> hat begonnen. Möchtest du erst den Herbst fertig machen oder gleich in den Winter starten?</p><p style="font-size:.85rem;">Du kannst jederzeit wechseln: Oben bei den Jahreszeiten kommst du immer in den Winter und wieder zurück in den Herbst.</p>
-      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top">Gleich mit dem Winter starten</a>` + close + `Erst den Herbst fertig machen</button>`;
+      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="${WINTER_URL}" target="_top" onclick="wwChoose('winter')">Gleich mit dem Winter starten</a>` + close + `Erst den Herbst fertig machen</button>`;
   }
   document.getElementById('introPopup').style.display = 'flex';
 }
-/* Ab 1. November einmal von selbst fragen, sobald keine anderen Fenster offen sind */
-(function(){
-  let asked = false; try { asked = localStorage.getItem('kuerbisfee_winter_asked') === '1'; } catch(e){}
-  if (asked || wwToday() < WINTER_START) return;
-  let tries = 0;
-  const t = setInterval(() => {
-    tries++; if (tries > 120) { clearInterval(t); return; }
-    const busy = ['introPopup','welcomeOverlay','tourOverlay','parentPopup','dlgOverlay','infoPopup'].some(id => { const el = document.getElementById(id); return el && getComputedStyle(el).display !== 'none'; });
-    if (busy) return;
-    clearInterval(t); try { localStorage.setItem('kuerbisfee_winter_asked','1'); } catch(e){}
-    openWinterChoice();
-  }, 1500);
-})();
+
 function openSeasonKF(k){
   if (k === 'winter') { openWinterChoice(); return; }
   const n = (SEASONS.find(x => x[0] === k) || [k,k])[1];
@@ -2759,7 +2790,7 @@ function openSeason(k){
   if(k==='herbst'){
     document.getElementById('introCard').innerHTML = `<img alt="Herbst" src="data:image/webp;base64,${SEASON_IMG.herbst}" style="width:120px; height:120px; border-radius:22px; display:block; margin:0 auto 10px;">
       <h3>Herbst mit Pia</h3><p>Der Herbst ist vorbei, aber du kannst jederzeit zurück ins Kürbisreich und dir alles noch einmal anschauen.</p>
-      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="kuerbisfee-app.html" target="_top">Zur Herbstwelt mit Pia</a>
+      <a class="cta-btn link-btn" style="width:100%; margin-bottom:8px;" href="kuerbisfee-app.html?herbst=1" target="_top">Zur Herbstwelt mit Pia</a>
       <button class="cta-btn secondary" style="width:100%;" onclick="document.getElementById('introPopup').style.display='none'">Schließen</button>`;
     document.getElementById('introPopup').style.display='flex'; return;
   }
